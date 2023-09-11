@@ -3,6 +3,12 @@ import { gfm, gfmHtml } from 'micromark-extension-gfm'
 import { underline, underlineHtml } from './underline'
 import { usertag, usertagHtml } from './usertag'
 
+const addLinkOptions = (html, { linkOptions }) => {
+	return html.replaceAll('href', (match) => {
+		return `target=${linkOptions.target} rel=${linkOptions.rel} ${match}`
+	});
+};
+
 export default (text, { textFormatting }) => {
 	if (textFormatting) {
 		let gfmDisabled = []
@@ -46,7 +52,7 @@ export default (text, { textFormatting }) => {
 		return [
 			{
 				types: ['markdown'],
-				value: markdown
+				value: addLinkOptions(markdown, textFormatting)
 			}
 		]
 	}

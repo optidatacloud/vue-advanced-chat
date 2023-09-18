@@ -270,4 +270,12 @@
 			margin-left: 37px;
 		}
 	}
+
+	&.vac-selection-enabled {
+		.vac-message-box-container{
+			display: flex;
+			align-items: center;
+			cursor: pointer;
+		}
+	}
 }

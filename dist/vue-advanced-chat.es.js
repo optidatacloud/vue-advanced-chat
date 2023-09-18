@@ -33612,15 +33612,16 @@ const _hoisted_4$2 = {
   class: "vac-card-info vac-card-system"
 };
 const _hoisted_5$2 = { key: 0 };
-const _hoisted_6$1 = {
+const _hoisted_6$1 = ["checked"];
+const _hoisted_7$1 = {
   key: 1,
   class: "vac-avatar-offset"
 };
-const _hoisted_7$1 = {
+const _hoisted_8 = {
   key: 1,
   style: { "display": "flex", "align-items": "end", "margin-bottom": "4px" }
 };
-const _hoisted_8 = /* @__PURE__ */ createBaseVNode("span", { style: { "color": "#8696a0", "display": "inline-block" } }, [
+const _hoisted_9 = /* @__PURE__ */ createBaseVNode("span", { style: { "color": "#8696a0", "display": "inline-block" } }, [
   /* @__PURE__ */ createBaseVNode("svg", {
     viewBox: "0 0 16 16",
     height: "16",
@@ -33635,22 +33636,22 @@ const _hoisted_8 = /* @__PURE__ */ createBaseVNode("span", { style: { "color": "
     })
   ])
 ], -1);
-const _hoisted_9 = { style: { "font-style": "italic", "color": "#8696a0", "font-size": "0.75rem", "margin-left": "2px" } };
-const _hoisted_10 = {
+const _hoisted_10 = { style: { "font-style": "italic", "color": "#8696a0", "font-size": "0.75rem", "margin-left": "2px" } };
+const _hoisted_11 = {
   key: 0,
   class: "vac-progress-time"
 };
-const _hoisted_11 = { class: "vac-text-timestamp" };
-const _hoisted_12 = {
+const _hoisted_12 = { class: "vac-text-timestamp" };
+const _hoisted_13 = {
   key: 0,
   class: "vac-icon-edited"
 };
-const _hoisted_13 = { key: 1 };
-const _hoisted_14 = /* @__PURE__ */ createBaseVNode("div", { class: "vac-failure-text" }, "!", -1);
-const _hoisted_15 = [
-  _hoisted_14
+const _hoisted_14 = { key: 1 };
+const _hoisted_15 = /* @__PURE__ */ createBaseVNode("div", { class: "vac-failure-text" }, "!", -1);
+const _hoisted_16 = [
+  _hoisted_15
 ];
-const _hoisted_16 = {
+const _hoisted_17 = {
   key: 3,
   class: "vac-avatar-current-offset"
 };
@@ -33665,7 +33666,8 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     id: $props.message._id,
     ref: "message",
-    class: "vac-message-wrapper"
+    class: "vac-message-wrapper",
+    onClick: _cache[8] || (_cache[8] = (...args) => $options.selectMessage && $options.selectMessage(...args))
   }, [
     $options.showDate ? (openBlock(), createElementBlock("div", _hoisted_2$2, toDisplayString($props.message.date), 1)) : createCommentVNode("", true),
     $data.newMessage._id === $props.message._id ? (openBlock(), createElementBlock("div", _hoisted_3$2, toDisplayString($props.textMessages.NEW_MESSAGES), 1)) : createCommentVNode("", true),
@@ -33693,18 +33695,18 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
       ])
     ])) : (openBlock(), createElementBlock("div", {
       key: 3,
-      style: normalizeStyle($props.messageSelectionEnabled ? { display: "flex", "align-items": "center" } : {})
+      style: normalizeStyle($props.messageSelectionEnabled ? { display: "flex", "align-items": "center", "cursor": "pointer" } : {})
     }, [
       $props.messageSelectionEnabled && !$props.message.system ? (openBlock(), createElementBlock("span", _hoisted_5$2, [
         createBaseVNode("input", {
-          type: "checkbox",
-          onClick: _cache[0] || (_cache[0] = (...args) => $options.selectMessage && $options.selectMessage(...args))
-        })
+          class: "form-check-input",
+          checked: $options.isMessageSelected,
+          type: "checkbox"
+        }, null, 8, _hoisted_6$1)
       ])) : createCommentVNode("", true),
       createBaseVNode("div", {
         class: normalizeClass(["vac-message-box", { "vac-offset-current": $props.message.senderId === $props.currentUserId }]),
-        style: normalizeStyle($props.messageSelectionEnabled && $props.message.senderId === $props.currentUserId ? { "margin-left": "47.8%" } : {}),
-        onClick: _cache[9] || (_cache[9] = (...args) => $options.selectMessage && $options.selectMessage(...args))
+        style: normalizeStyle($props.messageSelectionEnabled && $props.message.senderId === $props.currentUserId ? { "margin-left": "47.8%" } : {})
       }, [
         renderSlot(_ctx.$slots, "message_" + $props.message._id, {}, () => [
           $props.message.senderId !== $props.currentUserId ? renderSlot(_ctx.$slots, "message-avatar_" + $props.message._id, { key: 0 }, () => [
@@ -33714,7 +33716,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
               style: normalizeStyle({ "background-image": `url('${$props.message.avatar}')` })
             }, null, 4)) : createCommentVNode("", true)
           ]) : createCommentVNode("", true),
-          $options.hasSenderUserAvatar && !$props.message.avatar ? (openBlock(), createElementBlock("div", _hoisted_6$1)) : createCommentVNode("", true),
+          $options.hasSenderUserAvatar && !$props.message.avatar ? (openBlock(), createElementBlock("div", _hoisted_7$1)) : createCommentVNode("", true),
           createBaseVNode("div", {
             class: normalizeClass(["vac-message-container", {
               "vac-message-container-offset": $options.messageOffset
@@ -33728,8 +33730,8 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
                 "vac-item-clickable": $props.messageSelectionEnabled,
                 "vac-message-selected": $options.isMessageSelected
               }]),
-              onMouseover: _cache[6] || (_cache[6] = (...args) => $options.onHoverMessage && $options.onHoverMessage(...args)),
-              onMouseleave: _cache[7] || (_cache[7] = (...args) => $options.onLeaveMessage && $options.onLeaveMessage(...args))
+              onMouseover: _cache[5] || (_cache[5] = (...args) => $options.onHoverMessage && $options.onHoverMessage(...args)),
+              onMouseleave: _cache[6] || (_cache[6] = (...args) => $options.onLeaveMessage && $options.onLeaveMessage(...args))
             }, [
               $options.showUsername ? (openBlock(), createElementBlock("div", {
                 key: 0,
@@ -33739,9 +33741,9 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
               }, [
                 createBaseVNode("span", null, toDisplayString($props.message.username), 1)
               ], 2)) : createCommentVNode("", true),
-              !$props.message.deleted && $props.message.isForwarded ? (openBlock(), createElementBlock("div", _hoisted_7$1, [
-                _hoisted_8,
-                createBaseVNode("span", _hoisted_9, toDisplayString($props.textMessages.MESSAGE_FORWARD), 1)
+              !$props.message.deleted && $props.message.isForwarded ? (openBlock(), createElementBlock("div", _hoisted_8, [
+                _hoisted_9,
+                createBaseVNode("span", _hoisted_10, toDisplayString($props.textMessages.MESSAGE_FORWARD), 1)
               ])) : createCommentVNode("", true),
               !$props.message.deleted && $props.message.replyMessage ? (openBlock(), createBlock(_component_message_reply, {
                 key: 2,
@@ -33802,8 +33804,8 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
                   "message-id": $props.message._id,
                   src: $props.message.files[0].url,
                   "message-selection-enabled": $props.messageSelectionEnabled,
-                  onUpdateProgressTime: _cache[1] || (_cache[1] = ($event) => $data.progressTime = $event),
-                  onHoverAudioProgress: _cache[2] || (_cache[2] = ($event) => $data.hoverAudioProgress = $event)
+                  onUpdateProgressTime: _cache[0] || (_cache[0] = ($event) => $data.progressTime = $event),
+                  onHoverAudioProgress: _cache[1] || (_cache[1] = ($event) => $data.hoverAudioProgress = $event)
                 }, createSlots({ _: 2 }, [
                   renderList(_ctx.$slots, (i, name) => {
                     return {
@@ -33814,16 +33816,16 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
                     };
                   })
                 ]), 1032, ["message-id", "src", "message-selection-enabled"]),
-                !$props.message.deleted ? (openBlock(), createElementBlock("div", _hoisted_10, toDisplayString($data.progressTime), 1)) : createCommentVNode("", true)
+                !$props.message.deleted ? (openBlock(), createElementBlock("div", _hoisted_11, toDisplayString($data.progressTime), 1)) : createCommentVNode("", true)
               ], 64)),
-              createBaseVNode("div", _hoisted_11, [
-                $props.message.edited && !$props.message.deleted ? (openBlock(), createElementBlock("div", _hoisted_12, [
+              createBaseVNode("div", _hoisted_12, [
+                $props.message.edited && !$props.message.deleted ? (openBlock(), createElementBlock("div", _hoisted_13, [
                   renderSlot(_ctx.$slots, "pencil-icon_" + $props.message._id, {}, () => [
                     createVNode(_component_svg_icon, { name: "pencil" })
                   ])
                 ])) : createCommentVNode("", true),
                 createBaseVNode("span", null, toDisplayString($props.message.timestamp), 1),
-                $options.isCheckmarkVisible ? (openBlock(), createElementBlock("span", _hoisted_13, [
+                $options.isCheckmarkVisible ? (openBlock(), createElementBlock("span", _hoisted_14, [
                   renderSlot(_ctx.$slots, "checkmark-icon_" + $props.message._id, {}, () => [
                     createVNode(_component_svg_icon, {
                       name: $props.message.distributed ? "double-checkmark" : "checkmark",
@@ -33842,9 +33844,9 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
                 "hover-message-id": $data.hoverMessageId,
                 "hover-audio-progress": $data.hoverAudioProgress,
                 "emoji-data-source": $props.emojiDataSource,
-                onUpdateMessageHover: _cache[3] || (_cache[3] = ($event) => $data.messageHover = $event),
-                onUpdateOptionsOpened: _cache[4] || (_cache[4] = ($event) => $data.optionsOpened = $event),
-                onUpdateEmojiOpened: _cache[5] || (_cache[5] = ($event) => $data.emojiOpened = $event),
+                onUpdateMessageHover: _cache[2] || (_cache[2] = ($event) => $data.messageHover = $event),
+                onUpdateOptionsOpened: _cache[3] || (_cache[3] = ($event) => $data.optionsOpened = $event),
+                onUpdateEmojiOpened: _cache[4] || (_cache[4] = ($event) => $data.emojiOpened = $event),
                 onMessageActionHandler: $options.messageActionHandler,
                 onSendMessageReaction: $options.sendMessageReaction
               }, createSlots({ _: 2 }, [
@@ -33870,8 +33872,8 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
               class: normalizeClass(["vac-failure-container vac-svg-button", {
                 "vac-failure-container-avatar": $props.message.avatar && $props.message.senderId === $props.currentUserId
               }]),
-              onClick: _cache[8] || (_cache[8] = ($event) => _ctx.$emit("open-failed-message", { message: $props.message }))
-            }, _hoisted_15, 2)) : createCommentVNode("", true)
+              onClick: _cache[7] || (_cache[7] = ($event) => _ctx.$emit("open-failed-message", { message: $props.message }))
+            }, _hoisted_16, 2)) : createCommentVNode("", true)
           ]),
           $props.message.senderId === $props.currentUserId ? renderSlot(_ctx.$slots, "message-avatar_" + $props.message._id, { key: 2 }, () => [
             $props.message.avatar && !$props.messageSelectionEnabled ? (openBlock(), createElementBlock("div", {
@@ -33880,7 +33882,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
               style: normalizeStyle({ "background-image": `url('${$props.message.avatar}')` })
             }, null, 4)) : createCommentVNode("", true)
           ]) : createCommentVNode("", true),
-          $options.hasCurrentUserAvatar && !$props.message.avatar ? (openBlock(), createElementBlock("div", _hoisted_16)) : createCommentVNode("", true)
+          $options.hasCurrentUserAvatar && !$props.message.avatar ? (openBlock(), createElementBlock("div", _hoisted_17)) : createCommentVNode("", true)
         ])
       ], 6)
     ], 4))
@@ -34115,6 +34117,7 @@ const _sfc_main$2 = {
     },
     selectMessage(message) {
       this.selectedMessages.push(message);
+      console.warn(this);
     },
     unselectMessage(messageId) {
       this.selectedMessages = this.selectedMessages.filter(

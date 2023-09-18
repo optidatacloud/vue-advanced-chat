@@ -1,5 +1,5 @@
 <template>
-	<div :id="message._id" ref="message" class="vac-message-wrapper">
+	<div :id="message._id" ref="message" class="vac-message-wrapper" @click="selectMessage">
 		<div v-if="showDate" class="vac-card-info vac-card-date">
 			{{ message.date }}
 		</div>
@@ -27,15 +27,19 @@
 			</slot>
 		</div>
 
-    <div v-else :style="messageSelectionEnabled ? { display: 'flex', 'align-items': 'center'} : {}">
+    <div
+        v-else
+        class="vac-message-box-container"
+        :class="{}"
+        :style="messageSelectionEnabled ? { display: 'flex', 'align-items': 'center', 'cursor': 'pointer'} : {}"
+    >
       <span v-if="messageSelectionEnabled && !message.system">
-        <input type="checkbox" @click="selectMessage" />
+        <input class="form-check-input" :checked="isMessageSelected" type="checkbox" />
       </span>
       <div
         class="vac-message-box"
         :class="{ 'vac-offset-current': message.senderId === currentUserId }"
         :style="messageSelectionEnabled && message.senderId === currentUserId ? {'margin-left': '47.8%'} : {}"
-        @click="selectMessage"
       >
         <slot :name="'message_' + message._id">
           <slot

@@ -4,6 +4,19 @@
 			<div class="vac-room-wrapper">
 				<transition name="vac-slide-up">
 					<div v-if="messageSelectionEnabled" class="vac-room-selection">
+            <div
+              class="vac-selection-cancel vac-item-clickable"
+              @click="$emit('cancel-message-selection')"
+            >
+              {{ textMessages.CANCEL_SELECT_MESSAGE }}
+
+              <div class="vac-selection-count-container">
+               <span class="vac-selection-button-count">
+									{{ selectedMessagesTotal }}
+              </span>
+                Selected
+              </div>
+          </div>
 						<div
 							v-for="action in messageSelectionActions"
 							:id="action.name"
@@ -14,16 +27,7 @@
 								@click="messageSelectionActionHandler(action)"
 							>
 								{{ action.title }}
-								<span class="vac-selection-button-count">
-									{{ selectedMessagesTotal }}
-								</span>
-							</div>
-						</div>
-						<div
-							class="vac-selection-cancel vac-item-clickable"
-							@click="$emit('cancel-message-selection')"
-						>
-							{{ textMessages.CANCEL_SELECT_MESSAGE }}
+</div>
 						</div>
 					</div>
 				</transition>

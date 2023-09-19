@@ -77,16 +77,21 @@
 			align-items: center;
 			margin-right: auto;
 			white-space: nowrap;
-			color: var(--chat-color-button-clear);
 			transition: all 0.2s;
 
-			&:hover {
-				opacity: 0.7;
+			.x-icon {
+				color: #54656f;
 			}
 
 			.vac-selection-count-container{
 				margin-left:14px;
+				font-size: 14.5px;
+				color: #3b4a54;
+				user-select: none;
 			}
+		}
+		.forward-messages{
+			color: #54656f;
 		}
 	}
 

@@ -296,10 +296,6 @@
 			display: flex;
 			align-items: center;
 			cursor: pointer;
-
-			.vac-message-box.vac-offset-current {
-				margin-left: 47.8%;
-			}
 		}
 
 
@@ -316,9 +312,9 @@
 			display: block;
 			position: relative;
 			cursor: pointer;
-			font-size: 16px;
+			font-size: 14px;
 			user-select: none;
-			margin-left: 5px;
+			margin-left: 10px;
 			-webkit-tap-highlight-color: transparent;
 
 			.checkbox {
@@ -358,6 +354,43 @@
 					border-radius: 0.25em;
 					transition: all 0.25s, border-width 0.1s;
 				}
+			}
+		}
+
+
+		@media only screen and (min-width: 1200px){
+			.vac-message-box.vac-offset-current {
+				margin-left: 47.6%;
+			}
+			.vac-message-box{
+				max-width: 50%;
+			}
+		}
+
+		@media (min-width: 1043px) and (max-width: 1200px){
+			.vac-message-box.vac-offset-current {
+				margin-left: 46.6%;
+			}
+			.vac-message-box{
+				max-width: 50%;
+			}
+		}
+
+		@media (min-width: 768px) and (max-width: 1043px){
+			.vac-message-box.vac-offset-current {
+				margin-left: 44.6%;
+			}
+			.vac-message-box{
+				max-width: 50%;
+			}
+		}
+
+		@media only screen and (max-width: 768px) {
+			.vac-message-box.vac-offset-current {
+				margin-left: 43.6%;
+			}
+			.vac-message-box{
+				max-width: 50%;
 			}
 		}
 

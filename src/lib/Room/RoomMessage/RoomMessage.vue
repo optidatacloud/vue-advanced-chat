@@ -1,5 +1,8 @@
 <template>
-	<div :id="message._id" ref="message" class="vac-message-wrapper" @click="selectMessage">
+	<div
+:id="message._id" ref="message"
+       class="vac-message-wrapper" :class="{'vac-selection-enabled': messageSelectionEnabled, 'message-selected' : isMessageSelected}" @click="selectMessage"
+  >
 		<div v-if="showDate" class="vac-card-info vac-card-date">
 			{{ message.date }}
 		</div>
@@ -30,8 +33,6 @@
     <div
         v-else
         class="vac-message-box-container"
-        :class="{}"
-        :style="messageSelectionEnabled ? { display: 'flex', 'align-items': 'center', 'cursor': 'pointer'} : {}"
     >
       <span v-if="messageSelectionEnabled && !message.system">
         <input class="form-check-input" :checked="isMessageSelected" type="checkbox" />
@@ -39,7 +40,6 @@
       <div
         class="vac-message-box"
         :class="{ 'vac-offset-current': message.senderId === currentUserId }"
-        :style="messageSelectionEnabled && message.senderId === currentUserId ? {'margin-left': '47.8%'} : {}"
       >
         <slot :name="'message_' + message._id">
           <slot
@@ -84,13 +84,13 @@
                 <span>{{ message.username }}</span>
               </div>
 
-              <div v-if="!message.deleted && message.isForwarded" style="display: flex; align-items: end; margin-bottom: 4px;">
-              <span style="color: #8696a0; display: inline-block">
+              <div v-if="!message.deleted && message.isForwarded" :class="{'message-forwarded-container': !message.deleted && message.isForwarded}">
+              <span class="forward-icon">
                 <svg viewBox="0 0 16 16" height="16" width="16" preserveAspectRatio="xMidYMid meet" class="" version="1.1">
                   <path d="M9.51866667,3.87533333 C9.51866667,3.39333333 10.1006667,3.152 10.4406667,3.49266667 L14.4706667,7.52666667 C14.682,7.738 14.682,8.07933333 14.4706667,8.29066667 L10.4406667,12.3246667 C10.1006667,12.6646667 9.51866667,12.424 9.51866667,11.942 L9.51866667,10.1206667 C6.12133333,10.1206667 3.63266667,11.0906667 1.78266667,13.1946667 C1.61866667,13.3806667 1.31466667,13.2226667 1.38133333,12.984 C2.33466667,9.53533333 4.66466667,6.31466667 9.51866667,5.62066667 L9.51866667,3.87533333 Z" fill="currentColor" />
                 </svg>
               </span>
-                <span style="font-style: italic; color: #8696a0; font-size: 0.75rem;margin-left: 2px;">{{ textMessages.MESSAGE_FORWARD }}</span>
+                <span class="forward-text">{{ textMessages.MESSAGE_FORWARD }}</span>
               </div>
 
               <message-reply

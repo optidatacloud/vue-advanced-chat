@@ -3,8 +3,10 @@
 :id="message._id" ref="message"
        class="vac-message-wrapper" :class="{'vac-selection-enabled': messageSelectionEnabled, 'message-selected' : isMessageSelected}" @click="selectMessage"
   >
-		<div v-if="showDate" class="vac-card-info vac-card-date">
-			{{ message.date }}
+		<div v-if="showDate" class="vac-card-date-container">
+      <div class="vac-card-info vac-card-date">
+        {{ message.date }}
+      </div>
 		</div>
 
 		<div v-if="newMessage._id === message._id" class="vac-line-new">
@@ -34,9 +36,9 @@
         v-else
         class="vac-message-box-container"
     >
-      <span v-if="messageSelectionEnabled && !message.system">
-        <input class="form-check-input" :checked="isMessageSelected" type="checkbox" />
-      </span>
+      <label v-if="messageSelectionEnabled && !message.system" class="checkbox-message-container">
+        <div class="checkbox" :class="{ 'selected': isMessageSelected }" />
+      </label>
       <div
         class="vac-message-box"
         :class="{ 'vac-offset-current': message.senderId === currentUserId }"

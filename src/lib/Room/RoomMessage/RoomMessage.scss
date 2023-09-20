@@ -280,13 +280,14 @@
 		align-items: end;
 		margin-bottom: 4px;
 		.forward-icon{
-			color: #8696a0;
+			color: var(--chat-message-color-forwarded);
 			display: inline-block;
 		}
 		.forward-text{
+			color: var(--chat-message-color-forwarded);
 			font-style: italic;
-			color: #8696a0;
 			font-size: 0.75rem;
+			font-weight: 600;
 			margin-left: 2px;
 		}
 	}

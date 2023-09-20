@@ -433,7 +433,6 @@ export default {
 		},
 		selectMessage(message) {
 			this.selectedMessages.push(message)
-      console.warn(this)
 		},
 		unselectMessage(messageId) {
 			this.selectedMessages = this.selectedMessages.filter(

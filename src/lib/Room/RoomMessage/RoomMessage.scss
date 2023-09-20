@@ -291,7 +291,7 @@
 		}
 	}
 
-	&.vac-selection-enabled {
+	&.vac-selection-enabled:not(.message-system) {
 		.vac-message-box-container {
 			display: flex;
 			align-items: center;
@@ -358,7 +358,7 @@
 		}
 
 
-		@media only screen and (min-width: 1200px){
+		@media (min-width: 1700px){
 			.vac-message-box.vac-offset-current {
 				margin-left: 47.6%;
 			}
@@ -367,9 +367,9 @@
 			}
 		}
 
-		@media (min-width: 1043px) and (max-width: 1200px){
+		@media (min-width: 1043px) and (max-width: 1700px){
 			.vac-message-box.vac-offset-current {
-				margin-left: 46.6%;
+				margin-left: 46%;
 			}
 			.vac-message-box{
 				max-width: 50%;
@@ -385,9 +385,17 @@
 			}
 		}
 
-		@media only screen and (max-width: 768px) {
+		@media (min-width: 443px) and (max-width: 768px) {
 			.vac-message-box.vac-offset-current {
 				margin-left: 43.6%;
+			}
+			.vac-message-box{
+				max-width: 50%;
+			}
+		}
+		@media (max-width: 443px) {
+			.vac-message-box.vac-offset-current {
+				margin-left: 39%;
 			}
 			.vac-message-box{
 				max-width: 50%;

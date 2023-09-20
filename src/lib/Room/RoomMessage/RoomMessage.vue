@@ -1,7 +1,7 @@
 <template>
 	<div
 :id="message._id" ref="message"
-       class="vac-message-wrapper" :class="{'vac-selection-enabled': messageSelectionEnabled, 'message-selected' : isMessageSelected}" @click="selectMessage"
+       class="vac-message-wrapper" :class="{'vac-selection-enabled': messageSelectionEnabled, 'message-selected' : isMessageSelected, 'message-system': message.system}" @click="selectMessage"
   >
 		<div v-if="showDate" class="vac-card-date-container">
       <div class="vac-card-info vac-card-date">
@@ -441,13 +441,14 @@ export default {
 			this.messageHover = false
 		},
 		selectMessage() {
-			if (this.messageSelectionEnabled) {
-				if (this.isMessageSelected) {
-					this.$emit('unselect-message', this.message._id)
-				} else {
-					this.$emit('select-message', this.message)
-				}
-			}
+      if (!this.messageSelectionEnabled || this.message.system) {
+          return
+      }
+      if (this.isMessageSelected) {
+        this.$emit('unselect-message', this.message._id)
+        return
+      }
+      this.$emit('select-message', this.message)
 		}
 	}
 }

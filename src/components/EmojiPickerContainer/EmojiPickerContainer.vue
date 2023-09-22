@@ -113,8 +113,25 @@ export default {
 				color: var(--chat-color);
 			}`
 
+			const emojiMenu = `#tab-0::-webkit-scrollbar {
+        		width: 10px;
+			}
+
+			#tab-0::-webkit-scrollbar-track {
+				border-radius: 10px;
+			}
+
+			#tab-0::-webkit-scrollbar-thumb {
+				background: #161d31;
+				border-radius: 10px;
+			}
+
+			#tab-0::-webkit-scrollbar-thumb:hover {
+				background: #7367f0;
+			}`
+
 			const style = document.createElement('style')
-			style.textContent = picker + nav + searchBox + search
+			style.textContent = picker + nav + searchBox + search + emojiMenu
 			this.$refs.emojiPicker.shadowRoot.appendChild(style)
 		},
 		openEmoji(ev) {

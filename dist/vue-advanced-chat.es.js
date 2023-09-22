@@ -15875,6 +15875,7 @@ function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
           class: normalizeClass(["vac-emoji-picker", { "vac-picker-reaction": $props.emojiReaction }]),
           style: normalizeStyle({
             height: `${$data.emojiPickerHeight}px`,
+            top: $props.emojiReaction ? $props.positionTop ? $data.emojiPickerHeight.toString() : `${$data.emojiPickerTop}px` : "",
             right: $data.emojiPickerRight,
             display: $data.emojiPickerTop || !$props.emojiReaction ? "initial" : "none"
           })

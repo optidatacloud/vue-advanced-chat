@@ -109,7 +109,7 @@ export default {
 				border: var(--chat-border-style);
 				padding: 5px 10px;
 				outline: none;
-				background: var(--chat-bg-color-input);
+				background: #161d31;
 				color: var(--chat-color);
 			}`
 

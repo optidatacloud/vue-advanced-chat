@@ -23,7 +23,7 @@
 					:class="{ 'vac-picker-reaction': emojiReaction }"
 					:style="{
 						height: `${emojiPickerHeight}px`,
-						top: emojiReaction ? (positionTop ? emojiPickerHeight.toString() : `${emojiPickerTop}px`) : '',
+						top: positionTop ? emojiPickerHeight : `${emojiPickerTop}px`,
 						right: emojiPickerRight,
 						display: emojiPickerTop || !emojiReaction ? 'initial' : 'none'
 					}"
@@ -109,29 +109,12 @@ export default {
 				border: var(--chat-border-style);
 				padding: 5px 10px;
 				outline: none;
-				background: #161d31;
+				background: var(--chat-bg-color-input);
 				color: var(--chat-color);
 			}`
 
-			const emojiMenu = `#tab-0::-webkit-scrollbar {
-        		width: 10px;
-			}
-
-			#tab-0::-webkit-scrollbar-track {
-				border-radius: 10px;
-			}
-
-			#tab-0::-webkit-scrollbar-thumb {
-				background: #161d31;
-				border-radius: 10px;
-			}
-
-			#tab-0::-webkit-scrollbar-thumb:hover {
-				background: #7367f0;
-			}`
-
 			const style = document.createElement('style')
-			style.textContent = picker + nav + searchBox + search + emojiMenu
+			style.textContent = picker + nav + searchBox + search
 			this.$refs.emojiPicker.shadowRoot.appendChild(style)
 		},
 		openEmoji(ev) {

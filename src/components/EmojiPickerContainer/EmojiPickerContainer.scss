@@ -25,6 +25,12 @@
 		&::-webkit-scrollbar {
 			display: none;
 		}
+
+		&.vac-picker-reaction {
+			position: fixed;
+			top: initial;
+			right: initial;
+		}
 	
 		emoji-picker {
 			height: 100%;

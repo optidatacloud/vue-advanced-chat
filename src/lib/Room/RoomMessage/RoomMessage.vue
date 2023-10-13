@@ -34,6 +34,7 @@
 
     <div
         v-else
+        :class="{ 'vac-offset-current': message.senderId === currentUserId }"
         class="vac-message-box-container"
     >
       <label v-if="messageSelectionEnabled && !message.system" class="checkbox-message-container">
@@ -41,7 +42,6 @@
       </label>
       <div
         class="vac-message-box"
-        :class="{ 'vac-offset-current': message.senderId === currentUserId }"
       >
         <slot :name="'message_' + message._id">
           <slot

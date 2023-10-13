@@ -18,8 +18,9 @@
     border-radius: 50px;
     align-items: end;
     width: max-content;
-
+    cursor: pointer;
     .vac-reactions {
+      user-select: none;
       font-size: 16px;
       margin: 0 2px;
     }
@@ -30,6 +31,7 @@
       text-align: center;
       margin: 0 3px;
       padding-right: 3px;
+      user-select: none;
     }
   }
 }

@@ -101,6 +101,7 @@
 								@send-message-reaction="sendMessageReaction"
 								@select-message="selectMessage"
 								@unselect-message="unselectMessage"
+                @message-reaction-click="messageReactionClick"
 							>
 								<template v-for="(idx, name) in $slots" #[name]="data">
 									<slot :name="name" v-bind="data" />
@@ -241,7 +242,8 @@ export default {
 		'open-file',
 		'open-user-tag',
 		'open-failed-message',
-		'textarea-action-handler'
+		'textarea-action-handler',
+    'message-reaction-click'
 	],
 
 	data() {
@@ -543,6 +545,11 @@ export default {
 		sendMessageReaction(messageReaction) {
 			this.$emit('send-message-reaction', messageReaction)
 		},
+
+    messageReactionClick(messageReaction) {
+      this.$emit('message-reaction-click', messageReaction)
+    },
+
 		getBottomScroll(element) {
 			const { scrollHeight, clientHeight, scrollTop } = element
 			return scrollHeight - clientHeight - scrollTop

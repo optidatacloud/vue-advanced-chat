@@ -3,13 +3,13 @@
     <div class="vac-message-reactions-container" :class="{'message-me' : message.senderId === currentUserId}">
       <div
         class="vac-reactions-container"
->
+        @click="messageReactionClick()"
+      >
       <span
         v-for="(reaction, key) in message.reactions"
         v-show="reaction.length"
         :key="key + 0"
         class="vac-reactions"
-        @click="sendMessageReaction({ unicode: key }, reaction)"
       >
 			{{ key }}
 		</span>
@@ -28,11 +28,11 @@ export default {
 		message: { type: Object, required: true }
 	},
 
-	emits: ['send-message-reaction'],
+	emits: ['message-reaction-click'],
 
 	methods: {
-		sendMessageReaction(emoji, reaction) {
-			this.$emit('send-message-reaction', { emoji, reaction })
+		messageReactionClick() {
+			this.$emit('message-reaction-click')
 		},
     getTotalReactionCount() {
       if (!this.$props.message.reactions || typeof this.$props.message.reactions !== 'object') {

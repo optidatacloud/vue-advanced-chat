@@ -34490,7 +34490,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                     "room-users": $options.room.users,
                     "text-messages": $props.textMessages,
                     "new-messages": $data.newMessages,
-                    "show-reaction-emojis": $props.showReactionEmojis,
+                    "show-reaction-emojis": $props.showReactionEmojis && $options.room.isCurrentUserInRoom,
                     "show-new-messages-divider": $props.showNewMessagesDivider,
                     "text-formatting": $props.textFormatting,
                     "link-options": $props.linkOptions,

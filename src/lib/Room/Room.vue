@@ -85,7 +85,7 @@
 								:room-users="room.users"
 								:text-messages="textMessages"
 								:new-messages="newMessages"
-								:show-reaction-emojis="showReactionEmojis"
+								:show-reaction-emojis="showReactionEmojis && room.isCurrentUserInRoom"
 								:show-new-messages-divider="showNewMessagesDivider"
 								:text-formatting="textFormatting"
 								:link-options="linkOptions"

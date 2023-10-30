@@ -37,7 +37,8 @@
 				:load-first-room="loadFirstRoomCasted"
 				:messages="messagesCasted"
 				:room-message="roomMessage"
-				:messages-loaded="messagesLoadedCasted"
+				:messages-loaded-top="messagesLoadedTopCasted"
+				:messages-loaded-bottom="messagesLoadedBottomCasted"
 				:menu-actions="menuActionsCasted"
 				:message-actions="messageActionsCasted"
 				:message-selection-actions="messageSelectionActionsCasted"
@@ -72,6 +73,8 @@
 				@toggle-rooms-list="toggleRoomsList"
 				@room-info="roomInfo"
 				@fetch-messages="fetchMessages"
+				@fetch-messages-top="fetchMessagesTop"
+				@fetch-messages-bottom="fetchMessagesBottom"
 				@send-message="sendMessage"
 				@edit-message="editMessage"
 				@delete-message="deleteMessage"
@@ -141,7 +144,8 @@ export default {
 		roomId: { type: String, default: null },
 		loadFirstRoom: { type: [Boolean, String], default: true },
 		messages: { type: [Array, String], default: () => [] },
-		messagesLoaded: { type: [Boolean, String], default: false },
+		messagesLoadedTop: { type: [Boolean, String], default: false },
+		messagesLoadedBottom: { type: [Boolean, String], default: false },
 		roomActions: { type: [Array, String], default: () => [] },
 		menuActions: { type: [Array, String], default: () => [] },
 		messageActions: {
@@ -213,6 +217,8 @@ export default {
 		'toggle-rooms-list',
 		'room-info',
 		'fetch-messages',
+		'fetch-messages-top',
+		'fetch-messages-bottom',
 		'send-message',
 		'edit-message',
 		'delete-message',
@@ -291,8 +297,11 @@ export default {
 		loadFirstRoomCasted() {
 			return this.castBoolean(this.loadFirstRoom)
 		},
-		messagesLoadedCasted() {
-			return this.castBoolean(this.messagesLoaded)
+		messagesLoadedTopCasted() {
+			return this.castBoolean(this.messagesLoadedTop)
+		},
+    messagesLoadedBottomCasted() {
+			return this.castBoolean(this.messagesLoadedBottom)
 		},
 		showSearchCasted() {
 			return this.castBoolean(this.showSearch)
@@ -479,6 +488,7 @@ export default {
 		fetchRoom({ room }) {
 			this.room = room
 			this.fetchMessages({ reset: true })
+			this.fetchMessagesTop({ reset: true })
 			if (this.isMobile) this.showRoomsList = false
 		},
 		fetchMoreRooms() {
@@ -493,9 +503,18 @@ export default {
 		searchRoom(val) {
 			this.$emit('search-room', { value: val, roomId: this.room.roomId })
 		},
+    /**
+     * @deprecated The method should not be used. Use fetchMessagesTop instead.
+     */
 		fetchMessages(options) {
 			this.$emit('fetch-messages', { room: this.room, options })
 		},
+    fetchMessagesTop(options) {
+      this.$emit('fetch-messages-top', { room: this.room, options })
+    },
+    fetchMessagesBottom(options) {
+      this.$emit('fetch-messages-bottom', { room: this.room, options })
+    },
 		sendMessage(message) {
 			this.$emit('send-message', { ...message, roomId: this.room.roomId })
 		},

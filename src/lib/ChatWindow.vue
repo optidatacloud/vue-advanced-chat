@@ -509,12 +509,12 @@ export default {
 		fetchMessages(options) {
 			this.$emit('fetch-messages', { room: this.room, options })
 		},
-    fetchMessagesTop(options) {
-      this.$emit('fetch-messages-top', { room: this.room, options })
-    },
-    fetchMessagesBottom(options) {
-      this.$emit('fetch-messages-bottom', { room: this.room, options })
-    },
+		fetchMessagesTop(options) {
+		this.$emit('fetch-messages-top', { room: this.room, options })
+		},
+		fetchMessagesBottom(options) {
+		this.$emit('fetch-messages-bottom', { room: this.room, options })
+		},
 		sendMessage(message) {
 			this.$emit('send-message', { ...message, roomId: this.room.roomId })
 		},

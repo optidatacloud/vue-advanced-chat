@@ -78,7 +78,7 @@
 				empty query AND when it matches no room.
 			-->
 			<div class="no-rooms-found-message" v-if="roomsQuery.length && !filteredRooms.length">
-				{{ noRoomsFoundMessage }}
+				{{ roomsNotFoundMessage }}
 			</div>
 		</transition>
 	</div>
@@ -116,7 +116,7 @@ export default {
 		customSearchRoomEnabled: { type: [Boolean, String], default: false },
 		roomActions: { type: Array, required: true },
 		scrollDistance: { type: Number, required: true },
-		noRoomsFoundMessage: { type: String, required: true }
+		roomsNotFoundMessage: { type: String, required: true }
 	},
 
 	emits: [

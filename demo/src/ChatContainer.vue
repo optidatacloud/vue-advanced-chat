@@ -46,7 +46,7 @@
 			:menu-actions="JSON.stringify(menuActions)"
 			:message-selection-actions="JSON.stringify(messageSelectionActions)"
 			:templates-text="JSON.stringify(templatesText)"
-			:no-rooms-found-message="'No conversation found'"
+			:rooms-not-found-message="'Nenhum conversa encontrada...'"
 			@fetch-more-rooms="fetchMoreRooms"
 			@fetch-messages="fetchMessages($event.detail[0])"
 			@send-message="sendMessage($event.detail[0])"
@@ -82,8 +82,7 @@ import * as storageService from '@/database/storage'
 import { parseTimestamp, formatTimestamp } from '@/utils/dates'
 import logoAvatar from '@/assets/logo.png'
 
-import { register } from 'vue-advanced-chat'
-// import { register } from './../../dist/vue-advanced-chat.es.js'
+import { register } from './../../dist/vue-advanced-chat.es.js'
 // import { register } from './../../src/lib/index.js'
 register()
 

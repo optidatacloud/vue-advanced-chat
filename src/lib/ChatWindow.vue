@@ -18,7 +18,7 @@
 				:link-options="linkOptionsCasted"
 				:is-mobile="isMobile"
 				:scroll-distance="scrollDistance"
-				:no-rooms-found-message="noRoomsFoundMessage"
+				:rooms-not-found-message="roomsNotFoundMessage"
 				@fetch-room="fetchRoom"
 				@fetch-more-rooms="fetchMoreRooms"
 				@loading-more-rooms="loadingMoreRooms = $event"
@@ -208,7 +208,7 @@ export default {
 			default: () => ({ minUsers: 3, currentUser: false })
 		},
 		emojiDataSource: { type: String, default: undefined },
-		noRoomsFoundMessage: { type: String, default: '' }
+		roomsNotFoundMessage: { type: String, default: '' }
 	},
 
 	emits: [

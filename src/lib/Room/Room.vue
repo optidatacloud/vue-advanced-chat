@@ -326,6 +326,9 @@ export default {
 				if (oldVal?.length === newVal?.length - 1) {
 					this.newMessages = []
 				}
+        if (oldVal?.length === 0 && newVal?.length > 0) {
+          this.updateIsLoadingInitialMessages(false)
+        }
 			}
 		},
 		messagesLoadedTop(val) {
@@ -473,6 +476,10 @@ export default {
 				}
 
 				if (message.senderId === this.currentUserId) {
+          if (message._id !== message.indexId) {
+            return
+          }
+
 					if (scrolledUp) {
 						if (this.autoScroll.send.newAfterScrollUp) {
 							this.scrollToBottom()

@@ -34124,6 +34124,9 @@ const _sfc_main$2 = {
         if ((oldVal == null ? void 0 : oldVal.length) === (newVal == null ? void 0 : newVal.length) - 1) {
           this.newMessages = [];
         }
+        if ((oldVal == null ? void 0 : oldVal.length) === 0 && (newVal == null ? void 0 : newVal.length) > 0) {
+          this.updateIsLoadingInitialMessages(false);
+        }
       }
     },
     messagesLoadedTop(val) {
@@ -34255,6 +34258,9 @@ const _sfc_main$2 = {
           scrolledUp = this.getBottomScroll(scrollContainer) > autoScrollOffset;
         }
         if (message.senderId === this.currentUserId) {
+          if (message._id !== message.indexId) {
+            return;
+          }
           if (scrolledUp) {
             if (this.autoScroll.send.newAfterScrollUp) {
               this.scrollToBottom();

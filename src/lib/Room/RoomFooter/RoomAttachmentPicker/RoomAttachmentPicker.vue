@@ -42,9 +42,6 @@ export default {
 	},
 
   props: {
-    // file: { type: Object, required: true },
-    // index: { type: Number, required: true }
-    // optionsOpened: { type: Boolean, required: true },
     attachmentOptions: { type: Array, required: true }
   },
 

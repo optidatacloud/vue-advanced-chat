@@ -523,7 +523,6 @@ export default {
 			this.$refs.file.click()
 		},
     attachmentPickerHandler(option) {
-      console.log('VAC: attachmentPickerHandler', option)
       this.$refs.file.accept = option.accepts ?? this.acceptedFiles
       this.$refs.file.capture = option.capture ?? this.captureFiles
       this.launchFilePicker()

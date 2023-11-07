@@ -32377,7 +32377,9 @@ const _sfc_main$a = {
     attachmentPickerHandler(option) {
       var _a, _b;
       this.$refs.file.accept = (_a = option.accepts) != null ? _a : this.acceptedFiles;
-      this.$refs.file.capture = (_b = option.capture) != null ? _b : this.captureFiles;
+      if (option.capture || this.captureFiles) {
+        this.$refs.file.capture = (_b = option.capture) != null ? _b : this.captureFiles;
+      }
       this.launchFilePicker();
       this.$emit("attachment-picker-handler", option);
     },

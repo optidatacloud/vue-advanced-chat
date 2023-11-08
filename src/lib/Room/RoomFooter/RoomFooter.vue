@@ -526,6 +526,8 @@ export default {
       this.$refs.file.accept = option.accepts ?? this.acceptedFiles
       if (option.capture || this.captureFiles) {
         this.$refs.file.capture = option.capture ?? this.captureFiles
+      } else {
+        this.$refs.file.removeAttribute('capture')
       }
       this.launchFilePicker()
       this.$emit('attachment-picker-handler', option)

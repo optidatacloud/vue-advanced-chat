@@ -71,6 +71,7 @@
 				:templates-text="templatesTextCasted"
 				:username-options="usernameOptionsCasted"
 				:emoji-data-source="emojiDataSource"
+        :attachment-options="attachmentOptionsCasted"
 				@toggle-rooms-list="toggleRoomsList"
 				@room-info="roomInfo"
 				@fetch-messages="fetchMessages"
@@ -89,6 +90,7 @@
 				@typing-message="typingMessage"
 				@textarea-action-handler="textareaActionHandler"
         @message-reaction-click="messageReactionClick"
+        @attachment-picker-handler="attachmentPickerHandler"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />
@@ -212,7 +214,8 @@ export default {
 			default: () => ({ minUsers: 3, currentUser: false })
 		},
 		emojiDataSource: { type: String, default: undefined },
-		roomsNotFoundMessage: { type: String, default: '' }
+		roomsNotFoundMessage: { type: String, default: '' },
+    attachmentOptions: { type: Array, default: () => [] }
 	},
 
 	emits: [
@@ -238,6 +241,7 @@ export default {
 		'room-action-handler',
 		'message-selection-action-handler',
 		'message-reaction-click',
+    'attachment-picker-handler'
 	],
 
 	data() {
@@ -388,7 +392,10 @@ export default {
 		},
 		usernameOptionsCasted() {
 			return this.castObject(this.usernameOptions)
-		}
+		},
+    attachmentOptionsCasted() {
+      return this.castArray(this.attachmentOptions)
+    }
 	},
 
 	watch: {
@@ -587,12 +594,19 @@ export default {
 				roomId: this.room.roomId
 			})
 		},
+
 		textareaActionHandler(message) {
 			this.$emit('textarea-action-handler', {
 				message,
 				roomId: this.room.roomId
 			})
-		}
+		},
+
+    attachmentPickerHandler(option) {
+      this.$emit('attachment-picker-handler', {
+        option
+      })
+    }
 	}
 }
 </script>

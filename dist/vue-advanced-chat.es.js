@@ -12898,11 +12898,15 @@ const _hoisted_15$1 = {
   class: "vac-room-info vac-text-ellipsis"
 };
 const _hoisted_16$1 = {
+  key: 2,
+  class: "vac-room-info vac-text-ellipsis"
+};
+const _hoisted_17$1 = {
   key: 0,
   class: "vac-menu-options"
 };
-const _hoisted_17$1 = { class: "vac-menu-list" };
-const _hoisted_18 = ["onClick"];
+const _hoisted_18 = { class: "vac-menu-list" };
+const _hoisted_19 = ["onClick"];
 function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_svg_icon = resolveComponent("svg-icon");
   const _directive_click_outside = resolveDirective("click-outside");
@@ -12970,7 +12974,7 @@ function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
             renderSlot(_ctx.$slots, "room-header-info", {}, () => [
               createBaseVNode("div", _hoisted_12$2, [
                 createBaseVNode("div", _hoisted_13$1, toDisplayString($props.room.roomName), 1),
-                $options.typingUsers ? (openBlock(), createElementBlock("div", _hoisted_14$1, toDisplayString($options.typingUsers), 1)) : (openBlock(), createElementBlock("div", _hoisted_15$1, toDisplayString($options.userStatus), 1))
+                $options.typingUsers ? (openBlock(), createElementBlock("div", _hoisted_14$1, toDisplayString($options.typingUsers), 1)) : $props.room.roomInfo ? (openBlock(), createElementBlock("div", _hoisted_15$1, toDisplayString($props.room.roomInfo), 1)) : (openBlock(), createElementBlock("div", _hoisted_16$1, toDisplayString($options.userStatus), 1))
               ])
             ])
           ], 2),
@@ -12989,8 +12993,8 @@ function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
               name: "vac-slide-left"
             }, {
               default: withCtx(() => [
-                $data.menuOpened ? withDirectives((openBlock(), createElementBlock("div", _hoisted_16$1, [
-                  createBaseVNode("div", _hoisted_17$1, [
+                $data.menuOpened ? withDirectives((openBlock(), createElementBlock("div", _hoisted_17$1, [
+                  createBaseVNode("div", _hoisted_18, [
                     (openBlock(true), createElementBlock(Fragment, null, renderList($props.menuActions, (action) => {
                       return openBlock(), createElementBlock("div", {
                         key: action.name
@@ -12998,7 +13002,7 @@ function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
                         createBaseVNode("div", {
                           class: "vac-menu-item",
                           onClick: ($event) => $options.menuActionHandler(action)
-                        }, toDisplayString(action.title), 9, _hoisted_18)
+                        }, toDisplayString(action.title), 9, _hoisted_19)
                       ]);
                     }), 128))
                   ])

@@ -32158,7 +32158,8 @@ const _sfc_main$a = {
     initEditMessage: { type: Object, default: null },
     droppedFiles: { type: Array, default: null },
     emojiDataSource: { type: String, default: void 0 },
-    attachmentOptions: { type: Array, required: true }
+    attachmentOptions: { type: Array, required: true },
+    currentUserId: { type: String, default: "" }
   },
   emits: [
     "edit-message",
@@ -34740,6 +34741,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     createVNode(_component_room_footer, {
       room: $options.room,
       "room-id": $props.roomId,
+      "current-user-id": $props.currentUserId,
       "room-message": $props.roomMessage,
       "text-messages": $props.textMessages,
       "show-send-icon": $props.showSendIcon,
@@ -34778,7 +34780,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
           ])
         };
       })
-    ]), 1032, ["room", "room-id", "room-message", "text-messages", "show-send-icon", "show-files", "show-audio", "show-emojis", "show-footer", "accepted-files", "capture-files", "textarea-action-enabled", "textarea-auto-focus", "user-tags-enabled", "emojis-suggestion-enabled", "templates-text", "text-formatting", "link-options", "audio-bit-rate", "audio-sample-rate", "init-reply-message", "init-edit-message", "dropped-files", "emoji-data-source", "attachment-options"])
+    ]), 1032, ["room", "room-id", "current-user-id", "room-message", "text-messages", "show-send-icon", "show-files", "show-audio", "show-emojis", "show-footer", "accepted-files", "capture-files", "textarea-action-enabled", "textarea-auto-focus", "user-tags-enabled", "emojis-suggestion-enabled", "templates-text", "text-formatting", "link-options", "audio-bit-rate", "audio-sample-rate", "init-reply-message", "init-edit-message", "dropped-files", "emoji-data-source", "attachment-options"])
   ], 544)), [
     [vShow, $props.isMobile && !$props.showRoomsList || !$props.isMobile || $props.singleRoom]
   ]);

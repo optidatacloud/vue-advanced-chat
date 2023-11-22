@@ -33,7 +33,7 @@
 			@menu-action-handler="$emit('menu-action-handler', $event)"
 			@message-selection-action-handler="messageSelectionActionHandler"
 			@cancel-message-selection="messageSelectionEnabled = false"
-      @ongoing-call="$emit('ongoing-call', $event)"
+      @return-to-call="$emit('return-to-call', $event)"
 		>
 			<template v-for="(i, name) in $slots" #[name]="data">
 				<slot :name="name" v-bind="data" />
@@ -264,7 +264,7 @@ export default {
 		'textarea-action-handler',
     'message-reaction-click',
     'attachment-picker-handler',
-    'ongoing-call'
+    'return-to-call'
 	],
 
 	data() {

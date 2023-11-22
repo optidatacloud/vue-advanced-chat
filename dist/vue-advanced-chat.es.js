@@ -12946,7 +12946,7 @@ const _sfc_main$l = {
     "menu-action-handler",
     "cancel-message-selection",
     "message-selection-action-handler",
-    "ongoing-call"
+    "return-to-call"
   ],
   data() {
     return {
@@ -13013,8 +13013,8 @@ const _sfc_main$l = {
     messageSelectionActionHandler(action) {
       this.$emit("message-selection-action-handler", action);
     },
-    ongoingCallClick() {
-      this.$emit("ongoing-call");
+    returnToCallClick() {
+      this.$emit("return-to-call");
     },
     updateCallDuration() {
       if (!this.call)
@@ -13215,7 +13215,7 @@ function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
         $options.isCallInProgress ? (openBlock(), createElementBlock("div", {
           key: 0,
           class: "vac-room-call-ongoing",
-          onClick: _cache[4] || (_cache[4] = (...args) => $options.ongoingCallClick && $options.ongoingCallClick(...args))
+          onClick: _cache[4] || (_cache[4] = (...args) => $options.returnToCallClick && $options.returnToCallClick(...args))
         }, [
           createBaseVNode("div", _hoisted_20, [
             createBaseVNode("span", _hoisted_21, toDisplayString($props.textMessages.CALL_IN_PROGRESS), 1),
@@ -34406,7 +34406,7 @@ const _sfc_main$2 = {
     "textarea-action-handler",
     "message-reaction-click",
     "attachment-picker-handler",
-    "ongoing-call"
+    "return-to-call"
   ],
   data() {
     return {
@@ -34785,7 +34785,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
       onMenuActionHandler: _cache[2] || (_cache[2] = ($event) => _ctx.$emit("menu-action-handler", $event)),
       onMessageSelectionActionHandler: $options.messageSelectionActionHandler,
       onCancelMessageSelection: _cache[3] || (_cache[3] = ($event) => $data.messageSelectionEnabled = false),
-      onOngoingCall: _cache[4] || (_cache[4] = ($event) => _ctx.$emit("ongoing-call", $event))
+      onReturnToCall: _cache[4] || (_cache[4] = ($event) => _ctx.$emit("return-to-call", $event))
     }, createSlots({ _: 2 }, [
       renderList(_ctx.$slots, (i, name) => {
         return {
@@ -35615,7 +35615,7 @@ const _sfc_main = {
     "attachment-picker-handler",
     "accept-call",
     "hang-up-call",
-    "ongoing-call"
+    "return-to-call"
   ],
   data() {
     return {
@@ -35963,8 +35963,8 @@ const _sfc_main = {
         option
       });
     },
-    ongoingCallHandler(call) {
-      this.$emit("ongoing-call", call);
+    returnToCallHandler(call) {
+      this.$emit("return-to-call", call);
     }
   }
 };
@@ -36075,7 +36075,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         onTextareaActionHandler: $options.textareaActionHandler,
         onMessageReactionClick: $options.messageReactionClick,
         onAttachmentPickerHandler: $options.attachmentPickerHandler,
-        onOngoingCall: $options.ongoingCallHandler
+        onReturnToCall: $options.returnToCallHandler
       }, createSlots({ _: 2 }, [
         renderList($data.slots, (el) => {
           return {
@@ -36085,7 +36085,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
             ])
           };
         })
-      ]), 1032, ["current-user-id", "rooms", "room-id", "load-first-room", "messages", "room-message", "messages-loaded-top", "messages-loaded-bottom", "menu-actions", "message-actions", "message-selection-actions", "auto-scroll", "show-send-icon", "show-files", "show-audio", "audio-bit-rate", "audio-sample-rate", "show-emojis", "show-reaction-emojis", "show-new-messages-divider", "show-footer", "text-messages", "single-room", "show-rooms-list", "text-formatting", "link-options", "is-mobile", "loading-rooms", "room-info-enabled", "textarea-action-enabled", "textarea-auto-focus", "user-tags-enabled", "emojis-suggestion-enabled", "scroll-distance", "accepted-files", "capture-files", "templates-text", "username-options", "emoji-data-source", "attachment-options", "call", "onToggleRoomsList", "onRoomInfo", "onFetchMessages", "onFetchMessagesTop", "onFetchMessagesBottom", "onSendMessage", "onEditMessage", "onDeleteMessage", "onOpenFile", "onOpenUserTag", "onOpenFailedMessage", "onMenuActionHandler", "onMessageActionHandler", "onMessageSelectionActionHandler", "onSendMessageReaction", "onTypingMessage", "onTextareaActionHandler", "onMessageReactionClick", "onAttachmentPickerHandler", "onOngoingCall"])
+      ]), 1032, ["current-user-id", "rooms", "room-id", "load-first-room", "messages", "room-message", "messages-loaded-top", "messages-loaded-bottom", "menu-actions", "message-actions", "message-selection-actions", "auto-scroll", "show-send-icon", "show-files", "show-audio", "audio-bit-rate", "audio-sample-rate", "show-emojis", "show-reaction-emojis", "show-new-messages-divider", "show-footer", "text-messages", "single-room", "show-rooms-list", "text-formatting", "link-options", "is-mobile", "loading-rooms", "room-info-enabled", "textarea-action-enabled", "textarea-auto-focus", "user-tags-enabled", "emojis-suggestion-enabled", "scroll-distance", "accepted-files", "capture-files", "templates-text", "username-options", "emoji-data-source", "attachment-options", "call", "onToggleRoomsList", "onRoomInfo", "onFetchMessages", "onFetchMessagesTop", "onFetchMessagesBottom", "onSendMessage", "onEditMessage", "onDeleteMessage", "onOpenFile", "onOpenUserTag", "onOpenFailedMessage", "onMenuActionHandler", "onMessageActionHandler", "onMessageSelectionActionHandler", "onSendMessageReaction", "onTypingMessage", "onTextareaActionHandler", "onMessageReactionClick", "onAttachmentPickerHandler", "onReturnToCall"])
     ]),
     createVNode(Transition, {
       name: "vac-fade-preview",

@@ -120,7 +120,7 @@
 					</slot>
 				</template>
 			</div>
-      <div v-if="isCallInProgress" class="vac-room-call-ongoing" @click="ongoingCallClick">
+      <div v-if="isCallInProgress" class="vac-room-call-ongoing" @click="returnToCallClick">
         <div class="vac-room-call-ongoing-info">
           <span class="vac-room-call-ongoing-title">
             {{ textMessages.CALL_IN_PROGRESS }}
@@ -171,7 +171,7 @@ export default {
 		'menu-action-handler',
 		'cancel-message-selection',
 		'message-selection-action-handler',
-    'ongoing-call'
+    'return-to-call'
 	],
 
 	data() {
@@ -245,8 +245,8 @@ export default {
 		messageSelectionActionHandler(action) {
 			this.$emit('message-selection-action-handler', action)
 		},
-    ongoingCallClick() {
-      this.$emit('ongoing-call')
+    returnToCallClick() {
+      this.$emit('return-to-call')
     },
     updateCallDuration() {
       if (!this.call) return

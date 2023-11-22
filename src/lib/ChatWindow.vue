@@ -94,7 +94,7 @@
 				@textarea-action-handler="textareaActionHandler"
         @message-reaction-click="messageReactionClick"
         @attachment-picker-handler="attachmentPickerHandler"
-        @ongoing-call="ongoingCallHandler"
+        @return-to-call="returnToCallHandler"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />
@@ -249,7 +249,7 @@ export default {
     'attachment-picker-handler',
     'accept-call',
     'hang-up-call',
-    'ongoing-call'
+    'return-to-call'
 	],
 
 	data() {
@@ -625,8 +625,8 @@ export default {
       })
     },
 
-    ongoingCallHandler(call) {
-      this.$emit('ongoing-call', call)
+    returnToCallHandler(call) {
+      this.$emit('return-to-call', call)
     }
 	}
 }

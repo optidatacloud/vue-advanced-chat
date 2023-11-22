@@ -25,6 +25,8 @@
 				@add-room="addRoom"
 				@search-room="searchRoom"
 				@room-action-handler="roomActionHandler"
+        @accept-call="acceptCallHandler"
+        @hang-up-call="hangUpCallHandler"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />
@@ -72,6 +74,7 @@
 				:username-options="usernameOptionsCasted"
 				:emoji-data-source="emojiDataSource"
         :attachment-options="attachmentOptionsCasted"
+        :call="callCasted"
 				@toggle-rooms-list="toggleRoomsList"
 				@room-info="roomInfo"
 				@fetch-messages="fetchMessages"
@@ -91,6 +94,7 @@
 				@textarea-action-handler="textareaActionHandler"
         @message-reaction-click="messageReactionClick"
         @attachment-picker-handler="attachmentPickerHandler"
+        @ongoing-call="ongoingCallHandler"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />
@@ -215,7 +219,8 @@ export default {
 		},
 		emojiDataSource: { type: String, default: undefined },
 		roomsNotFoundMessage: { type: String, default: '' },
-    attachmentOptions: { type: Array, default: () => [] }
+    attachmentOptions: { type: Array, default: () => [] },
+    call: { type: [Object, String], default: () => ({}) }
 	},
 
 	emits: [
@@ -241,7 +246,10 @@ export default {
 		'room-action-handler',
 		'message-selection-action-handler',
 		'message-reaction-click',
-    'attachment-picker-handler'
+    'attachment-picker-handler',
+    'accept-call',
+    'hang-up-call',
+    'ongoing-call'
 	],
 
 	data() {
@@ -395,6 +403,9 @@ export default {
 		},
     attachmentOptionsCasted() {
       return this.castArray(this.attachmentOptions)
+    },
+    callCasted() {
+      return this.castObject(this.call)
     }
 	},
 
@@ -562,6 +573,12 @@ export default {
 				roomId
 			})
 		},
+    acceptCallHandler(call) {
+      this.$emit('accept-call', call)
+    },
+    hangUpCallHandler(call) {
+      this.$emit('hang-up-call', call)
+    },
 		messageActionHandler(ev) {
 			this.$emit('message-action-handler', {
 				...ev,
@@ -606,6 +623,10 @@ export default {
       this.$emit('attachment-picker-handler', {
         option
       })
+    },
+
+    ongoingCallHandler(call) {
+      this.$emit('ongoing-call', call)
     }
 	}
 }

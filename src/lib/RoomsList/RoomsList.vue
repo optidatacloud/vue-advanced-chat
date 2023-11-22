@@ -44,10 +44,21 @@
 					:id="fRoom.roomId"
 					:key="fRoom.roomId"
 					class="vac-room-item"
-					:class="{ 'vac-room-selected': selectedRoomId === fRoom.roomId }"
+					:class="{
+              'vac-room-selected': selectedRoomId === fRoom.roomId && !fRoom.call,
+              'vac-ongoing-call': fRoom.call
+            }"
 					@click="openRoom(fRoom)"
 				>
+          <room-call-content
+            v-if="fRoom.call"
+						:current-user-id="currentUserId"
+            :room="fRoom"
+            @accept-call="$emit('accept-call', $event)"
+            @hang-up-call="$emit('hang-up-call', $event)"
+          />
 					<room-content
+            v-else
 						:current-user-id="currentUserId"
 						:room="fRoom"
 						:text-formatting="textFormatting"
@@ -77,7 +88,7 @@
 				I only want to show this label when there is a non
 				empty query AND when it matches no room.
 			-->
-			<div class="no-rooms-found-message" v-if="roomsQuery.length && !filteredRooms.length">
+			<div v-if="roomsQuery.length && !filteredRooms.length" class="no-rooms-found-message">
 				{{ roomsNotFoundMessage }}
 			</div>
 		</transition>
@@ -89,6 +100,7 @@ import Loader from '../../components/Loader/Loader'
 
 import RoomsSearch from './RoomsSearch/RoomsSearch'
 import RoomContent from './RoomContent/RoomContent'
+import RoomCallContent from './RoomCallContent/RoomCallContent'
 
 import filteredItems from '../../utils/filter-items'
 
@@ -97,7 +109,8 @@ export default {
 	components: {
 		Loader,
 		RoomsSearch,
-		RoomContent
+		RoomContent,
+    RoomCallContent
 	},
 
 	props: {
@@ -125,7 +138,9 @@ export default {
 		'room-action-handler',
 		'loading-more-rooms',
 		'fetch-room',
-		'fetch-more-rooms'
+		'fetch-more-rooms',
+    'accept-call',
+    'hang-up-call'
 	],
 
 	data() {
@@ -135,17 +150,17 @@ export default {
 			showLoader: true,
 			loadingMoreRooms: false,
 			selectedRoomId: '',
-			roomsQuery: '',
+			roomsQuery: ''
 		}
 	},
 
 	computed: {
 		roomsToDisplay: function() {
 			if (this.roomsQuery.length) {
-				return this.filteredRooms;
+				return this.filteredRooms
 			}
 
-			return this.rooms;
+			return this.rooms
 		}
 	},
 
@@ -214,7 +229,7 @@ export default {
 			if (this.customSearchRoomEnabled) {
 				this.$emit('search-room', ev.target.value)
 			} else {
-				this.roomsQuery = ev.target.value;
+				this.roomsQuery = ev.target.value
 				this.filteredRooms = filteredItems(
 					this.rooms,
 					'roomName',

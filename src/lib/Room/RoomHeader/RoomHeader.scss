@@ -142,6 +142,7 @@
 		position: absolute;
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		top: 64px;
 		height: 16px;
 		padding: 0.5rem;
@@ -154,10 +155,15 @@
 		.vac-room-call-ongoing-title {
 			font-weight: 700;
 			margin-right: 0.5rem;
+			color: white;
 		}
 
 		.vac-room-call-ongoing-duration {
 			font-weight: 400;
+		}
+
+		@media only screen and (max-width: 768px) {
+			top: 50px;
 		}
 	}
 }

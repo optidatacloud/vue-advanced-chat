@@ -1,4 +1,4 @@
-.vac-room-container {
+.vac-room-call-container {
 	display: flex;
 	flex: 1;
 	align-items: center;
@@ -21,7 +21,7 @@
 
   .vac-room-name {
 		flex: 1;
-		color: var(--chat-room-color-username);
+		color: white;
 		font-weight: 500;
 	}
 
@@ -30,7 +30,7 @@
 		align-items: center;
 		font-size: 12px;
 		line-height: 19px;
-		color: var(--chat-room-color-message);
+		color: #6c7278;
 	}
 
   &.vac-room-call-pending {
@@ -62,12 +62,12 @@ a.btn {
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0rem white;
+    box-shadow: 0 0 0 0rem var(--bs-primary);
   }
   70% {
-    box-shadow: 0 0 0 0.5rem rgba(255, 255, 255, 0.438);
+    box-shadow: 0 0 0 0.5rem rgba(255, 255, 255, 0.521);
   }
   100% {
-    box-shadow: 0 0 0 0rem white;
+    box-shadow: 0 0 0 0rem var(--bs-primary);
   }
 }

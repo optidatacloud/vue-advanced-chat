@@ -27,6 +27,7 @@
 				@room-action-handler="roomActionHandler"
         @accept-call="acceptCallHandler"
         @hang-up-call="hangUpCallHandler"
+        @return-to-call="returnToCallHandler"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />

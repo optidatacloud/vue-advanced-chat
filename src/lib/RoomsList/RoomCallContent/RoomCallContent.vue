@@ -1,5 +1,5 @@
 <template>
-  <div class="vac-room-container" :class="[ callStatusClass ]" @click="openRoom()">
+  <div class="vac-room-call-container" :class="[ callStatusClass ]" @click="openRoom()">
     <div class="vac-room-info-container">
       <slot :name="'room-list-item_' + room.roomId">
         <slot :name="'room-list-avatar_' + room.roomId">
@@ -15,16 +15,13 @@
         </div>
         <i v-if="!isCallInProgress" class="vac-text-last" style="color: #cccccc;">
           <span v-if="!isCurrentUserCaller">
-            Incomming voice call
+            {{ textMessages.ROOM_CALL_INCOMING }}
           </span>
           <span v-else>
-            Calling...
+            {{ textMessages.ROOM_CALL_CALLING }}
           </span>
         </i>
         <i v-else class="vac-text-last" style="color: #cccccc;">
-          <!-- <span>
-            Call in progress
-          </span> -->
           <span class="vac-call-timer">
             {{ callDuration ?? '--:--' }}
           </span>
@@ -33,9 +30,15 @@
     </div>
 
     <div class="vac-call-actions">
-      <a v-if="!isCurrentUserCaller && !isCallInProgress" class="btn" role="button" href="#" @click.stop="acceptCall()">
+      <a v-if="!isCurrentUserCaller && !isCallInProgress && !isCurrentUserInCall" class="btn" role="button" href="#" @click.stop="acceptCall()">
         <i class="bi bi-telephone-fill" style="margin-right: 1rem;" />
       </a>
+      <a v-else-if="isCallInProgress && isCurrentUserInCall" class="btn" role="button" href="#" @click.stop="returnToCall()">
+        <i class="bi bi-box-arrow-up-right" style="margin-right: 1rem;" />
+      </a>
+      <!-- <a v-else-if="isCallInProgress && !isCurrentUserInCall" class="btn" role="button" href="#" @click.stop="acceptCall()">
+        <i class="bi bi-box-arrow-down-left" style="margin-right: 1rem;" />
+      </a> -->
       <a class="btn btn-danger" role="button" href="#" @click.stop="hangUpCall()">
         <i class="bi bi-x-lg" />
       </a>
@@ -49,13 +52,15 @@ export default {
 
   props: {
     currentUserId: { type: [String, Number], required: true },
-    room: { type: Object, required: true }
+    room: { type: Object, required: true },
+    textMessages: { type: Object, default: () => {} }
   },
 
   emits: [
     'accept-call',
     'hang-up-call',
-    'open-room'
+    'open-room',
+    'return-to-call'
   ],
 
   data() {
@@ -74,6 +79,9 @@ export default {
     },
     isCallInProgress() {
       return this.room.call.status === 1
+    },
+    isCurrentUserInCall() {
+      return this.room.call?.isCurrentUserInCall
     },
     callStatusClass() {
       if (this.isCallInProgress) {
@@ -106,6 +114,10 @@ export default {
 
     hangUpCall() {
       this.$emit('hang-up-call', this.room.call)
+    },
+
+    returnToCall() {
+      this.$emit('return-to-call')
     },
 
     openRoom() {

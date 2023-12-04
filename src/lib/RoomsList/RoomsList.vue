@@ -54,8 +54,10 @@
             v-if="fRoom.call"
 						:current-user-id="currentUserId"
             :room="fRoom"
+						:text-messages="textMessages"
             @accept-call="$emit('accept-call', $event)"
             @hang-up-call="$emit('hang-up-call', $event)"
+            @return-to-call="$emit('return-to-call', $event)"
           />
 					<room-content
             v-else
@@ -140,7 +142,8 @@ export default {
 		'fetch-room',
 		'fetch-more-rooms',
     'accept-call',
-    'hang-up-call'
+    'hang-up-call',
+    'return-to-call'
 	],
 
 	data() {

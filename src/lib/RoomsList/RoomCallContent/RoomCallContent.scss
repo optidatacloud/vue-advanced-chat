@@ -47,18 +47,20 @@
   align-items: center;
   justify-content: flex-start;
   padding: 1rem 0;  
+
+  a.btn {
+    text-decoration: none;
+    color: white !important;
+  }
+
+  .btn.btn-danger {
+    background: var(--bs-danger) !important;
+    padding: 1rem !important;
+    border-radius: 50% !important;
+    line-height: 0 !important;
+  }
 }
 
-a.btn {
-  text-decoration: none;
-  color: white !important;
-}
-
-.btn.btn-danger {
-  background: var(--bs-danger) !important;
-  padding: 1rem !important;
-  border-radius: 50% !important;
-}
 
 @keyframes pulse {
   0% {

@@ -36,9 +36,6 @@
       <a v-else-if="isCallInProgress && isCurrentUserInCall" class="btn" role="button" href="#" @click.stop="returnToCall()">
         <i class="bi bi-box-arrow-up-right" style="margin-right: 1rem;" />
       </a>
-      <!-- <a v-else-if="isCallInProgress && !isCurrentUserInCall" class="btn" role="button" href="#" @click.stop="acceptCall()">
-        <i class="bi bi-box-arrow-down-left" style="margin-right: 1rem;" />
-      </a> -->
       <a class="btn btn-danger" role="button" href="#" @click.stop="hangUpCall()">
         <i class="bi bi-x-lg" />
       </a>
@@ -78,10 +75,10 @@ export default {
       return this.room.call.status === 0
     },
     isCallInProgress() {
-      return this.room.call.status === 1
+      return this.room.call && this.room.call.status === 1
     },
     isCurrentUserInCall() {
-      return this.room.call?.isCurrentUserInCall
+      return this.room.call.isCurrentUserInCall
     },
     callStatusClass() {
       if (this.isCallInProgress) {

@@ -123,7 +123,7 @@
       <div v-if="isCallInProgress" class="vac-room-call-ongoing" @click="returnToCallClick">
         <div class="vac-room-call-ongoing-info">
           <span class="vac-room-call-ongoing-title">
-            {{ isCurrentUserInCall ? textMessages.ROOM_CALL_RETURN_TO_CALL : textMessages.ROOM_CALL_JOIN }}
+            {{ textMessages.ROOM_CALL_RETURN_TO_CALL ?? textMessages.ROOM_CALL_JOIN }}
           </span>
           <span class="vac-room-call-ongoing-duration">
             {{ callDuration ?? '--:--' }}
@@ -205,10 +205,7 @@ export default {
 			return text
 		},
     isCallInProgress() {
-      return this.call && this.call.isCallInProgress
-    },
-    isCurrentUserInCall() {
-      return this.call && this.call.isCurrentUserInCall
+      return this.call && this.call.status === 1
     }
 	},
 

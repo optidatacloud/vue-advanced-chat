@@ -146,6 +146,7 @@
 		<room-footer
 			:room="room"
 			:room-id="roomId"
+      :current-user-id="currentUserId"
 			:room-message="roomMessage"
 			:text-messages="textMessages"
 			:show-send-icon="showSendIcon"

@@ -13008,7 +13008,7 @@ const _sfc_main$l = {
       return text2;
     },
     isCallInProgress() {
-      return this.call && this.call.status === 1;
+      return this.call && this.call.isInProgress;
     }
   },
   watch: {
@@ -34474,7 +34474,7 @@ const _sfc_main$2 = {
       return this.messages.length && this.messagesLoadedTop;
     },
     isCallInProgress() {
-      return this.call && this.call.status === 1;
+      return this.call && this.call.isInProgress;
     }
   },
   watch: {

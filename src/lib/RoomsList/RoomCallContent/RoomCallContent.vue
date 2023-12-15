@@ -93,14 +93,15 @@ export default {
 
   watch: {
     isCallInProgress(value) {
-      if (value) {
-        this.updateCallDuration()
-        this.callInterval = setInterval(() => {
-          this.updateCallDuration()
-        }, 1000)
-      } else {
+      if (!value) {
         clearInterval(this.callInterval)
+        return
       }
+
+      this.updateCallDuration()
+      this.callInterval = setInterval(() => {
+        this.updateCallDuration()
+      }, 1000)
     }
   },
 

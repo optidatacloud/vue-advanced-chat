@@ -66,7 +66,7 @@ export default {
       })
     },
     attachmentOptionHandler(option) {
-      this.optionsOpened = false
+      this.closeOptions()
       this.$emit('attachment-picker-handler', option)
     }
   }

@@ -170,6 +170,7 @@
 			:dropped-files="droppedFiles"
 			:emoji-data-source="emojiDataSource"
 			:attachment-options="attachmentOptions"
+      :textarea-highlight="textareaHighlight"
 			@update-edited-message-id="editedMessageId = $event"
 			@edit-message="$emit('edit-message', $event)"
 			@send-message="$emit('send-message', $event)"
@@ -243,7 +244,8 @@ export default {
 		usernameOptions: { type: Object, required: true },
 		emojiDataSource: { type: String, default: undefined },
     attachmentOptions: { type: Array, required: true },
-    call: { type: Object, required: true }
+    call: { type: Object, required: true },
+    textareaHighlight: { type: Boolean, default: false }
 	},
 
 	emits: [

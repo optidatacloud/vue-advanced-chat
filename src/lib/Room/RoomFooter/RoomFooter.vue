@@ -4,7 +4,8 @@
 		id="room-footer"
 		class="vac-room-footer"
 		:class="{
-			'vac-app-box-shadow': shadowFooter
+			'vac-app-box-shadow': shadowFooter,
+      'vac-room-footer-highlight': textareaHighlight,
 		}"
 	>
 		<room-emojis
@@ -57,7 +58,7 @@
 			class="vac-box-footer"
 			:class="{ 'vac-box-footer-border': !files.length }"
 		>
-      <div v-if="!isRecording" class="vac-icon-textarea-left">
+      <div v-if="!isRecording && !textareaHighlight" class="vac-icon-textarea-left">
         <room-attachment-picker
           v-if="showFiles"
           :attachment-options="attachmentOptions"
@@ -67,6 +68,14 @@
             <slot name="paperclip-icon" />
           </template>
         </room-attachment-picker>
+      </div>
+
+      <div v-if="textareaHighlight" class="vac-icon-textarea-left">
+        <i
+          class="bi bi-x-lg"
+          style="cursor: pointer; color: #5c578f;"
+          @click="$emit('attachment-picker-handler', { cancel: true })"
+        />
       </div>
 
       <div v-if="isRecording" class="vac-audio-recorder-container">
@@ -96,10 +105,11 @@
         v-if="!isRecording"
         id="roomTextarea"
         ref="roomTextarea"
-        :placeholder="textMessages.TYPE_MESSAGE"
+        :placeholder="textareaHighlight ? textMessages.TYPE_HIGHLIGHT_MESSAGE: textMessages.TYPE_MESSAGE"
         class="vac-textarea"
         :class="{
-          'vac-textarea-outline': editedMessage._id
+          'vac-textarea-outline': editedMessage._id,
+          'vac-textarea-highlight': textareaHighlight,
         }"
         @input="onChangeInput"
         @keydown.esc="escapeTextarea"
@@ -109,6 +119,7 @@
         @keydown.tab="selectItem"
         @keydown.up="updateActiveUpOrDown($event, -1)"
         @keydown.down="updateActiveUpOrDown($event, 1)"
+        @keydown.ctrl.i="onCtrlIKeydown"
       />
 
       <div v-if="!isRecording" class="vac-icon-textarea">
@@ -122,7 +133,11 @@
           </slot>
         </div>
 
-        <div v-if="showEmojis" v-click-outside="() => (emojiOpened = false)" class="vac-emoji-picker">
+        <div
+          v-if="!isRecording && showEmojis && !textareaHighlight"
+          v-click-outside="() => (emojiOpened = false)"
+          class="vac-emoji-picker"
+        >
           <slot
             name="emoji-picker"
             v-bind="{ emojiOpened }"
@@ -163,7 +178,7 @@
           @change="onFileChange($event.target.files)"
         />
 
-        <div v-if="showAudio && isMessageEmpty">
+        <div v-if="(showAudio && isMessageEmpty) && !textareaHighlight">
           <div class="vac-svg-button" @click="toggleRecorder(true)">
             <slot name="microphone-icon">
               <svg-icon name="microphone" class="vac-icon-microphone" />
@@ -172,7 +187,7 @@
         </div>
 
         <div
-          v-if="showSendIcon && !isMessageEmpty"
+          v-if="(showSendIcon && !isMessageEmpty) || textareaHighlight"
           class="vac-svg-button"
           :class="{ 'vac-send-disabled': isMessageEmpty }"
           @click="sendMessage"
@@ -253,7 +268,8 @@ export default {
 		droppedFiles: { type: Array, default: null },
 		emojiDataSource: { type: String, default: undefined },
     attachmentOptions: { type: Array, required: true },
-    currentUserId: { type: String, default: '' }
+    currentUserId: { type: String, default: '' },
+    textareaHighlight: { type: Boolean, default: false }
 	},
 
 	emits: [
@@ -436,11 +452,18 @@ export default {
 			el.style.height = el.scrollHeight - padding * 2 + 'px'
 		},
 		escapeTextarea() {
-			if (this.filteredEmojis.length) this.filteredEmojis = []
-			else if (this.filteredUsersTag.length) this.filteredUsersTag = []
-			else if (this.filteredTemplatesText.length) {
+			if (this.filteredEmojis.length) {
+        this.filteredEmojis = []
+      } else if (this.filteredUsersTag.length) {
+        this.filteredUsersTag = []
+      } else if (this.filteredTemplatesText.length) {
 				this.filteredTemplatesText = []
-			} else this.resetMessage()
+			} else {
+        this.resetMessage()
+      }
+      this.$emit('attachment-picker-handler', {
+        cancel: true
+      })
 		},
 		onPasteImage(pasteEvent) {
 			const items = pasteEvent.clipboardData?.items
@@ -466,6 +489,10 @@ export default {
 				event.preventDefault()
 			}
 		},
+    onCtrlIKeydown() {
+      const aiOption = this.attachmentOptions.find(option => option.command === 'ai')
+      this.$emit('attachment-picker-handler', aiOption)
+    },
 		selectItem() {
 			if (this.filteredEmojis.length) {
 				this.selectEmojiItem = true
@@ -648,6 +675,9 @@ export default {
 				})
 			}
 
+      this.$emit('attachment-picker-handler', {
+        cancel: true
+      })
 			this.resetMessage(true)
 		},
 		editMessage(message) {

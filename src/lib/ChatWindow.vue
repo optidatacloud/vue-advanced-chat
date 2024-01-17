@@ -76,6 +76,7 @@
 				:emoji-data-source="emojiDataSource"
         :attachment-options="attachmentOptionsCasted"
         :call="callCasted"
+        :textarea-highlight="textareaHighlightCasted"
 				@toggle-rooms-list="toggleRoomsList"
 				@room-info="roomInfo"
 				@fetch-messages="fetchMessages"
@@ -221,7 +222,8 @@ export default {
 		emojiDataSource: { type: String, default: undefined },
 		roomsNotFoundMessage: { type: String, default: '' },
     attachmentOptions: { type: Array, default: () => [] },
-    call: { type: [Object, String], default: () => ({}) }
+    call: { type: [Object, String], default: () => ({}) },
+    textareaHighlight: { type: Boolean, default: false }
 	},
 
 	emits: [
@@ -407,6 +409,9 @@ export default {
     },
     callCasted() {
       return this.castObject(this.call)
+    },
+    textareaHighlightCasted() {
+      return this.castBoolean(this.textareaHighlight)
     }
 	},
 

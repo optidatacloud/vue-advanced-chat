@@ -268,6 +268,7 @@ Otherwise, you need to pass those props as strings. For example: `[messages]="JS
 | `styles`(29)                        | [String, Object] | -        | (26)                                                                                                              |
 | `emoji-data-source`                 | String           | -        | `https://cdn.jsdelivr.net/npm/emoji-picker-element-data@%5E1/en/emojibase/data.json`                              |
 | `call`(31)                          | String           | -        |                                             |
+| `textarea-hightlight`               | Boolean          | -        |                                             |  
 
 **(1)** `current-user-id` is required to display UI and trigger actions according to the user using the chat (ex: messages position on the right, etc.)
 
@@ -510,6 +511,8 @@ styles="{
 ```
 
 **(31)** `call` indicates the current ongoing call. If set, the chat interface will change to display call-related ui elements.
+
+**(32)** `textarea-highlight`
 
 ## Props data structure
 

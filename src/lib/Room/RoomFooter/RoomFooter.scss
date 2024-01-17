@@ -19,8 +19,9 @@
 	line-height: 20px;
 	outline: 0;
 	resize: none;
-	border-radius: 20px;
+	border-radius: 10px;
 	padding: 12px 16px;
+	padding-left: 4rem !important;
 	box-sizing: content-box;
 	font-size: 16px;
 	background: var(--chat-bg-color-input);
@@ -46,6 +47,7 @@
 	display: flex;
 	align-items: center;
 
+	i,
 	svg,
 	.vac-wrapper {
 		margin: 0 7px;
@@ -61,18 +63,26 @@
 	align-items: center;
 	margin-right: 5px;
 
+	i,
 	svg,
 	.vac-wrapper {
 		margin: 0 7px;
 	}
+}
 
-	.vac-icon-microphone {
-		fill: var(--chat-icon-color-microphone);
-		margin: 0 7px;
-	}
+.vac-icon-microphone {
+	fill: var(--chat-icon-color-microphone);
+	margin: 0 7px;
+}
+
+.vac-audio-recorder-container {
+	min-height: 44px;
+	display: flex;
+	justify-content: end;
+	align-items: center;
 
 	.vac-dot-audio-record {
-		height: 15px;
+		height: 44px;
 		width: 15px;
 		border-radius: 50%;
 		background-color: var(--chat-message-bg-color-audio-record);
@@ -103,7 +113,7 @@
 	.vac-icon-audio-confirm {
 		min-height: $audio-icon-size;
 		min-width: $audio-icon-size;
-
+		i,
 		svg {
 			min-height: $audio-icon-size;
 			min-width: $audio-icon-size;
@@ -135,6 +145,13 @@
 	transform: none !important;
 }
 
+.vac-emoji-picker {
+	position: absolute;
+	left: 4.2rem;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
 @media only screen and (max-width: 768px) {
 	.vac-room-footer {
 		width: 100%;
@@ -150,6 +167,7 @@
 
 	.vac-textarea {
 		padding: 7px;
+		padding-left: 4rem;
 		line-height: 18px;
 
 		&::placeholder {
@@ -159,6 +177,7 @@
 
 	.vac-icon-textarea,
 	.vac-icon-textarea-left {
+		i,
 		svg,
 		.vac-wrapper {
 			margin: 0 5px !important;

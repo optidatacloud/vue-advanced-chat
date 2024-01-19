@@ -151,9 +151,21 @@
 	left: 4rem;
 }
 
+.vac-icon-textarea-highlitght {
+	position: absolute;
+	left: 4rem;
+	top: 50%;
+	transform: translateY(-50%);
+	pointer-events: none;
+
+	i {
+		color: #5c578f;
+	}
+}
+
 .vac-room-footer-highlight {
 	.vac-textarea {
-		padding-left: 16px;
+		padding-left: 2.8rem;
 	}
 
 	--chat-icon-color-send: #7367f0;

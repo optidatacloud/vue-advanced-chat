@@ -78,6 +78,10 @@
         />
       </div>
 
+      <div v-if="textareaHighlight" class="vac-icon-textarea-highlitght">
+        <i class="bi bi-magic" />
+      </div>
+
       <div v-if="isRecording" class="vac-audio-recorder-container">
         <div class="vac-svg-button vac-icon-audio-stop" @click="stopRecorder">
           <slot name="audio-stop-icon">

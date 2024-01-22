@@ -25,9 +25,9 @@
 				@add-room="addRoom"
 				@search-room="searchRoom"
 				@room-action-handler="roomActionHandler"
-        @accept-call="acceptCallHandler"
-        @hang-up-call="hangUpCallHandler"
-        @return-to-call="returnToCallHandler"
+				@accept-call="acceptCallHandler"
+				@hang-up-call="hangUpCallHandler"
+				@return-to-call="returnToCallHandler"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />
@@ -74,8 +74,9 @@
 				:templates-text="templatesTextCasted"
 				:username-options="usernameOptionsCasted"
 				:emoji-data-source="emojiDataSource"
-        :attachment-options="attachmentOptionsCasted"
-        :call="callCasted"
+				:attachment-options="attachmentOptionsCasted"
+				:call="callCasted"
+				:custom-files="customFilesCasted"
 				@toggle-rooms-list="toggleRoomsList"
 				@room-info="roomInfo"
 				@fetch-messages="fetchMessages"
@@ -93,9 +94,9 @@
 				@send-message-reaction="sendMessageReaction"
 				@typing-message="typingMessage"
 				@textarea-action-handler="textareaActionHandler"
-        @message-reaction-click="messageReactionClick"
-        @attachment-picker-handler="attachmentPickerHandler"
-        @return-to-call="returnToCallHandler"
+				@message-reaction-click="messageReactionClick"
+				@attachment-picker-handler="attachmentPickerHandler"
+				@return-to-call="returnToCallHandler"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />
@@ -220,8 +221,9 @@ export default {
 		},
 		emojiDataSource: { type: String, default: undefined },
 		roomsNotFoundMessage: { type: String, default: '' },
-    attachmentOptions: { type: Array, default: () => [] },
-    call: { type: [Object, String], default: () => ({}) }
+		attachmentOptions: { type: Array, default: () => [] },
+		call: { type: [Object, String], default: () => ({}) },
+		customFiles: { type: Array, default: () => [] },
 	},
 
 	emits: [
@@ -247,10 +249,10 @@ export default {
 		'room-action-handler',
 		'message-selection-action-handler',
 		'message-reaction-click',
-    'attachment-picker-handler',
-    'accept-call',
-    'hang-up-call',
-    'return-to-call'
+		'attachment-picker-handler',
+		'accept-call',
+		'hang-up-call',
+		'return-to-call'
 	],
 
 	data() {
@@ -402,12 +404,15 @@ export default {
 		usernameOptionsCasted() {
 			return this.castObject(this.usernameOptions)
 		},
-    attachmentOptionsCasted() {
-      return this.castArray(this.attachmentOptions)
-    },
-    callCasted() {
-      return this.castObject(this.call)
-    }
+		attachmentOptionsCasted() {
+			return this.castArray(this.attachmentOptions)
+		},
+		callCasted() {
+			return this.castObject(this.call)
+		},
+		customFilesCasted() {
+			return this.castArray(this.customFiles)
+		},
 	},
 
 	watch: {

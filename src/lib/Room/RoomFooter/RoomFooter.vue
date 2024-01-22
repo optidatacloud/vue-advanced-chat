@@ -223,7 +223,7 @@ export default {
 		RoomUsersTag,
 		RoomEmojis,
 		RoomTemplatesText,
-    RoomAttachmentPicker
+    	RoomAttachmentPicker
 	},
 
 	directives: {
@@ -255,8 +255,9 @@ export default {
 		initEditMessage: { type: Object, default: null },
 		droppedFiles: { type: Array, default: null },
 		emojiDataSource: { type: String, default: undefined },
-    attachmentOptions: { type: Array, required: true },
-    currentUserId: { type: String, default: '' }
+		attachmentOptions: { type: Array, required: true },
+		currentUserId: { type: String, default: '' },
+		customFiles: { type: Array, default: [] },
 	},
 
 	emits: [
@@ -265,7 +266,7 @@ export default {
 		'update-edited-message-id',
 		'textarea-action-handler',
 		'typing-message',
-    'attachment-picker-handler'
+    	'attachment-picker-handler'
 	],
 
 	data() {
@@ -350,6 +351,12 @@ export default {
 		droppedFiles(val) {
 			if (val) {
 				this.onFileChange(val)
+			}
+		},
+		customFiles(val) {
+			console.log('chamou o watcher', val);
+			if (val.length) {
+				this.files.push(...val);
 			}
 		}
 	},
@@ -523,16 +530,18 @@ export default {
 			this.$refs.file.value = ''
 			this.$refs.file.click()
 		},
-    attachmentPickerHandler(option) {
-      this.$refs.file.accept = option.accepts ?? this.acceptedFiles
-      if (option.capture || this.captureFiles) {
-        this.$refs.file.capture = option.capture ?? this.captureFiles
-      } else {
-        this.$refs.file.removeAttribute('capture')
-      }
-      this.launchFilePicker()
-      this.$emit('attachment-picker-handler', option)
-    },
+		attachmentPickerHandler(option) {
+			this.$refs.file.accept = option.accepts ?? this.acceptedFiles
+			if (option.capture || this.captureFiles) {
+				this.$refs.file.capture = option.capture ?? this.captureFiles
+			} else {
+				this.$refs.file.removeAttribute('capture')
+			}
+			if (option.launchFilePicker) {
+				this.launchFilePicker()
+			}
+			this.$emit('attachment-picker-handler', option)
+		},
 		async onFileChange(files) {
 			this.fileDialog = true
 			this.focusTextarea()
@@ -540,8 +549,8 @@ export default {
 			for (const file of Array.from(files)) {
 				const fileURL = URL.createObjectURL(file)
 				const typeIndex = file.name.lastIndexOf('.')
-        const fileType = file?.type.length ? file.type : 'text/plain'
-        const hasExtension = typeIndex !== -1
+				const fileType = file?.type.length ? file.type : 'text/plain'
+				const hasExtension = typeIndex !== -1
 				this.files.push({
 					loading: true,
 					name: hasExtension ? file.name.substring(0, typeIndex) : file.name,
@@ -561,8 +570,8 @@ export default {
 				}
 			}
 
-      setTimeout(() => (this.fileDialog = false), 500)
-		},
+      	setTimeout(() => (this.fileDialog = false), 500)
+	},
 		removeFile(index) {
 			this.files.splice(index, 1)
 			this.focusTextarea()

@@ -212,6 +212,8 @@ import Recorder from '../../../utils/recorder'
 import { detectChrome } from '../../../utils/browser-detection'
 import { detectMobile } from '../../../utils/mobile-detection'
 
+const SOURCE_USER_FILE_SYSTEM = 'SOURCE_USER_FILE_SYSTEM';
+
 export default {
 	name: 'RoomFooter',
 
@@ -557,7 +559,8 @@ export default {
 					size: file.size,
 					type: fileType,
 					extension: hasExtension ? file.name.substring(typeIndex + 1) : '',
-					localUrl: fileURL
+					localUrl: fileURL,
+					source: SOURCE_USER_FILE_SYSTEM,
 				})
 
 				const blobFile = await fetch(fileURL).then(res => res.blob())
@@ -594,7 +597,8 @@ export default {
 						duration: record.duration,
 						type: record.blob.type,
 						audio: true,
-						localUrl: URL.createObjectURL(record.blob)
+						localUrl: URL.createObjectURL(record.blob),
+						source: SOURCE_USER_FILE_SYSTEM,
 					})
 
 					this.recorder = this.initRecorder()

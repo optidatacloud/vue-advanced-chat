@@ -72,6 +72,8 @@ import SvgIcon from '../../../../../components/SvgIcon/SvgIcon'
 
 import { isImageFile, isVideoFile } from '../../../../../utils/media-file'
 
+const SOURCE_OPTIWORK_DRIVE = 'SOURCE_OPTIWORK_DRIVE';
+
 export default {
 	name: 'RoomFiles',
 	components: {
@@ -94,7 +96,7 @@ export default {
 			return isVideoFile(this.file)
 		},
 		isFileFromOptiwork() {
-			return this.file.source === 'optiwork-drive'
+			return this.file.source === SOURCE_OPTIWORK_DRIVE
 		}
 	}
 }

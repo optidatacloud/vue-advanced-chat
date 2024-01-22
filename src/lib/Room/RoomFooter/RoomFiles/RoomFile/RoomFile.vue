@@ -16,7 +16,21 @@
 		</div>
 
 		<div
-			v-if="isImage"
+			v-if="isFileFromOptiwork"
+			class="vac-optiwork-file"
+			:title="file.name"
+		>
+			<div>
+				<i :class="file.icon" class="vac-optiwork-file-icon"></i>
+			</div>
+
+			<div class="vac-optiwork-file-name vac-text-ellipsis">
+				{{ file.name }}
+			</div>
+		</div>
+
+		<div
+			v-else-if="isImage"
 			class="vac-message-image"
 			:class="{ 'vac-blur-loading': file.loading }"
 			:style="{
@@ -78,6 +92,9 @@ export default {
 		},
 		isVideo() {
 			return isVideoFile(this.file)
+		},
+		isFileFromOptiwork() {
+			return this.file.source === 'optiwork-drive'
 		}
 	}
 }

@@ -171,12 +171,15 @@
 			:emoji-data-source="emojiDataSource"
 			:attachment-options="attachmentOptions"
 			:custom-files="customFiles"
+			:allow-sending-custom-files="allowSendingCustomFiles"
 			@update-edited-message-id="editedMessageId = $event"
 			@edit-message="$emit('edit-message', $event)"
 			@send-message="$emit('send-message', $event)"
 			@typing-message="$emit('typing-message', $event)"
 			@textarea-action-handler="$emit('textarea-action-handler', $event)"
       		@attachment-picker-handler="$emit('attachment-picker-handler', $event)"
+			@request-permission-to-send-custom-files="$emit('request-permission-to-send-custom-files', $event)"
+			@custom-file-removed="$emit('custom-file-removed', $event)"
 		>
 			<template v-for="(idx, name) in $slots" #[name]="data">
 				<slot :name="name" v-bind="data" />
@@ -246,6 +249,7 @@ export default {
 		attachmentOptions: { type: Array, required: true },
 		call: { type: Object, required: true },
 		customFiles: { type: Array, required: false },
+		allowSendingCustomFiles: { type: Boolean, default: null },
 	},
 
 	emits: [
@@ -268,6 +272,8 @@ export default {
 		'message-reaction-click',
 		'attachment-picker-handler',
 		'return-to-call',
+		'request-permission-to-send-custom-files',
+		'custom-file-removed',
 	],
 
 	data() {

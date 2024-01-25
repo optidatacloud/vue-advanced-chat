@@ -212,7 +212,11 @@ import Recorder from '../../../utils/recorder'
 import { detectChrome } from '../../../utils/browser-detection'
 import { detectMobile } from '../../../utils/mobile-detection'
 
+/**
+ * Constants defined on File model on Chat backend
+ */
 const SOURCE_USER_FILE_SYSTEM = 'SOURCE_USER_FILE_SYSTEM';
+const SOURCE_OPTIWORK_DRIVE = 'SOURCE_OPTIWORK_DRIVE';
 
 export default {
 	name: 'RoomFooter',
@@ -260,6 +264,7 @@ export default {
 		attachmentOptions: { type: Array, required: true },
 		currentUserId: { type: String, default: '' },
 		customFiles: { type: Array, default: [] },
+		allowSendingCustomFiles: { type: Boolean, default: null },
 	},
 
 	emits: [
@@ -268,7 +273,9 @@ export default {
 		'update-edited-message-id',
 		'textarea-action-handler',
 		'typing-message',
-    	'attachment-picker-handler'
+    	'attachment-picker-handler',
+		'request-permission-to-send-custom-files',
+		'custom-file-removed',
 	],
 
 	data() {
@@ -356,10 +363,25 @@ export default {
 			}
 		},
 		customFiles(val) {
-			console.log('chamou o watcher', val);
 			if (val.length) {
-				this.files.push(...val);
+				this.files = this.mergeFiles(this.files, val);
+				return;
 			}
+		},
+		allowSendingCustomFiles(val) {
+			if (val == 'true') {
+				this.sendMessage();
+				return;
+			}
+			if (val == 'false') {
+				this.resetMessage();
+				return;
+			}
+			/**
+			 * any other value means user not allow nor
+			 * decline sending custom files, in this
+			 * case does nothing.
+			 */
 		}
 	},
 
@@ -407,6 +429,12 @@ export default {
 	},
 
 	methods: {
+		mergeFiles(files, customFiles) {
+			const newCustomFiles = customFiles.filter(
+				customFile => !files.some(file => file.id === customFile.id)
+			);
+			return [...files, ...newCustomFiles];
+		},
 		getTextareaRef() {
 			return this.$refs.roomTextarea
 		},
@@ -576,8 +604,12 @@ export default {
       	setTimeout(() => (this.fileDialog = false), 500)
 	},
 		removeFile(index) {
+			const removedFile = this.files[index]
 			this.files.splice(index, 1)
 			this.focusTextarea()
+			if (removedFile.source === SOURCE_OPTIWORK_DRIVE) {
+				this.$emit('custom-file-removed', [removedFile])
+			}
 		},
 		toggleRecorder(recording) {
 			this.isRecording = recording
@@ -622,6 +654,28 @@ export default {
 			this.$emit('textarea-action-handler', this.message)
 		},
 		sendMessage() {
+			/**
+			 * null means user not allow nor decline sending
+			 * custom files, in this case request user
+			 * permission
+			 */
+			const mustRequestUserToSendCustomFiles = this.allowSendingCustomFiles === null;
+			const hasCustomFiles = this.customFiles.length > 0;
+			if (hasCustomFiles && mustRequestUserToSendCustomFiles) {
+				this.$emit('request-permission-to-send-custom-files', { ...this.room });
+				return;
+			}
+
+			/**
+			 * false means user decline sending custom files,
+			 * in this case reset message
+			 */
+			const userDeclineSendingCustomFiles = this.allowSendingCustomFiles === false;
+			if (hasCustomFiles && userDeclineSendingCustomFiles) {
+				this.resetMessage();
+				return;
+			}
+
 			let message = this.message.trim()
 
 			if (!this.files.length && !message) return
@@ -845,6 +899,7 @@ export default {
 			this.files = []
 			this.emojiOpened = false
 			this.preventKeyboardFromClosing()
+			this.$emit('custom-file-removed', this.customFiles);
 
 			if (this.textareaAutoFocus || !initRoom) {
 				setTimeout(() => this.focusTextarea(disableMobileFocus))

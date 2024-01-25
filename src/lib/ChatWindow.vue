@@ -76,8 +76,8 @@
 				:emoji-data-source="emojiDataSource"
 				:attachment-options="attachmentOptionsCasted"
 				:call="callCasted"
-				:custom-files="customFilesCasted"
-				:allow-sending-custom-files="allowSendingCustomFiles"
+				:external-files="externalFilesCasted"
+				:allow-sending-external-files="allowSendingExternalFiles"
 				@toggle-rooms-list="toggleRoomsList"
 				@room-info="roomInfo"
 				@fetch-messages="fetchMessages"
@@ -98,8 +98,8 @@
 				@message-reaction-click="messageReactionClick"
 				@attachment-picker-handler="attachmentPickerHandler"
 				@return-to-call="returnToCallHandler"
-				@request-permission-to-send-custom-files="$emit('request-permission-to-send-custom-files', $event)"
-				@custom-file-removed="$emit('custom-file-removed', $event)"
+				@request-permission-to-send-external-files="$emit('request-permission-to-send-external-files', $event)"
+				@external-files-removed="$emit('external-files-removed', $event)"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />
@@ -226,8 +226,8 @@ export default {
 		roomsNotFoundMessage: { type: String, default: '' },
 		attachmentOptions: { type: Array, default: () => [] },
 		call: { type: [Object, String], default: () => ({}) },
-		customFiles: { type: Array, default: () => [] },
-		allowSendingCustomFiles: { type: Boolean, default: null },
+		externalFiles: { type: Array, default: () => [] },
+		allowSendingExternalFiles: { type: Boolean, default: null },
 	},
 
 	emits: [
@@ -257,8 +257,8 @@ export default {
 		'accept-call',
 		'hang-up-call',
 		'return-to-call',
-		'request-permission-to-send-custom-files',
-		'custom-file-removed',
+		'request-permission-to-send-external-files',
+		'external-files-removed',
 	],
 
 	data() {
@@ -416,8 +416,8 @@ export default {
 		callCasted() {
 			return this.castObject(this.call)
 		},
-		customFilesCasted() {
-			return this.castArray(this.customFiles)
+		externalFilesCasted() {
+			return this.castArray(this.externalFiles)
 		},
 	},
 

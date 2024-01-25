@@ -170,16 +170,16 @@
 			:dropped-files="droppedFiles"
 			:emoji-data-source="emojiDataSource"
 			:attachment-options="attachmentOptions"
-			:custom-files="customFiles"
-			:allow-sending-custom-files="allowSendingCustomFiles"
+			:external-files="externalFiles"
+			:allow-sending-external-files="allowSendingExternalFiles"
 			@update-edited-message-id="editedMessageId = $event"
 			@edit-message="$emit('edit-message', $event)"
 			@send-message="$emit('send-message', $event)"
 			@typing-message="$emit('typing-message', $event)"
 			@textarea-action-handler="$emit('textarea-action-handler', $event)"
       		@attachment-picker-handler="$emit('attachment-picker-handler', $event)"
-			@request-permission-to-send-custom-files="$emit('request-permission-to-send-custom-files', $event)"
-			@custom-file-removed="$emit('custom-file-removed', $event)"
+			@request-permission-to-send-external-files="$emit('request-permission-to-send-external-files', $event)"
+			@external-files-removed="$emit('external-files-removed', $event)"
 		>
 			<template v-for="(idx, name) in $slots" #[name]="data">
 				<slot :name="name" v-bind="data" />
@@ -248,8 +248,8 @@ export default {
 		emojiDataSource: { type: String, default: undefined },
 		attachmentOptions: { type: Array, required: true },
 		call: { type: Object, required: true },
-		customFiles: { type: Array, required: false },
-		allowSendingCustomFiles: { type: Boolean, default: null },
+		externalFiles: { type: Array, required: false },
+		allowSendingExternalFiles: { type: Boolean, default: null },
 	},
 
 	emits: [
@@ -272,8 +272,8 @@ export default {
 		'message-reaction-click',
 		'attachment-picker-handler',
 		'return-to-call',
-		'request-permission-to-send-custom-files',
-		'custom-file-removed',
+		'request-permission-to-send-external-files',
+		'external-files-removed',
 	],
 
 	data() {

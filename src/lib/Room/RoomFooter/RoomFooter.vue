@@ -263,8 +263,8 @@ export default {
 		emojiDataSource: { type: String, default: undefined },
 		attachmentOptions: { type: Array, required: true },
 		currentUserId: { type: String, default: '' },
-		customFiles: { type: Array, default: [] },
-		allowSendingCustomFiles: { type: Boolean, default: null },
+		externalFiles: { type: Array, default: [] },
+		allowSendingExternalFiles: { type: Boolean, default: null },
 	},
 
 	emits: [
@@ -274,8 +274,8 @@ export default {
 		'textarea-action-handler',
 		'typing-message',
     	'attachment-picker-handler',
-		'request-permission-to-send-custom-files',
-		'custom-file-removed',
+		'request-permission-to-send-external-files',
+		'external-files-removed',
 	],
 
 	data() {
@@ -362,13 +362,13 @@ export default {
 				this.onFileChange(val)
 			}
 		},
-		customFiles(val) {
+		externalFiles(val) {
 			if (val.length) {
 				this.files = this.mergeFiles(this.files, val);
 				return;
 			}
 		},
-		allowSendingCustomFiles(val) {
+		allowSendingExternalFiles(val) {
 			if (val == 'true') {
 				this.sendMessage();
 				return;
@@ -429,11 +429,11 @@ export default {
 	},
 
 	methods: {
-		mergeFiles(files, customFiles) {
-			const newCustomFiles = customFiles.filter(
+		mergeFiles(files, externalFiles) {
+			const newExternalFiles = externalFiles.filter(
 				customFile => !files.some(file => file.id === customFile.id)
 			);
-			return [...files, ...newCustomFiles];
+			return [...files, ...newExternalFiles];
 		},
 		getTextareaRef() {
 			return this.$refs.roomTextarea
@@ -608,7 +608,7 @@ export default {
 			this.files.splice(index, 1)
 			this.focusTextarea()
 			if (removedFile.source === SOURCE_OPTIWORK_DRIVE) {
-				this.$emit('custom-file-removed', [removedFile])
+				this.$emit('external-files-removed', [removedFile])
 			}
 		},
 		toggleRecorder(recording) {
@@ -656,22 +656,22 @@ export default {
 		sendMessage() {
 			/**
 			 * null means user not allow nor decline sending
-			 * custom files, in this case request user
+			 * external files, in this case request user
 			 * permission
 			 */
-			const mustRequestUserToSendCustomFiles = this.allowSendingCustomFiles === null;
-			const hasCustomFiles = this.customFiles.length > 0;
-			if (hasCustomFiles && mustRequestUserToSendCustomFiles) {
-				this.$emit('request-permission-to-send-custom-files', { ...this.room });
+			const mustRequestUserToSendExternalFiles = this.allowSendingExternalFiles === null;
+			const hasExternalFiles = this.externalFiles.length > 0;
+			if (hasExternalFiles && mustRequestUserToSendExternalFiles) {
+				this.$emit('request-permission-to-send-external-files', { ...this.room });
 				return;
 			}
 
 			/**
-			 * false means user decline sending custom files,
+			 * false means user decline sending external files,
 			 * in this case reset message
 			 */
-			const userDeclineSendingCustomFiles = this.allowSendingCustomFiles === false;
-			if (hasCustomFiles && userDeclineSendingCustomFiles) {
+			const userDeclineSendingExternalFiles = this.allowSendingExternalFiles === false;
+			if (hasExternalFiles && userDeclineSendingExternalFiles) {
 				this.resetMessage();
 				return;
 			}
@@ -899,7 +899,7 @@ export default {
 			this.files = []
 			this.emojiOpened = false
 			this.preventKeyboardFromClosing()
-			this.$emit('custom-file-removed', this.customFiles);
+			this.$emit('external-files-removed', this.externalFiles);
 
 			if (this.textareaAutoFocus || !initRoom) {
 				setTimeout(() => this.focusTextarea(disableMobileFocus))

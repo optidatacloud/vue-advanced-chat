@@ -77,6 +77,7 @@
 				:attachment-options="attachmentOptionsCasted"
 				:call="callCasted"
 				:custom-files="customFilesCasted"
+				:allow-sending-custom-files="allowSendingCustomFiles"
 				@toggle-rooms-list="toggleRoomsList"
 				@room-info="roomInfo"
 				@fetch-messages="fetchMessages"
@@ -97,6 +98,8 @@
 				@message-reaction-click="messageReactionClick"
 				@attachment-picker-handler="attachmentPickerHandler"
 				@return-to-call="returnToCallHandler"
+				@request-permission-to-send-custom-files="$emit('request-permission-to-send-custom-files', $event)"
+				@custom-file-removed="$emit('custom-file-removed', $event)"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />
@@ -224,6 +227,7 @@ export default {
 		attachmentOptions: { type: Array, default: () => [] },
 		call: { type: [Object, String], default: () => ({}) },
 		customFiles: { type: Array, default: () => [] },
+		allowSendingCustomFiles: { type: Boolean, default: null },
 	},
 
 	emits: [
@@ -252,7 +256,9 @@ export default {
 		'attachment-picker-handler',
 		'accept-call',
 		'hang-up-call',
-		'return-to-call'
+		'return-to-call',
+		'request-permission-to-send-custom-files',
+		'custom-file-removed',
 	],
 
 	data() {
@@ -529,9 +535,9 @@ export default {
 		searchRoom(val) {
 			this.$emit('search-room', { value: val, roomId: this.room.roomId })
 		},
-    /**
-     * @deprecated The method should not be used. Use fetchMessagesTop instead.
-     */
+		/**
+		 * @deprecated The method should not be used. Use fetchMessagesTop instead.
+		 */
 		fetchMessages(options) {
 			this.$emit('fetch-messages', { room: this.room, options })
 		},
@@ -604,12 +610,12 @@ export default {
 			})
 		},
 
-    messageReactionClick(messageReaction) {
-      this.$emit('message-reaction-click', {
-        ...messageReaction,
-        roomId: this.room.roomId
-      })
-    },
+		messageReactionClick(messageReaction) {
+			this.$emit('message-reaction-click', {
+				...messageReaction,
+				roomId: this.room.roomId
+			})
+		},
 
 		typingMessage(message) {
 			this.$emit('typing-message', {
@@ -625,15 +631,15 @@ export default {
 			})
 		},
 
-    attachmentPickerHandler(option) {
-      this.$emit('attachment-picker-handler', {
-        option
-      })
-    },
+		attachmentPickerHandler(option) {
+			this.$emit('attachment-picker-handler', {
+				option
+			})
+		},
 
-    returnToCallHandler(call) {
-      this.$emit('return-to-call', call)
-    }
+		returnToCallHandler(call) {
+			this.$emit('return-to-call', call)
+		},
 	}
 }
 </script>

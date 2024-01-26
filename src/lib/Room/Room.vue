@@ -310,7 +310,7 @@ export default {
 			return this.messages.length && this.messagesLoadedTop
 		},
     isCallInProgress() {
-      return this.call && this.call.isInProgress
+      return this.call && this.call.statusInProgress
     }
 	},
 

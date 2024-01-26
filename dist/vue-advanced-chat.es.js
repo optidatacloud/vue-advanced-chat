@@ -12516,10 +12516,10 @@ const _sfc_main$n = {
       return this.currentUserId === String(this.room.call.userId);
     },
     isCallPending() {
-      return this.room.call.status === 0;
+      return this.room.call && this.room.call.statusPending;
     },
     isCallInProgress() {
-      return this.room.call && this.room.call.status === 1;
+      return this.room.call && this.room.call.statusInProgress;
     },
     isCurrentUserInCall() {
       return this.room.call.isCurrentUserInCall;
@@ -12631,7 +12631,7 @@ function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
       ])
     ]),
     createBaseVNode("div", _hoisted_10$4, [
-      !$options.isCurrentUserCaller && !$options.isCallInProgress && !$options.isCurrentUserInCall ? (openBlock(), createElementBlock("a", {
+      !$options.isCurrentUserCaller && !$options.isCurrentUserInCall ? (openBlock(), createElementBlock("a", {
         key: 0,
         class: "btn",
         role: "button",
@@ -12807,6 +12807,16 @@ const _sfc_main$m = {
       }
       this.$emit("fetch-more-rooms");
       this.loadingMoreRooms = true;
+    },
+    shouldShowCallContent: function(room) {
+      const hasCallEnded = room.call && room.call.statusEnded;
+      const canAcceptCall = room.call && !room.call.attendence.statusCallEnded && !room.call.attendence.statusDeclined;
+      console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", {
+        hasCallEnded,
+        canAcceptCall,
+        call: room.call
+      });
+      return !hasCallEnded && canAcceptCall;
     }
   }
 };
@@ -12886,12 +12896,12 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
               id: fRoom.roomId,
               key: fRoom.roomId,
               class: normalizeClass(["vac-room-item", {
-                "vac-room-selected": $data.selectedRoomId === fRoom.roomId && !fRoom.call,
-                "vac-ongoing-call": fRoom.call
+                "vac-room-selected": $data.selectedRoomId === fRoom.roomId && !$options.shouldShowCallContent(fRoom),
+                "vac-ongoing-call": $options.shouldShowCallContent(fRoom)
               }]),
               onClick: ($event) => $options.openRoom(fRoom)
             }, [
-              fRoom.call ? (openBlock(), createBlock(_component_room_call_content, {
+              $options.shouldShowCallContent(fRoom) ? (openBlock(), createBlock(_component_room_call_content, {
                 key: 0,
                 "current-user-id": $props.currentUserId,
                 room: fRoom,
@@ -13013,7 +13023,22 @@ const _sfc_main$l = {
       return text2;
     },
     isCallInProgress() {
-      return this.call && this.call.isInProgress;
+      return this.call && this.call.statusInProgress;
+    },
+    isAttendencePending() {
+      return this.call && this.call.attendence.statusPending;
+    },
+    isAttendenceAccepted() {
+      return this.call && this.call.attendence.statusAccepted;
+    },
+    isAttendenceDeclined() {
+      return this.call && this.call.attendence.statusDeclined;
+    },
+    isAttendenceMissed() {
+      return this.call && this.call.attendence.statusMissed;
+    },
+    isAttendenceCallEnded() {
+      return this.call && this.call.attendence.statusCallEnded;
     }
   },
   watch: {
@@ -13137,14 +13162,21 @@ const _hoisted_17$1 = {
 const _hoisted_18$1 = { class: "vac-menu-list" };
 const _hoisted_19$1 = ["onClick"];
 const _hoisted_20$1 = { class: "vac-room-call-ongoing-info" };
-const _hoisted_21$1 = { class: "vac-room-call-ongoing-title" };
-const _hoisted_22$1 = { class: "vac-room-call-ongoing-duration" };
+const _hoisted_21$1 = {
+  key: 0,
+  class: "vac-room-call-ongoing-title"
+};
+const _hoisted_22$1 = {
+  key: 1,
+  class: "vac-room-call-ongoing-title"
+};
+const _hoisted_23$1 = { class: "vac-room-call-ongoing-duration" };
 function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_svg_icon = resolveComponent("svg-icon");
   const _directive_click_outside = resolveDirective("click-outside");
   return openBlock(), createElementBlock("div", _hoisted_1$l, [
     renderSlot(_ctx.$slots, "room-header", {}, () => {
-      var _a, _b;
+      var _a;
       return [
         createBaseVNode("div", _hoisted_2$i, [
           createVNode(Transition, { name: "vac-slide-up" }, {
@@ -13255,8 +13287,9 @@ function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
           onClick: _cache[4] || (_cache[4] = (...args) => $options.returnToCallClick && $options.returnToCallClick(...args))
         }, [
           createBaseVNode("div", _hoisted_20$1, [
-            createBaseVNode("span", _hoisted_21$1, toDisplayString((_a = $props.textMessages.ROOM_CALL_RETURN_TO_CALL) != null ? _a : $props.textMessages.ROOM_CALL_JOIN), 1),
-            createBaseVNode("span", _hoisted_22$1, toDisplayString((_b = $data.callDuration) != null ? _b : "--:--"), 1)
+            $options.isAttendenceAccepted ? (openBlock(), createElementBlock("span", _hoisted_21$1, toDisplayString($props.textMessages.ROOM_CALL_RETURN_TO_CALL), 1)) : createCommentVNode("", true),
+            $options.isAttendencePending || $options.isAttendenceDeclined ? (openBlock(), createElementBlock("span", _hoisted_22$1, toDisplayString($props.textMessages.ROOM_CALL_JOIN), 1)) : createCommentVNode("", true),
+            createBaseVNode("span", _hoisted_23$1, toDisplayString((_a = $data.callDuration) != null ? _a : "--:--"), 1)
           ])
         ])) : createCommentVNode("", true)
       ];
@@ -34541,7 +34574,7 @@ const _sfc_main$2 = {
       return this.messages.length && this.messagesLoadedTop;
     },
     isCallInProgress() {
-      return this.call && this.call.isInProgress;
+      return this.call && this.call.statusInProgress;
     }
   },
   watch: {

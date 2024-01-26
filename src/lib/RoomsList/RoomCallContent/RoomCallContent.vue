@@ -30,9 +30,12 @@
     </div>
 
     <div class="vac-call-actions">
-      <a v-if="!isCurrentUserCaller && !isCallInProgress && !isCurrentUserInCall" class="btn" role="button" href="#" @click.stop="acceptCall()">
+      <a v-if="!isCurrentUserCaller && !isCurrentUserInCall" class="btn" role="button" href="#" @click.stop="acceptCall()">
         <i class="bi bi-telephone-fill" style="margin-right: 1rem;" />
       </a>
+      <!-- <a v-else-if="!isCurrentUserCaller && (isCallInProgress && !isCurrentUserInCall)" class="btn" role="button" href="#" @click.stop="acceptCall()">
+        <i class="bi bi-telephone-fill" style="margin-right: 1rem;" />
+      </a> -->
       <a v-else-if="isCallInProgress && isCurrentUserInCall" class="btn" role="button" href="#" @click.stop="returnToCall()">
         <i class="bi bi-box-arrow-up-right" style="margin-right: 1rem;" />
       </a>
@@ -72,10 +75,10 @@ export default {
       return this.currentUserId === String(this.room.call.userId)
     },
     isCallPending() {
-      return this.room.call.status === 0
+      return this.room.call && this.room.call.statusPending
     },
     isCallInProgress() {
-      return this.room.call && this.room.call.status === 1
+      return this.room.call && this.room.call.statusInProgress
     },
     isCurrentUserInCall() {
       return this.room.call.isCurrentUserInCall

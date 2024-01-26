@@ -12497,7 +12497,8 @@ const _sfc_main$n = {
     currentUserId: { type: [String, Number], required: true },
     room: { type: Object, required: true },
     textMessages: { type: Object, default: () => {
-    } }
+    } },
+    call: { type: Object, required: true }
   },
   emits: [
     "accept-call",
@@ -12513,16 +12514,18 @@ const _sfc_main$n = {
   },
   computed: {
     isCurrentUserCaller() {
-      return this.currentUserId === String(this.room.call.userId);
+      console.log("@@@@@@@@@@@@@@@@@@@@@ isCurrentUserCaller", { call: this.call, currentUserId: this.currentUserId });
+      return this.call && this.currentUserId === String(this.call.userId);
     },
     isCallPending() {
-      return this.room.call && this.room.call.statusPending;
+      return this.call && this.call.statusPending;
     },
     isCallInProgress() {
-      return this.room.call && this.room.call.statusInProgress;
+      return this.call && this.call.statusInProgress;
     },
     isCurrentUserInCall() {
-      return this.room.call.isCurrentUserInCall;
+      var _a;
+      return (_a = this.call) == null ? void 0 : _a.isCurrentUserInCall;
     },
     callStatusClass() {
       if (this.isCallInProgress) {
@@ -12548,10 +12551,10 @@ const _sfc_main$n = {
   },
   methods: {
     acceptCall() {
-      this.$emit("accept-call", this.room.call);
+      this.$emit("accept-call", this.call);
     },
     hangUpCall() {
-      this.$emit("hang-up-call", this.room.call);
+      this.$emit("hang-up-call", this.call);
     },
     returnToCall() {
       this.$emit("return-to-call");
@@ -12560,7 +12563,9 @@ const _sfc_main$n = {
       this.$emit("open-room");
     },
     updateCallDuration() {
-      const duration = (new Date() - new Date(this.room.call.startedAt)) / 1e3;
+      if (!this.call)
+        return;
+      const duration = (new Date() - new Date(this.call.startedAt)) / 1e3;
       const minutes = String(Math.floor(duration / 60)).padStart(2, "0");
       const seconds = String(Math.floor(duration % 60)).padStart(2, "0");
       this.callDuration = `${minutes}:${seconds}`;
@@ -12690,7 +12695,8 @@ const _sfc_main$m = {
     customSearchRoomEnabled: { type: [Boolean, String], default: false },
     roomActions: { type: Array, required: true },
     scrollDistance: { type: Number, required: true },
-    roomsNotFoundMessage: { type: String, required: true }
+    roomsNotFoundMessage: { type: String, required: true },
+    call: { type: Object, required: true }
   },
   emits: [
     "add-room",
@@ -12811,11 +12817,6 @@ const _sfc_main$m = {
     shouldShowCallContent: function(room) {
       const hasCallEnded = room.call && room.call.statusEnded;
       const canAcceptCall = room.call && !room.call.attendence.statusCallEnded && !room.call.attendence.statusDeclined;
-      console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", {
-        hasCallEnded,
-        canAcceptCall,
-        call: room.call
-      });
       return !hasCallEnded && canAcceptCall;
     }
   }
@@ -12905,11 +12906,12 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                 key: 0,
                 "current-user-id": $props.currentUserId,
                 room: fRoom,
+                call: $props.call,
                 "text-messages": $props.textMessages,
                 onAcceptCall: _cache[1] || (_cache[1] = ($event) => _ctx.$emit("accept-call", $event)),
                 onHangUpCall: _cache[2] || (_cache[2] = ($event) => _ctx.$emit("hang-up-call", $event)),
                 onReturnToCall: _cache[3] || (_cache[3] = ($event) => _ctx.$emit("return-to-call", $event))
-              }, null, 8, ["current-user-id", "room", "text-messages"])) : (openBlock(), createBlock(_component_room_content, {
+              }, null, 8, ["current-user-id", "room", "call", "text-messages"])) : (openBlock(), createBlock(_component_room_content, {
                 key: 1,
                 "current-user-id": $props.currentUserId,
                 room: fRoom,
@@ -13052,6 +13054,11 @@ const _sfc_main$l = {
       }
     },
     isCallInProgress(value) {
+      console.log("@@@@@@@@@@@@@@@@@@22 Watcher", {
+        value,
+        call: this.call,
+        room: this.room
+      });
       if (value) {
         this.setupCallDurationUpdate();
       } else {
@@ -13061,6 +13068,7 @@ const _sfc_main$l = {
   },
   mounted() {
     if (this.isCallInProgress) {
+      console.log("@@@@@@@@@@@@@@@@@@22 Mounted", this.isCallInProgress, this.call, this.room);
       this.setupCallDurationUpdate();
     }
   },
@@ -36119,6 +36127,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         "loading-rooms": $options.loadingRoomsCasted,
         "rooms-loaded": $options.roomsLoadedCasted,
         room: $data.room,
+        call: $options.callCasted,
         "room-actions": $options.roomActionsCasted,
         "custom-search-room-enabled": $props.customSearchRoomEnabled,
         "text-messages": $options.t,
@@ -36148,7 +36157,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
             ])
           };
         })
-      ]), 1032, ["current-user-id", "rooms", "loading-rooms", "rooms-loaded", "room", "room-actions", "custom-search-room-enabled", "text-messages", "show-search", "show-add-room", "show-rooms-list", "text-formatting", "link-options", "is-mobile", "scroll-distance", "rooms-not-found-message", "onFetchRoom", "onFetchMoreRooms", "onAddRoom", "onSearchRoom", "onRoomActionHandler", "onAcceptCall", "onHangUpCall", "onReturnToCall"])) : createCommentVNode("", true),
+      ]), 1032, ["current-user-id", "rooms", "loading-rooms", "rooms-loaded", "room", "call", "room-actions", "custom-search-room-enabled", "text-messages", "show-search", "show-add-room", "show-rooms-list", "text-formatting", "link-options", "is-mobile", "scroll-distance", "rooms-not-found-message", "onFetchRoom", "onFetchMoreRooms", "onAddRoom", "onSearchRoom", "onRoomActionHandler", "onAcceptCall", "onHangUpCall", "onReturnToCall"])) : createCommentVNode("", true),
       createVNode(_component_room, {
         "current-user-id": $props.currentUserId,
         rooms: $options.roomsCasted,

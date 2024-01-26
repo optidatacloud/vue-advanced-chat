@@ -238,6 +238,11 @@ export default {
 			}
 		},
     isCallInProgress(value) {
+      console.log('@@@@@@@@@@@@@@@@@@22 Watcher', {
+        value: value,
+        call: this.call,
+        room: this.room
+      })
       if (value) {
         this.setupCallDurationUpdate()
       } else {
@@ -247,6 +252,7 @@ export default {
 	},
   mounted() {
     if (this.isCallInProgress) {
+      console.log('@@@@@@@@@@@@@@@@@@22 Mounted', this.isCallInProgress, this.call, this.room)
       this.setupCallDurationUpdate()
     }
   },

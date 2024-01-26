@@ -53,7 +53,8 @@ export default {
   props: {
     currentUserId: { type: [String, Number], required: true },
     room: { type: Object, required: true },
-    textMessages: { type: Object, default: () => {} }
+    textMessages: { type: Object, default: () => {} },
+    call: { type: Object, required: true }
   },
 
   emits: [
@@ -72,16 +73,17 @@ export default {
 
   computed: {
     isCurrentUserCaller() {
-      return this.currentUserId === String(this.room.call.userId)
+      console.log('@@@@@@@@@@@@@@@@@@@@@ isCurrentUserCaller', {call: this.call, currentUserId: this.currentUserId})
+      return this.call && this.currentUserId === String(this.call.userId)
     },
     isCallPending() {
-      return this.room.call && this.room.call.statusPending
+      return this.call && this.call.statusPending
     },
     isCallInProgress() {
-      return this.room.call && this.room.call.statusInProgress
+      return this.call && this.call.statusInProgress
     },
     isCurrentUserInCall() {
-      return this.room.call.isCurrentUserInCall
+      return this.call?.isCurrentUserInCall
     },
     callStatusClass() {
       if (this.isCallInProgress) {
@@ -110,11 +112,11 @@ export default {
 
   methods: {
     acceptCall() {
-      this.$emit('accept-call', this.room.call)
+      this.$emit('accept-call', this.call)
     },
 
     hangUpCall() {
-      this.$emit('hang-up-call', this.room.call)
+      this.$emit('hang-up-call', this.call)
     },
 
     returnToCall() {
@@ -126,7 +128,9 @@ export default {
     },
 
     updateCallDuration() {
-      const duration = (new Date() - new Date(this.room.call.startedAt)) / 1000
+      if (!this.call) return
+
+      const duration = (new Date() - new Date(this.call.startedAt)) / 1000
       const minutes = String(Math.floor(duration / 60)).padStart(2, '0')
       const seconds = String(Math.floor(duration % 60)).padStart(2, '0')
       this.callDuration = `${minutes}:${seconds}`

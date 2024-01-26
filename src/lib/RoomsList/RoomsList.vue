@@ -54,6 +54,7 @@
             v-if="shouldShowCallContent(fRoom)"
 						:current-user-id="currentUserId"
             :room="fRoom"
+            :call="call"
 						:text-messages="textMessages"
             @accept-call="$emit('accept-call', $event)"
             @hang-up-call="$emit('hang-up-call', $event)"
@@ -131,7 +132,8 @@ export default {
 		customSearchRoomEnabled: { type: [Boolean, String], default: false },
 		roomActions: { type: Array, required: true },
 		scrollDistance: { type: Number, required: true },
-		roomsNotFoundMessage: { type: String, required: true }
+		roomsNotFoundMessage: { type: String, required: true },
+    call: { type: Object, required: true }
 	},
 
 	emits: [

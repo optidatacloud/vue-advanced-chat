@@ -133,7 +133,7 @@ export default {
 		roomActions: { type: Array, required: true },
 		scrollDistance: { type: Number, required: true },
 		roomsNotFoundMessage: { type: String, required: true },
-    call: { type: Object, required: true }
+		call: { type: Object, required: true }
 	},
 
 	emits: [
@@ -259,12 +259,12 @@ export default {
 			this.$emit('fetch-more-rooms')
 			this.loadingMoreRooms = true
 		},
-    shouldShowCallContent: function(room) {
-      const hasCallEnded = room.call && room.call.statusEnded
-      const canAcceptCall = room.call && !room.call.attendence.statusCallEnded && !room.call.attendence.statusDeclined
+		shouldShowCallContent: function(room) {
+			const hasCallEnded = room.call && room.call.statusEnded
+			const canAcceptCall = room.call && !room.call.attendence.statusCallEnded && !room.call.attendence.statusDeclined
 
-      return !hasCallEnded && canAcceptCall
-    }
+			return !hasCallEnded && canAcceptCall
+		}
 	}
 }
 </script>

@@ -26,9 +26,9 @@
 				@add-room="addRoom"
 				@search-room="searchRoom"
 				@room-action-handler="roomActionHandler"
-        @accept-call="acceptCallHandler"
-        @hang-up-call="hangUpCallHandler"
-        @return-to-call="returnToCallHandler"
+				@accept-call="acceptCallHandler"
+				@hang-up-call="hangUpCallHandler"
+				@return-to-call="returnToCallHandler"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />
@@ -75,8 +75,10 @@
 				:templates-text="templatesTextCasted"
 				:username-options="usernameOptionsCasted"
 				:emoji-data-source="emojiDataSource"
-        :attachment-options="attachmentOptionsCasted"
-        :call="callCasted"
+				:attachment-options="attachmentOptionsCasted"
+				:call="callCasted"
+				:external-files="externalFilesCasted"
+				:allow-sending-external-files="allowSendingExternalFiles"
 				@toggle-rooms-list="toggleRoomsList"
 				@room-info="roomInfo"
 				@fetch-messages="fetchMessages"
@@ -94,9 +96,11 @@
 				@send-message-reaction="sendMessageReaction"
 				@typing-message="typingMessage"
 				@textarea-action-handler="textareaActionHandler"
-        @message-reaction-click="messageReactionClick"
-        @attachment-picker-handler="attachmentPickerHandler"
-        @return-to-call="returnToCallHandler"
+				@message-reaction-click="messageReactionClick"
+				@attachment-picker-handler="attachmentPickerHandler"
+				@return-to-call="returnToCallHandler"
+				@request-permission-to-send-external-files="$emit('request-permission-to-send-external-files', $event)"
+				@external-files-removed="$emit('external-files-removed', $event)"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />
@@ -221,8 +225,10 @@ export default {
 		},
 		emojiDataSource: { type: String, default: undefined },
 		roomsNotFoundMessage: { type: String, default: '' },
-    attachmentOptions: { type: Array, default: () => [] },
-    call: { type: [Object, String], default: () => ({}) }
+		attachmentOptions: { type: Array, default: () => [] },
+		call: { type: [Object, String], default: () => ({}) },
+		externalFiles: { type: Array, default: () => [] },
+		allowSendingExternalFiles: { type: Boolean, default: null },
 	},
 
 	emits: [
@@ -248,10 +254,12 @@ export default {
 		'room-action-handler',
 		'message-selection-action-handler',
 		'message-reaction-click',
-    'attachment-picker-handler',
-    'accept-call',
-    'hang-up-call',
-    'return-to-call'
+		'attachment-picker-handler',
+		'accept-call',
+		'hang-up-call',
+		'return-to-call',
+		'request-permission-to-send-external-files',
+		'external-files-removed',
 	],
 
 	data() {
@@ -403,12 +411,15 @@ export default {
 		usernameOptionsCasted() {
 			return this.castObject(this.usernameOptions)
 		},
-    attachmentOptionsCasted() {
-      return this.castArray(this.attachmentOptions)
-    },
-    callCasted() {
-      return this.castObject(this.call)
-    }
+		attachmentOptionsCasted() {
+			return this.castArray(this.attachmentOptions)
+		},
+		callCasted() {
+			return this.castObject(this.call)
+		},
+		externalFilesCasted() {
+			return this.castArray(this.externalFiles)
+		},
 	},
 
 	watch: {
@@ -525,9 +536,9 @@ export default {
 		searchRoom(val) {
 			this.$emit('search-room', { value: val, roomId: this.room.roomId })
 		},
-    /**
-     * @deprecated The method should not be used. Use fetchMessagesTop instead.
-     */
+		/**
+		 * @deprecated The method should not be used. Use fetchMessagesTop instead.
+		 */
 		fetchMessages(options) {
 			this.$emit('fetch-messages', { room: this.room, options })
 		},
@@ -600,12 +611,12 @@ export default {
 			})
 		},
 
-    messageReactionClick(messageReaction) {
-      this.$emit('message-reaction-click', {
-        ...messageReaction,
-        roomId: this.room.roomId
-      })
-    },
+		messageReactionClick(messageReaction) {
+			this.$emit('message-reaction-click', {
+				...messageReaction,
+				roomId: this.room.roomId
+			})
+		},
 
 		typingMessage(message) {
 			this.$emit('typing-message', {
@@ -621,15 +632,15 @@ export default {
 			})
 		},
 
-    attachmentPickerHandler(option) {
-      this.$emit('attachment-picker-handler', {
-        option
-      })
-    },
+		attachmentPickerHandler(option) {
+			this.$emit('attachment-picker-handler', {
+				option
+			})
+		},
 
-    returnToCallHandler(call) {
-      this.$emit('return-to-call', call)
-    }
+		returnToCallHandler(call) {
+			this.$emit('return-to-call', call)
+		},
 	}
 }
 </script>

@@ -23,7 +23,7 @@
         </i>
         <i v-else class="vac-text-last" style="color: #cccccc;">
           <span class="vac-call-timer">
-            {{ callDuration ?? '--:--' }}
+            {{ callDuration ?? textMessages.ROOM_CALL_ONGOING }}
           </span>
         </i>
       </div>
@@ -33,9 +33,9 @@
       <a v-if="!isCurrentUserCaller && !isCurrentUserInCall" class="btn" role="button" href="#" @click.stop="acceptCall()">
         <i class="bi bi-telephone-fill" style="margin-right: 1rem;" />
       </a>
-      <!-- <a v-else-if="!isCurrentUserCaller && (isCallInProgress && !isCurrentUserInCall)" class="btn" role="button" href="#" @click.stop="acceptCall()">
-        <i class="bi bi-telephone-fill" style="margin-right: 1rem;" />
-      </a> -->
+      <a v-else-if="isCallInProgress && !isCurrentUserInCall" class="btn" role="button" href="#" @click.stop="returnToCall()">
+        <i class="bi bi-box-arrow-right" style="margin-right: 1rem;" />
+      </a>
       <a v-else-if="isCallInProgress && isCurrentUserInCall" class="btn" role="button" href="#" @click.stop="returnToCall()">
         <i class="bi bi-box-arrow-up-right" style="margin-right: 1rem;" />
       </a>
@@ -73,7 +73,6 @@ export default {
 
   computed: {
     isCurrentUserCaller() {
-      console.log('@@@@@@@@@@@@@@@@@@@@@ isCurrentUserCaller', {call: this.call, currentUserId: this.currentUserId})
       return this.call && this.currentUserId === String(this.call.userId)
     },
     isCallPending() {

@@ -12514,7 +12514,6 @@ const _sfc_main$n = {
   },
   computed: {
     isCurrentUserCaller() {
-      console.log("@@@@@@@@@@@@@@@@@@@@@ isCurrentUserCaller", { call: this.call, currentUserId: this.currentUserId });
       return this.call && this.currentUserId === String(this.call.userId);
     },
     isCallPending() {
@@ -12598,21 +12597,28 @@ const _hoisted_12$3 = [
   _hoisted_11$3
 ];
 const _hoisted_13$1 = /* @__PURE__ */ createBaseVNode("i", {
-  class: "bi bi-box-arrow-up-right",
+  class: "bi bi-box-arrow-right",
   style: { "margin-right": "1rem" }
 }, null, -1);
 const _hoisted_14$1 = [
   _hoisted_13$1
 ];
-const _hoisted_15$1 = /* @__PURE__ */ createBaseVNode("i", { class: "bi bi-x-lg" }, null, -1);
+const _hoisted_15$1 = /* @__PURE__ */ createBaseVNode("i", {
+  class: "bi bi-box-arrow-up-right",
+  style: { "margin-right": "1rem" }
+}, null, -1);
 const _hoisted_16$1 = [
   _hoisted_15$1
+];
+const _hoisted_17$2 = /* @__PURE__ */ createBaseVNode("i", { class: "bi bi-x-lg" }, null, -1);
+const _hoisted_18$2 = [
+  _hoisted_17$2
 ];
 function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
   var _a;
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(["vac-room-call-container", [$options.callStatusClass]]),
-    onClick: _cache[3] || (_cache[3] = ($event) => $options.openRoom())
+    onClick: _cache[4] || (_cache[4] = ($event) => $options.openRoom())
   }, [
     createBaseVNode("div", _hoisted_1$n, [
       renderSlot(_ctx.$slots, "room-list-item_" + $props.room.roomId, {}, () => [
@@ -12631,7 +12637,7 @@ function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
         !$options.isCallInProgress ? (openBlock(), createElementBlock("i", _hoisted_5$b, [
           !$options.isCurrentUserCaller ? (openBlock(), createElementBlock("span", _hoisted_6$6, toDisplayString($props.textMessages.ROOM_CALL_INCOMING), 1)) : (openBlock(), createElementBlock("span", _hoisted_7$6, toDisplayString($props.textMessages.ROOM_CALL_CALLING), 1))
         ])) : (openBlock(), createElementBlock("i", _hoisted_8$5, [
-          createBaseVNode("span", _hoisted_9$4, toDisplayString((_a = $data.callDuration) != null ? _a : "--:--"), 1)
+          createBaseVNode("span", _hoisted_9$4, toDisplayString((_a = $data.callDuration) != null ? _a : $props.textMessages.ROOM_CALL_ONGOING), 1)
         ]))
       ])
     ]),
@@ -12642,19 +12648,25 @@ function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
         role: "button",
         href: "#",
         onClick: _cache[0] || (_cache[0] = withModifiers(($event) => $options.acceptCall(), ["stop"]))
-      }, _hoisted_12$3)) : $options.isCallInProgress && $options.isCurrentUserInCall ? (openBlock(), createElementBlock("a", {
+      }, _hoisted_12$3)) : $options.isCallInProgress && !$options.isCurrentUserInCall ? (openBlock(), createElementBlock("a", {
         key: 1,
         class: "btn",
         role: "button",
         href: "#",
         onClick: _cache[1] || (_cache[1] = withModifiers(($event) => $options.returnToCall(), ["stop"]))
-      }, _hoisted_14$1)) : createCommentVNode("", true),
+      }, _hoisted_14$1)) : $options.isCallInProgress && $options.isCurrentUserInCall ? (openBlock(), createElementBlock("a", {
+        key: 2,
+        class: "btn",
+        role: "button",
+        href: "#",
+        onClick: _cache[2] || (_cache[2] = withModifiers(($event) => $options.returnToCall(), ["stop"]))
+      }, _hoisted_16$1)) : createCommentVNode("", true),
       createBaseVNode("a", {
         class: "btn btn-danger",
         role: "button",
         href: "#",
-        onClick: _cache[2] || (_cache[2] = withModifiers(($event) => $options.hangUpCall(), ["stop"]))
-      }, _hoisted_16$1)
+        onClick: _cache[3] || (_cache[3] = withModifiers(($event) => $options.hangUpCall(), ["stop"]))
+      }, _hoisted_18$2)
     ])
   ], 2);
 }
@@ -13054,11 +13066,6 @@ const _sfc_main$l = {
       }
     },
     isCallInProgress(value) {
-      console.log("@@@@@@@@@@@@@@@@@@22 Watcher", {
-        value,
-        call: this.call,
-        room: this.room
-      });
       if (value) {
         this.setupCallDurationUpdate();
       } else {
@@ -13068,7 +13075,6 @@ const _sfc_main$l = {
   },
   mounted() {
     if (this.isCallInProgress) {
-      console.log("@@@@@@@@@@@@@@@@@@22 Mounted", this.isCallInProgress, this.call, this.room);
       this.setupCallDurationUpdate();
     }
   },

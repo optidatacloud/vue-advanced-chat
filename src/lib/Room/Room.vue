@@ -112,7 +112,7 @@
 							</room-message>
 						</div>
 					</transition-group>
-          <div
+        <div
 						v-if="messages.length && !messagesLoadedBottom"
 						id="infinite-loader-messages-bottom"
 					>
@@ -171,12 +171,16 @@
 			:emoji-data-source="emojiDataSource"
 			:attachment-options="attachmentOptions"
       :textarea-highlight="textareaHighlight"
+			:external-files="externalFiles"
+			:allow-sending-external-files="allowSendingExternalFiles"
 			@update-edited-message-id="editedMessageId = $event"
 			@edit-message="$emit('edit-message', $event)"
 			@send-message="$emit('send-message', $event)"
 			@typing-message="$emit('typing-message', $event)"
 			@textarea-action-handler="$emit('textarea-action-handler', $event)"
-			@attachment-picker-handler="$emit('attachment-picker-handler', $event)"
+      @attachment-picker-handler="$emit('attachment-picker-handler', $event)"
+			@request-permission-to-send-external-files="$emit('request-permission-to-send-external-files', $event)"
+			@external-files-removed="$emit('external-files-removed', $event)"
 		>
 			<template v-for="(idx, name) in $slots" #[name]="data">
 				<slot :name="name" v-bind="data" />
@@ -245,7 +249,9 @@ export default {
 		emojiDataSource: { type: String, default: undefined },
     attachmentOptions: { type: Array, required: true },
     call: { type: Object, required: true },
-    textareaHighlight: { type: Boolean, default: false }
+    textareaHighlight: { type: Boolean, default: false },
+		externalFiles: { type: Array, required: false },
+		allowSendingExternalFiles: { type: Boolean, default: null }
 	},
 
 	emits: [
@@ -265,9 +271,11 @@ export default {
 		'open-user-tag',
 		'open-failed-message',
 		'textarea-action-handler',
-    'message-reaction-click',
-    'attachment-picker-handler',
-    'return-to-call'
+		'message-reaction-click',
+		'attachment-picker-handler',
+		'return-to-call',
+		'request-permission-to-send-external-files',
+		'external-files-removed'
 	],
 
 	data() {
@@ -312,7 +320,7 @@ export default {
 			return this.messages.length && this.messagesLoadedTop
 		},
     isCallInProgress() {
-      return this.call && this.call.isInProgress
+      return this.call && this.call.statusInProgress
     }
 	},
 

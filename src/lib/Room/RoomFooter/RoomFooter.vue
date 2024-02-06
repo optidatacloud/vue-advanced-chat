@@ -228,6 +228,12 @@ import Recorder from '../../../utils/recorder'
 import { detectChrome } from '../../../utils/browser-detection'
 import { detectMobile } from '../../../utils/mobile-detection'
 
+/**
+ * Constants defined on File model on Chat backend
+ */
+const SOURCE_USER_FILE_SYSTEM = 'SOURCE_USER_FILE_SYSTEM'
+const SOURCE_OPTIWORK_DRIVE = 'SOURCE_OPTIWORK_DRIVE'
+
 export default {
 	name: 'RoomFooter',
 
@@ -239,7 +245,7 @@ export default {
 		RoomUsersTag,
 		RoomEmojis,
 		RoomTemplatesText,
-    RoomAttachmentPicker
+		RoomAttachmentPicker
 	},
 
 	directives: {
@@ -273,7 +279,9 @@ export default {
 		emojiDataSource: { type: String, default: undefined },
     attachmentOptions: { type: Array, required: true },
     currentUserId: { type: String, default: '' },
-    textareaHighlight: { type: Boolean, default: false }
+    textareaHighlight: { type: Boolean, default: false },
+		externalFiles: { type: Array, default: [] },
+		allowSendingExternalFiles: { type: Boolean, default: null }
 	},
 
 	emits: [
@@ -282,7 +290,9 @@ export default {
 		'update-edited-message-id',
 		'textarea-action-handler',
 		'typing-message',
-    'attachment-picker-handler'
+    'attachment-picker-handler',
+		'request-permission-to-send-external-files',
+		'external-files-removed'
 	],
 
 	data() {
@@ -368,6 +378,27 @@ export default {
 			if (val) {
 				this.onFileChange(val)
 			}
+		},
+		externalFiles(val) {
+			if (val.length) {
+				this.files = this.mergeFiles(this.files, val)
+				return
+			}
+		},
+		allowSendingExternalFiles(val) {
+			if (val == 'true') {
+				this.sendMessage()
+				return
+			}
+			if (val == 'false') {
+				this.resetMessage()
+				return
+			}
+			/**
+			 * any other value means user not allow nor
+			 * decline sending custom files, in this
+			 * case does nothing.
+			 */
 		}
 	},
 
@@ -415,6 +446,12 @@ export default {
 	},
 
 	methods: {
+		mergeFiles(files, externalFiles) {
+			const newExternalFiles = externalFiles.filter(
+				customFile => !files.some(file => file.id === customFile.id)
+			)
+			return [...files, ...newExternalFiles]
+		},
 		getTextareaRef() {
 			return this.$refs.roomTextarea
 		},
@@ -551,20 +588,22 @@ export default {
 			this.$refs.file.value = ''
 			this.$refs.file.click()
 		},
-    attachmentPickerHandler(option) {
-      if (option.command) {
+		attachmentPickerHandler(option) {
+			if (option.command) {
         this.$emit('attachment-picker-handler', option)
         return
       }
-      this.$refs.file.accept = option.accepts ?? this.acceptedFiles
-      if (option.capture || this.captureFiles) {
-        this.$refs.file.capture = option.capture ?? this.captureFiles
-      } else {
-        this.$refs.file.removeAttribute('capture')
-      }
-      this.launchFilePicker()
-      this.$emit('attachment-picker-handler', option)
-    },
+			this.$refs.file.accept = option.accepts ?? this.acceptedFiles
+			if (option.capture || this.captureFiles) {
+				this.$refs.file.capture = option.capture ?? this.captureFiles
+			} else {
+				this.$refs.file.removeAttribute('capture')
+			}
+			if (option.launchFilePicker) {
+				this.launchFilePicker()
+			}
+			this.$emit('attachment-picker-handler', option)
+		},
 		async onFileChange(files) {
 			this.fileDialog = true
 			this.focusTextarea()
@@ -572,15 +611,16 @@ export default {
 			for (const file of Array.from(files)) {
 				const fileURL = URL.createObjectURL(file)
 				const typeIndex = file.name.lastIndexOf('.')
-        const fileType = file?.type.length ? file.type : 'text/plain'
-        const hasExtension = typeIndex !== -1
+				const fileType = file?.type.length ? file.type : 'text/plain'
+				const hasExtension = typeIndex !== -1
 				this.files.push({
 					loading: true,
 					name: hasExtension ? file.name.substring(0, typeIndex) : file.name,
 					size: file.size,
 					type: fileType,
 					extension: hasExtension ? file.name.substring(typeIndex + 1) : '',
-					localUrl: fileURL
+					localUrl: fileURL,
+					source: SOURCE_USER_FILE_SYSTEM
 				})
 
 				const blobFile = await fetch(fileURL).then(res => res.blob())
@@ -593,11 +633,15 @@ export default {
 				}
 			}
 
-      setTimeout(() => (this.fileDialog = false), 500)
-		},
+			setTimeout(() => (this.fileDialog = false), 500)
+	},
 		removeFile(index) {
+			const removedFile = this.files[index]
 			this.files.splice(index, 1)
 			this.focusTextarea()
+			if (removedFile.source === SOURCE_OPTIWORK_DRIVE) {
+				this.$emit('external-files-removed', [removedFile])
+			}
 		},
 		toggleRecorder(recording) {
 			this.isRecording = recording
@@ -617,7 +661,8 @@ export default {
 						duration: record.duration,
 						type: record.blob.type,
 						audio: true,
-						localUrl: URL.createObjectURL(record.blob)
+						localUrl: URL.createObjectURL(record.blob),
+						source: SOURCE_USER_FILE_SYSTEM
 					})
 
 					this.recorder = this.initRecorder()
@@ -641,6 +686,28 @@ export default {
 			this.$emit('textarea-action-handler', this.message)
 		},
 		sendMessage() {
+			/**
+			 * null means user not allow nor decline sending
+			 * external files, in this case request user
+			 * permission
+			 */
+			const mustRequestUserToSendExternalFiles = this.allowSendingExternalFiles === null
+			const hasExternalFiles = this.externalFiles.length > 0
+			if (hasExternalFiles && mustRequestUserToSendExternalFiles) {
+				this.$emit('request-permission-to-send-external-files', { ...this.room })
+				return
+			}
+
+			/**
+			 * false means user decline sending external files,
+			 * in this case reset message
+			 */
+			const userDeclineSendingExternalFiles = this.allowSendingExternalFiles === false
+			if (hasExternalFiles && userDeclineSendingExternalFiles) {
+				this.resetMessage()
+				return
+			}
+
 			let message = this.message.trim()
 
 			if (!this.files.length && !message) return
@@ -867,6 +934,7 @@ export default {
 			this.files = []
 			this.emojiOpened = false
 			this.preventKeyboardFromClosing()
+			this.$emit('external-files-removed', this.externalFiles)
 
 			if (this.textareaAutoFocus || !initRoom) {
 				setTimeout(() => this.focusTextarea(disableMobileFocus))

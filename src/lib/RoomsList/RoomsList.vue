@@ -45,9 +45,9 @@
 					:key="fRoom.roomId"
 					class="vac-room-item"
 					:class="{
-              'vac-room-selected': selectedRoomId === fRoom.roomId && !shouldShowCallContent(fRoom),
-              'vac-ongoing-call': shouldShowCallContent(fRoom)
-            }"
+						'vac-room-selected': selectedRoomId === fRoom.roomId && !shouldShowCallContent(fRoom),
+						'vac-ongoing-call': shouldShowCallContent(fRoom)
+            		}"
 					@click="openRoom(fRoom)"
 				>
           <room-call-content

@@ -170,7 +170,7 @@
 			:dropped-files="droppedFiles"
 			:emoji-data-source="emojiDataSource"
 			:attachment-options="attachmentOptions"
-      :textarea-highlight="textareaHighlight"
+      		:textarea-highlight="textareaHighlight"
 			:external-files="externalFiles"
 			:allow-sending-external-files="allowSendingExternalFiles"
 			@update-edited-message-id="editedMessageId = $event"
@@ -178,7 +178,7 @@
 			@send-message="$emit('send-message', $event)"
 			@typing-message="$emit('typing-message', $event)"
 			@textarea-action-handler="$emit('textarea-action-handler', $event)"
-      @attachment-picker-handler="$emit('attachment-picker-handler', $event)"
+      		@attachment-picker-handler="$emit('attachment-picker-handler', $event)"
 			@request-permission-to-send-external-files="$emit('request-permission-to-send-external-files', $event)"
 			@external-files-removed="$emit('external-files-removed', $event)"
 		>

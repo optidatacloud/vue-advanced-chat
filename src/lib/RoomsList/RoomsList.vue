@@ -67,6 +67,7 @@
 						:text-formatting="textFormatting"
 						:link-options="linkOptions"
 						:text-messages="textMessages"
+						:selected-room-id="selectedRoomId"
 						:room-actions="roomActions"
 						@room-action-handler="$emit('room-action-handler', $event)"
 					>

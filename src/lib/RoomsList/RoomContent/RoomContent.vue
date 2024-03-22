@@ -97,6 +97,8 @@
 						>
 							{{ room.unreadCount }}
 						</div>
+						<i v-if="room.isPinned" class="vac-pinned-icon bi bi-pin-angle-fill"></i>
+						<i v-if="room.isMuted" class="vac-muted-icon bi bi-bell-slash-fill"></i>
 						<slot :name="'room-list-options_' + room.roomId">
 							<div
 								v-if="roomActions.length"

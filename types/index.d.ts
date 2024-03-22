@@ -53,6 +53,8 @@ export interface Room {
 	typingUsers?: string[]
 	roomInfo?: string,
 	draftMessage?: string,
+	isPinned: boolean,
+	isMuted: boolean
 }
 
 export interface MessageReactions {

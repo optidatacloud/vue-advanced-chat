@@ -181,6 +181,7 @@
       		@attachment-picker-handler="$emit('attachment-picker-handler', $event)"
 			@request-permission-to-send-external-files="$emit('request-permission-to-send-external-files', $event)"
 			@external-files-removed="$emit('external-files-removed', $event)"
+			@new-draft-message="$emit('new-draft-message', $event)"
 		>
 			<template v-for="(idx, name) in $slots" #[name]="data">
 				<slot :name="name" v-bind="data" />

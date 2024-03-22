@@ -292,7 +292,8 @@ export default {
 		'typing-message',
     	'attachment-picker-handler',
 		'request-permission-to-send-external-files',
-		'external-files-removed'
+		'external-files-removed',
+		'new-draft-message',
 	],
 
 	data() {
@@ -344,12 +345,21 @@ export default {
 	},
 
 	watch: {
-		roomId() {
+		roomId(roomIdNew, roomIdOld) {
+			/**
+			 * If user switches from one room to another,
+			 * the message is saved as draft
+			 */
+			this.$emit('new-draft-message', {
+				roomId: roomIdOld,
+				content: this.message
+			});
+
 			this.resetMessage(true, true)
 
-			if (this.roomMessage) {
-				this.message = this.roomMessage
-				setTimeout(() => this.onChangeInput())
+			if (this.roomMessage || this.room.draftMessage) {
+				this.message = this.roomMessage || this.room.draftMessage
+				setTimeout(() => this.onChangeInput(true))
 			}
 		},
 		message(val) {
@@ -471,12 +481,15 @@ export default {
 				})
 			}
 		},
-		onChangeInput() {
+		onChangeInput(preventTypingEvent=false) {
 			if (this.getTextareaRef()?.value || this.getTextareaRef()?.value === '') {
 				this.message = this.getTextareaRef()?.value
 			}
 			this.keepKeyboardOpen = true
 			this.resizeTextarea()
+			if (preventTypingEvent) {
+				return;
+			}
 			this.$emit('typing-message', this.message)
 		},
 		resizeTextarea() {

@@ -481,7 +481,7 @@ export default {
 				})
 			}
 		},
-		onChangeInput(preventTypingEvent=false) {
+		onChangeInput(shouldFireTypingEvent=true) {
 			if (this.getTextareaRef()?.value || this.getTextareaRef()?.value === '') {
 				this.message = this.getTextareaRef()?.value
 			}

@@ -347,8 +347,9 @@ export default {
 	watch: {
 		roomId(roomIdNew, roomIdOld) {
 			/**
-			 * If user switches from one room to another,
-			 * the message is saved as draft
+			 * If roomId changes it means user switched
+			 * from one room to another, so save the
+			 * message as a draft.
 			 */
 			this.$emit('new-draft-message', {
 				roomId: roomIdOld,
@@ -359,7 +360,7 @@ export default {
 
 			if (this.roomMessage || this.room.draftMessage) {
 				this.message = this.roomMessage || this.room.draftMessage
-				setTimeout(() => this.onChangeInput(true))
+				setTimeout(() => this.onChangeInput(false))
 			}
 		},
 		message(val) {
@@ -481,13 +482,13 @@ export default {
 				})
 			}
 		},
-		onChangeInput(shouldFireTypingEvent=true) {
+		onChangeInput(shouldEmitTypingEvent=true) {
 			if (this.getTextareaRef()?.value || this.getTextareaRef()?.value === '') {
 				this.message = this.getTextareaRef()?.value
 			}
 			this.keepKeyboardOpen = true
 			this.resizeTextarea()
-			if (preventTypingEvent) {
+			if (!shouldEmitTypingEvent) {
 				return;
 			}
 			this.$emit('typing-message', this.message)

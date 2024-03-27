@@ -39,6 +39,13 @@
 
 		<div v-if="!loadingRooms && roomsToDisplay.length" id="rooms-list" class="vac-room-list">
 			<transition-group name="rooms">
+        <slot v-if="showArchivedRooms" name="rooms-list-archived">
+          <div class="vac-rooms-archived" @click="$emit('open-archived-rooms')">
+            <svg-icon name="archive" />
+            <span>{{ textMessages.ARCHIVED_ROOMS }}</span>
+          </div>
+        </slot>
+
 				<div
 					v-for="fRoom in roomsToDisplay"
 					:id="fRoom.roomId"
@@ -47,7 +54,7 @@
 					:class="{
 						'vac-room-selected': selectedRoomId === fRoom.roomId && !shouldShowCallContent(fRoom),
 						'vac-ongoing-call': shouldShowCallContent(fRoom)
-            		}"
+          }"
 					@click="openRoom(fRoom)"
 				>
           <room-call-content
@@ -105,6 +112,7 @@ import Loader from '../../components/Loader/Loader'
 import RoomsSearch from './RoomsSearch/RoomsSearch'
 import RoomContent from './RoomContent/RoomContent'
 import RoomCallContent from './RoomCallContent/RoomCallContent'
+import SvgIcon from '../../components/SvgIcon/SvgIcon'
 
 import filteredItems from '../../utils/filter-items'
 
@@ -114,7 +122,8 @@ export default {
 		Loader,
 		RoomsSearch,
 		RoomContent,
-    RoomCallContent
+    RoomCallContent,
+    SvgIcon
 	},
 
 	props: {
@@ -134,7 +143,8 @@ export default {
 		roomActions: { type: Array, required: true },
 		scrollDistance: { type: Number, required: true },
 		roomsNotFoundMessage: { type: String, required: true },
-		call: { type: Object, required: true }
+		call: { type: Object, required: true },
+    showArchivedRooms: { type: Boolean, required: true }
 	},
 
 	emits: [
@@ -146,7 +156,8 @@ export default {
 		'fetch-more-rooms',
     'accept-call',
     'hang-up-call',
-    'return-to-call'
+    'return-to-call',
+    'open-archived-rooms'
 	],
 
 	data() {

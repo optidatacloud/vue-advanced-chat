@@ -30,7 +30,7 @@
 				@accept-call="acceptCallHandler"
 				@hang-up-call="hangUpCallHandler"
 				@return-to-call="returnToCallHandler"
-        @open-archived-rooms="openArchivedRoomsHandler"
+        @click-archived-rooms="clickArchivedRoomsHandler"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />
@@ -266,7 +266,7 @@ export default {
 		'return-to-call',
 		'request-permission-to-send-external-files',
 		'external-files-removed',
-    'open-archived-rooms'
+    'click-archived-rooms'
 	],
 
 	data() {
@@ -605,8 +605,8 @@ export default {
     hangUpCallHandler(call) {
       this.$emit('hang-up-call', call)
     },
-    openArchivedRoomsHandler() {
-      this.$emit('open-archived-rooms')
+    clickArchivedRoomsHandler() {
+      this.$emit('click-archived-rooms')
     },
 		messageActionHandler(ev) {
 			this.$emit('message-action-handler', {

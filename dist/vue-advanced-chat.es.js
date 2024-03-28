@@ -12764,7 +12764,7 @@ const _sfc_main$m = {
     "accept-call",
     "hang-up-call",
     "return-to-call",
-    "open-archived-rooms"
+    "click-archived-rooms"
   ],
   data() {
     return {
@@ -12778,10 +12778,14 @@ const _sfc_main$m = {
   },
   computed: {
     roomsToDisplay: function() {
-      if (this.roomsQuery.length) {
-        return this.filteredRooms;
+      let roomsToReturn = this.roomsQuery.length ? this.filteredRooms : this.rooms;
+      if (this.showArchivedRooms) {
+        return roomsToReturn.filter((room) => room.isArchived);
       }
-      return this.rooms;
+      return roomsToReturn.filter((room) => !room.isArchived);
+    },
+    hasArchivedRooms: function() {
+      return this.rooms.some((room) => room.isArchived);
     }
   },
   watch: {
@@ -12950,10 +12954,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
     !$props.loadingRooms && $options.roomsToDisplay.length ? (openBlock(), createElementBlock("div", _hoisted_2$j, [
       createVNode(TransitionGroup, { name: "rooms" }, {
         default: withCtx(() => [
-          $props.showArchivedRooms ? renderSlot(_ctx.$slots, "rooms-list-archived", { key: 0 }, () => [
+          $options.hasArchivedRooms ? renderSlot(_ctx.$slots, "rooms-list-archived", { key: 0 }, () => [
             createBaseVNode("div", {
               class: "vac-rooms-archived",
-              onClick: _cache[1] || (_cache[1] = ($event) => _ctx.$emit("open-archived-rooms"))
+              onClick: _cache[1] || (_cache[1] = ($event) => _ctx.$emit("click-archived-rooms"))
             }, [
               createVNode(_component_svg_icon, { name: "archive" }),
               createBaseVNode("span", null, toDisplayString($props.textMessages.ARCHIVED_ROOMS), 1)
@@ -35969,7 +35973,7 @@ const _sfc_main = {
     "return-to-call",
     "request-permission-to-send-external-files",
     "external-files-removed",
-    "open-archived-rooms"
+    "click-archived-rooms"
   ],
   data() {
     return {
@@ -36285,8 +36289,8 @@ const _sfc_main = {
     hangUpCallHandler(call) {
       this.$emit("hang-up-call", call);
     },
-    openArchivedRoomsHandler() {
-      this.$emit("open-archived-rooms");
+    clickArchivedRoomsHandler() {
+      this.$emit("click-archived-rooms");
     },
     messageActionHandler(ev) {
       this.$emit("message-action-handler", {
@@ -36373,7 +36377,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         onAcceptCall: $options.acceptCallHandler,
         onHangUpCall: $options.hangUpCallHandler,
         onReturnToCall: $options.returnToCallHandler,
-        onOpenArchivedRooms: $options.openArchivedRoomsHandler
+        onClickArchivedRooms: $options.clickArchivedRoomsHandler
       }, createSlots({ _: 2 }, [
         renderList($data.slots, (el) => {
           return {
@@ -36383,7 +36387,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
             ])
           };
         })
-      ]), 1032, ["current-user-id", "rooms", "loading-rooms", "rooms-loaded", "room", "call", "room-actions", "custom-search-room-enabled", "text-messages", "show-search", "show-add-room", "show-rooms-list", "text-formatting", "link-options", "is-mobile", "scroll-distance", "rooms-not-found-message", "show-archived-rooms", "onFetchRoom", "onFetchMoreRooms", "onAddRoom", "onSearchRoom", "onRoomActionHandler", "onAcceptCall", "onHangUpCall", "onReturnToCall", "onOpenArchivedRooms"])) : createCommentVNode("", true),
+      ]), 1032, ["current-user-id", "rooms", "loading-rooms", "rooms-loaded", "room", "call", "room-actions", "custom-search-room-enabled", "text-messages", "show-search", "show-add-room", "show-rooms-list", "text-formatting", "link-options", "is-mobile", "scroll-distance", "rooms-not-found-message", "show-archived-rooms", "onFetchRoom", "onFetchMoreRooms", "onAddRoom", "onSearchRoom", "onRoomActionHandler", "onAcceptCall", "onHangUpCall", "onReturnToCall", "onClickArchivedRooms"])) : createCommentVNode("", true),
       createVNode(_component_room, {
         "current-user-id": $props.currentUserId,
         rooms: $options.roomsCasted,

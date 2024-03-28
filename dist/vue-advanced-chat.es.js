@@ -12716,10 +12716,18 @@ var RoomCallContent = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_
 var filteredItems = (items, prop, val, startsWith = false) => {
   if (!val || val === "")
     return items;
-  return items.filter((v) => {
+  if (Array.isArray(prop)) {
+    return items.filter((item) => {
+      if (startsWith) {
+        return prop.some((searchField) => formatString(item[searchField]).startsWith(formatString(val)));
+      }
+      return prop.some((searchField) => formatString(item[searchField]).includes(formatString(val)));
+    });
+  }
+  return items.filter((item) => {
     if (startsWith)
-      return formatString(v[prop]).startsWith(formatString(val));
-    return formatString(v[prop]).includes(formatString(val));
+      return formatString(item[prop]).startsWith(formatString(val));
+    return formatString(item[prop]).includes(formatString(val));
   });
 };
 function formatString(string2) {
@@ -12852,7 +12860,7 @@ const _sfc_main$m = {
         this.roomsQuery = ev.target.value;
         this.filteredRooms = filteredItems(
           this.rooms,
-          "roomName",
+          ["roomName", "email"],
           ev.target.value
         );
       }

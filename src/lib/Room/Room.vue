@@ -105,6 +105,7 @@
 								@select-message="selectMessage"
 								@unselect-message="unselectMessage"
                 @message-reaction-click="messageReactionClick"
+                @message-reply-click="$emit('message-reply-click', $event)"
 							>
 								<template v-for="(idx, name) in $slots" #[name]="data">
 									<slot :name="name" v-bind="data" />
@@ -170,7 +171,7 @@
 			:dropped-files="droppedFiles"
 			:emoji-data-source="emojiDataSource"
 			:attachment-options="attachmentOptions"
-      		:textarea-highlight="textareaHighlight"
+      :textarea-highlight="textareaHighlight"
 			:external-files="externalFiles"
 			:allow-sending-external-files="allowSendingExternalFiles"
 			@update-edited-message-id="editedMessageId = $event"
@@ -178,7 +179,7 @@
 			@send-message="$emit('send-message', $event)"
 			@typing-message="$emit('typing-message', $event)"
 			@textarea-action-handler="$emit('textarea-action-handler', $event)"
-      		@attachment-picker-handler="$emit('attachment-picker-handler', $event)"
+      @attachment-picker-handler="$emit('attachment-picker-handler', $event)"
 			@request-permission-to-send-external-files="$emit('request-permission-to-send-external-files', $event)"
 			@external-files-removed="$emit('external-files-removed', $event)"
 			@new-draft-message="$emit('new-draft-message', $event)"
@@ -276,7 +277,9 @@ export default {
 		'attachment-picker-handler',
 		'return-to-call',
 		'request-permission-to-send-external-files',
-		'external-files-removed'
+		'external-files-removed',
+    'new-draft-message',
+    'message-reply-click'
 	],
 
 	data() {

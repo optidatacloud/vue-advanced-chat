@@ -105,6 +105,7 @@
 				@request-permission-to-send-external-files="$emit('request-permission-to-send-external-files', $event)"
 				@external-files-removed="$emit('external-files-removed', $event)"
 				@new-draft-message="$emit('new-draft-message', $event)"
+        @message-reply-click="$emit('message-reply-click', $event)"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />
@@ -266,7 +267,9 @@ export default {
 		'return-to-call',
 		'request-permission-to-send-external-files',
 		'external-files-removed',
-    'click-archived-rooms'
+    'new-draft-message',
+    'click-archived-rooms',
+    'message-reply-click'
 	],
 
 	data() {

@@ -4,6 +4,15 @@
 	margin: -1px -5px 8px;
 	padding: 8px 10px;
 
+	user-select: none;
+    cursor: pointer;
+
+	transition: background 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+
+	&:hover {
+		background: color-mix(in srgb, var(--chat-message-bg-color-reply), #000 10%);
+	}
+
 	.vac-reply-username {
 		color: var(--chat-message-color-reply-username);
 		font-size: 12px;

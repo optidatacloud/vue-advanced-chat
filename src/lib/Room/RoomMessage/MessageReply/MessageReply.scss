@@ -44,6 +44,12 @@
 	.vac-reply-content {
 		font-size: 12px;
 		color: var(--chat-message-color-reply-content);
+
+		text-overflow: ellipsis;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 5;
+		-webkit-box-orient: vertical;
 	}
 
 	.vac-file-container {

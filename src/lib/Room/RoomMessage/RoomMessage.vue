@@ -98,6 +98,7 @@
         <div class="checkbox" :class="{ 'selected': isMessageSelected }" />
       </label>
       <div
+        ref="messageBox"
         class="vac-message-box"
       >
         <slot :name="'message_' + message._id">
@@ -219,25 +220,30 @@
               </template>
 
               <div class="vac-text-timestamp">
-                <div
-                  v-if="message.edited && !message.deleted"
-                  class="vac-icon-edited"
-                >
-                  <slot :name="'pencil-icon_' + message._id">
-                    {{ textMessages.MESSAGE_EDITED }}
-                  </slot>
-                </div>
-                <span>{{ message.timestamp }}</span>
-                <span v-if="isCheckmarkVisible">
-                  <slot :name="'checkmark-icon_' + message._id">
-                    <svg-icon
-                      :name="
-                        message.distributed ? 'double-checkmark' : 'checkmark'
-                      "
-                      :param="message.seen ? 'seen' : ''"
-                      class="vac-icon-check"
-                    />
-                  </slot>
+                <a v-if="hasTruncatedContent" href="javascript:void(0)" class="vac-message-see-more">
+                  {{ textMessages.MESSAGE_SEE_MORE }}
+                </a>
+                <span>
+                  <div
+                    v-if="message.edited && !message.deleted"
+                    class="vac-icon-edited"
+                  >
+                    <slot :name="'pencil-icon_' + message._id">
+                      {{ textMessages.MESSAGE_EDITED }}
+                    </slot>
+                  </div>
+                  <span>{{ message.timestamp }}</span>
+                  <span v-if="isCheckmarkVisible">
+                    <slot :name="'checkmark-icon_' + message._id">
+                      <svg-icon
+                        :name="
+                          message.distributed ? 'double-checkmark' : 'checkmark'
+                        "
+                        :param="message.seen ? 'seen' : ''"
+                        class="vac-icon-check"
+                      />
+                    </slot>
+                  </span>
                 </span>
               </div>
 
@@ -368,7 +374,8 @@ export default {
 			emojiOpened: false,
 			newMessage: {},
 			progressTime: '- : -',
-			hoverAudioProgress: false
+			hoverAudioProgress: false,
+      hasTruncatedContent: false
 		}
 	},
 
@@ -459,6 +466,10 @@ export default {
 			index: this.index,
 			ref: this.$refs.message
 		})
+
+    console.log('@@@@@@@@@@@@@@@@@@@@@@', this.$refs.messageBox)
+
+    this.hasTruncatedContent = this.$refs.messageBox.scrollHeight > this.$refs.messageBox.clientHeight
 	},
 
 	methods: {

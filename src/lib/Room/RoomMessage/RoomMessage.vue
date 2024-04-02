@@ -467,7 +467,8 @@ export default {
 			ref: this.$refs.message
 		})
 
-    if (this.maxMessageRows <= 0 || this.message.replyMessage) {
+    const shouldTruncate = this.maxMessageRows <= 0 || this.message.replyMessage || !this.$refs.messageBox
+    if (shouldTruncate) {
       this.hasTruncatedContent = false
       return
     }

@@ -96,6 +96,7 @@
                 :message-selection-enabled="messageSelectionEnabled"
                 :selected-messages="selectedMessages"
                 :emoji-data-source="emojiDataSource"
+                :max-message-rows="maxMessageRows"
                 @message-added="onMessageAdded"
                 @message-action-handler="messageActionHandler"
                 @open-file="openFile"
@@ -253,7 +254,8 @@ export default {
     call: { type: Object, required: true },
     textareaHighlight: { type: Boolean, default: false },
     externalFiles: { type: Array, required: false },
-    allowSendingExternalFiles: { type: Boolean, default: null }
+    allowSendingExternalFiles: { type: Boolean, default: null },
+    maxMessageRows: { type: Number, default: 0 }
   },
 
   emits: [

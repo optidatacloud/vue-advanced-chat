@@ -271,7 +271,8 @@ Otherwise, you need to pass those props as strings. For example: `[messages]="JS
 | `textarea-hightlight`               | Boolean          | -        |                                             |  
 | `external-files`(32)                | Array            | `false`  |      `[]`                                   |
 | `allow-sending-external-files`(33)  | Boolean          | `false`  |      `null`                                 |
-| `show-archived-rooms`(34)           | Boolean          | `false`  |      `false`                                 |
+| `show-archived-rooms`(34)           | Boolean          | `false`  |      `false`                                |
+| `max-message-rows`(35)              | Number           | `false`  |      `0`                                    |
 
 **(1)** `current-user-id` is required to display UI and trigger actions according to the user using the chat (ex: messages position on the right, etc.)
 
@@ -524,6 +525,8 @@ styles="{
 - When set to `null` VAC will emit the event `request-permission-to-send-external-files` each time a external file is sent;
 
 **(34)** `show-archived-rooms` indicates whether the room list should display archived rooms only or not.
+
+**(35)** `max-message-rows` indicates the maximum number of rows a message can have before being truncated. When the message has more rows, the content is truncated and a "Read more" button is shown. If set to `0` messages will never be truncated. 
 
 ## Props data structure
 

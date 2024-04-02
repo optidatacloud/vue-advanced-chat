@@ -82,6 +82,7 @@
 				:textarea-highlight="textareaHighlightCasted"
 				:external-files="externalFilesCasted"
 				:allow-sending-external-files="allowSendingExternalFiles"
+        :max-message-rows="maxMessageRows"
 				@toggle-rooms-list="toggleRoomsList"
 				@room-info="roomInfo"
 				@fetch-messages="fetchMessages"
@@ -235,7 +236,8 @@ export default {
     textareaHighlight: { type: Boolean, default: false },
 		externalFiles: { type: Array, default: () => [] },
 		allowSendingExternalFiles: { type: Boolean, default: null },
-    showArchivedRooms: { type: Boolean, default: false }
+    showArchivedRooms: { type: Boolean, default: false },
+    maxMessageRows: { type: Number, default: 0 }
 	},
 
 	emits: [

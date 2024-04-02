@@ -219,31 +219,30 @@
                 </div>
               </template>
 
+              <a v-if="hasTruncatedContent" href="javascript:void(0)" class="vac-message-see-more" @click="expandMessageContent">
+                {{ textMessages.MESSAGE_READ_MORE }}
+              </a>
+
               <div class="vac-text-timestamp">
-                <a v-if="hasTruncatedContent" href="javascript:void(0)" class="vac-message-see-more">
-                  {{ textMessages.MESSAGE_SEE_MORE }}
-                </a>
-                <span>
-                  <div
-                    v-if="message.edited && !message.deleted"
-                    class="vac-icon-edited"
-                  >
-                    <slot :name="'pencil-icon_' + message._id">
-                      {{ textMessages.MESSAGE_EDITED }}
-                    </slot>
-                  </div>
-                  <span>{{ message.timestamp }}</span>
-                  <span v-if="isCheckmarkVisible">
-                    <slot :name="'checkmark-icon_' + message._id">
-                      <svg-icon
-                        :name="
-                          message.distributed ? 'double-checkmark' : 'checkmark'
-                        "
-                        :param="message.seen ? 'seen' : ''"
-                        class="vac-icon-check"
-                      />
-                    </slot>
-                  </span>
+                <div
+                  v-if="message.edited && !message.deleted"
+                  class="vac-icon-edited"
+                >
+                  <slot :name="'pencil-icon_' + message._id">
+                    {{ textMessages.MESSAGE_EDITED }}
+                  </slot>
+                </div>
+                <span>{{ message.timestamp }}</span>
+                <span v-if="isCheckmarkVisible">
+                  <slot :name="'checkmark-icon_' + message._id">
+                    <svg-icon
+                      :name="
+                        message.distributed ? 'double-checkmark' : 'checkmark'
+                      "
+                      :param="message.seen ? 'seen' : ''"
+                      class="vac-icon-check"
+                    />
+                  </slot>
                 </span>
               </div>
 
@@ -349,7 +348,8 @@ export default {
 		usernameOptions: { type: Object, required: true },
 		messageSelectionEnabled: { type: Boolean, required: true },
 		selectedMessages: { type: Array, default: () => [] },
-		emojiDataSource: { type: String, default: undefined }
+		emojiDataSource: { type: String, default: undefined },
+    maxMessageRows: { type: Number, default: 0 }
 	},
 
 	emits: [
@@ -467,9 +467,17 @@ export default {
 			ref: this.$refs.message
 		})
 
-    console.log('@@@@@@@@@@@@@@@@@@@@@@', this.$refs.messageBox)
+    if (this.maxMessageRows <= 0 || this.message.replyMessage) {
+      this.hasTruncatedContent = false
+      return
+    }
 
-    this.hasTruncatedContent = this.$refs.messageBox.scrollHeight > this.$refs.messageBox.clientHeight
+    this.setMaxMessageRowsStyle()
+
+    const lineHeight = window.getComputedStyle(this.$refs.messageBox).lineHeight
+    const contentRows = Math.ceil(this.$refs.messageBox.clientHeight / parseFloat(lineHeight))
+
+    this.hasTruncatedContent = contentRows > this.maxMessageRows
 	},
 
 	methods: {
@@ -547,6 +555,34 @@ export default {
     endContentSelection() {
       this.hoverMessageId = this.message._id
       this.isSelectingContent = false
+    },
+
+    setMaxMessageRowsStyle() {
+      const formatWrapper = this.$refs.messageBox.querySelector('.vac-format-message-wrapper')
+      if (!formatWrapper) {
+        return
+      }
+
+      formatWrapper.style.cssText = `
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: ${this.maxMessageRows};
+        -webkit-box-orient: vertical;
+      `
+    },
+
+    expandMessageContent() {
+      this.hasTruncatedContent = false
+
+      const formatWrapper = this.$refs.messageBox.querySelector('.vac-format-message-wrapper')
+      if (!formatWrapper) {
+        return
+      }
+
+      this.$nextTick(() => {
+        formatWrapper.style.cssText = ''
+      })
     }
 	}
 }

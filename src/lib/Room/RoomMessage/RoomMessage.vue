@@ -140,7 +140,7 @@
                 :class="{
                   'vac-username-reply': !message.deleted && message.replyMessage
                 }"
-                @click="openUserRoom"
+                @click="onClickMessageUsername"
               >
                 <span>{{ message.username }}</span>
               </div>
@@ -356,7 +356,7 @@ export default {
 		'select-message',
 		'unselect-message',
     'message-reaction-click',
-    'open-user-room',
+    'click-message-username',
 	],
 
 	data() {
@@ -487,9 +487,9 @@ export default {
 		openUserTag(user) {
 			this.$emit('open-user-tag', { user })
 		},
-    openUserRoom() {
+    onClickMessageUsername() {
       const user = this.roomUsers.find(user => user._id === this.message.senderId)
-      this.$emit('open-user-room', { user })
+      this.$emit('click-message-username', { user })
     },
 		messageActionHandler(action) {
 			this.resetMessageHover()

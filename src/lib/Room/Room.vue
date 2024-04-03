@@ -105,7 +105,7 @@
 								@select-message="selectMessage"
 								@unselect-message="unselectMessage"
 								@message-reaction-click="messageReactionClick"
-								@open-user-room="$emit('open-user-room', $event)"
+								@click-message-username="$emit('click-message-username', $event)"
 							>
 								<template v-for="(idx, name) in $slots" #[name]="data">
 									<slot :name="name" v-bind="data" />
@@ -278,7 +278,7 @@ export default {
 		'return-to-call',
 		'request-permission-to-send-external-files',
 		'external-files-removed',
-		'open-user-room',
+		'click-message-username',
 	],
 
 	data() {

@@ -104,7 +104,8 @@
 								@send-message-reaction="sendMessageReaction"
 								@select-message="selectMessage"
 								@unselect-message="unselectMessage"
-                @message-reaction-click="messageReactionClick"
+								@message-reaction-click="messageReactionClick"
+								@open-user-room="$emit('open-user-room', $event)"
 							>
 								<template v-for="(idx, name) in $slots" #[name]="data">
 									<slot :name="name" v-bind="data" />
@@ -276,7 +277,8 @@ export default {
 		'attachment-picker-handler',
 		'return-to-call',
 		'request-permission-to-send-external-files',
-		'external-files-removed'
+		'external-files-removed',
+		'open-user-room',
 	],
 
 	data() {

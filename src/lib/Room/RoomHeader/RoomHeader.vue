@@ -125,7 +125,7 @@
           <span v-if="isAttendanceAccepted" class="vac-room-call-ongoing-title">
             {{ textMessages.ROOM_CALL_RETURN_TO_CALL }}
           </span>
-          <span v-if="isAttendancePending || isAttendanceDeclined" class="vac-room-call-ongoing-title">
+          <span v-else-if="isAttendancePending || isAttendanceDeclined" class="vac-room-call-ongoing-title">
             {{ textMessages.ROOM_CALL_JOIN }}
           </span>
           <span v-else class="vac-room-call-ongoing-title">

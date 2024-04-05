@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/antoine92190/vue-advanced-chat/actions/workflows/build.yml"><img src="https://img.shields.io/github/actions/workflow/status/antoine92190/vue-advanced-chat/build.yml?branch=master"></a>
+  <a href="https://github.com/advanced-chat/vue-advanced-chat/actions/workflows/release.yml"><img src="https://img.shields.io/github/actions/workflow/status/advanced-chat/vue-advanced-chat/release.yml?branch=main"></a>
   <a href="https://www.npmjs.com/package/vue-advanced-chat"><img src="https://img.shields.io/npm/dm/vue-advanced-chat.svg"></a>
   <a href="https://www.npmjs.com/package/vue-advanced-chat"><img src="https://img.shields.io/bundlephobia/minzip/vue-advanced-chat"></a>
   <a href="https://www.npmjs.com/package/vue-advanced-chat"><img src="https://img.shields.io/npm/v/vue-advanced-chat.svg"></a>
@@ -35,7 +35,7 @@
 - Firestore example
 - Typescript, PWA, Web Component support
 
-## [Demo](https://antoine92190.github.io/vue-advanced-chat)
+## [Demo](https://advanced-chat.github.io/vue-advanced-chat)
 
 Enjoy :smile:
 
@@ -101,15 +101,15 @@ compilerOptions: {
 }
 ```
 
-Demo: https://github.com/antoine92190/vue-advanced-chat-sandbox/tree/main
+Demo: https://github.com/advanced-chat/vue-advanced-chat-sandbox/tree/main
 
 ### React
 
-Demo: https://github.com/antoine92190/vue-advanced-chat-sandbox/tree/react
+Demo: https://github.com/advanced-chat/vue-advanced-chat-sandbox/tree/react
 
 ### Angular / Ionic
 
-Demo: https://github.com/antoine92190/vue-advanced-chat-sandbox/tree/angular
+Demo: https://github.com/advanced-chat/vue-advanced-chat-sandbox/tree/angular
 
 <br>
 
@@ -493,7 +493,11 @@ Example: set `accepted-files="image/png, image/jpeg, application/pdf"` to allow 
 
 **(28)** `capture-files` can be used to enable direct capturing of photos and videos on mobile browsers, as opposed to just uploading existing photos and videos which are already on the device. See [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/capture) for more information and recognized values. By default, the attribute is omitted and mobile browsers will only offer the gallery to choose photos and videos. Note: this only affects file attachments. Audio messages are always recorded using the device's microphone.
 
-**(29)** `styles` can be used to customize your own theme. You can find the full list [here](src/themes/index.js)
+**(29)** `multiple-files` can be used to define whether multiple file selections will be accepted. By default this is true.
+
+**(30)** `styles` can be used to customize your own theme. You can find the full list [here](src/themes/index.js)
+
+**(31)** `show-audio` can be used to enable or disable audio icon 
 
 ```javascript
 styles="{
@@ -514,17 +518,16 @@ styles="{
 }"
 ```
 
-**(31)** `call` indicates the current ongoing call. If set, the chat interface will change to display call-related ui elements.
+**(32)** `call` indicates the current ongoing call. If set, the chat interface will change to display call-related ui elements.
 
-**(32)** `textarea-highlight`
-**(32)** `externalFiles` array of files attached from a external source that it's not user computer. It's used by Optiwork Chat to store files attached from Optiwork Drive.
+**(33)** `external-files` array of files attached from a external source that it's not user computer. It's used by Optiwork Chat to store files attached from Optiwork Drive.
 
-**(33)** `allow-sending-external-files` indicates whether VAC should or not send external files in a message. There are 3 possible values for this prop: `true`, `false` or `null`:
+**(34)** `allow-sending-external-files` indicates whether VAC should or not send external files in a message. There are 3 possible values for this prop: `true`, `false` or `null`:
 - If set to `true` VAC will always send external files without asking user permission;
 - When set to `false` VAC will prevent sending external files. If user is sending external files in a message and this prop is set to `false` the file list will the cleaned (This use case can be clarified if you read `request-permission-to-send-external-files` event documentation);
 - When set to `null` VAC will emit the event `request-permission-to-send-external-files` each time a external file is sent;
 
-**(34)** `show-archived-rooms` indicates whether the room list should display archived rooms only or not.
+**(35)** `show-archived-rooms` indicates whether the room list should display archived rooms only or not.
 
 **(35)** `max-message-rows` indicates the maximum number of rows a message can have before being truncated. When the message has more rows, the content is truncated and a "Read more" button is shown. If set to `0` messages will never be truncated. 
 
@@ -842,6 +845,7 @@ Example:
 | `custom-action-icon`                        | Add a custom icon inside the footer                               |
 | `rooms-header`                              | Add a template on top of rooms list (above the search bar)        |
 | `room-list-item_{{ROOM_ID}}`                | Replace the template of the room list items                       |
+| `room-list-info_{{ROOM_ID}}`                | Replace the info of room list items                               |
 | `room-list-avatar_{{ROOM_ID}}`              | Replace the avatar of room list items                             |
 | `room-list-options_{{ROOM_ID}}`             | Replace the template of the list room options                     |
 | `room-list-options-icon_{{ROOM_ID}}`        | Replace the room list options dropdown icon                       |
@@ -904,8 +908,8 @@ You can find the source code to implement a full featured chat app using Firebas
 To test it using your own Firebase project:
 
 - Setup Cloud Firestore (to store users and rooms) and Realtime Database (to store users online status)
-- Clone this repository: `git clone https://github.com/antoine92190/vue-advanced-chat.git`
-- Inside `demo/src/firestore/index.js` file, replace the line `const config = ...` by your own Firebase config
+- Clone this repository: `git clone https://github.com/advanced-chat/vue-advanced-chat.git`
+- Inside `demo/src/database/index.js` file, replace the line `const config = ...` by your own Firebase config
 - Go inside `demo` folder and run `npm run serve`
 
 ### Data structure
@@ -965,7 +969,7 @@ messages: {
 
 <br>
 
-## [Contributing](https://github.com/antoine92190/vue-advanced-chat/blob/master/.github/CONTRIBUTING.md)
+## [Contributing](https://github.com/advanced-chat/vue-advanced-chat/blob/master/.github/CONTRIBUTING.md)
 
 Your help is always appreciated :rocket:
 

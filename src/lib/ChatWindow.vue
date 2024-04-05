@@ -107,6 +107,7 @@
 				@external-files-removed="$emit('external-files-removed', $event)"
 				@new-draft-message="$emit('new-draft-message', $event)"
         @message-reply-click="$emit('message-reply-click', $event)"
+				@click-message-username="$emit('click-message-username', $event)"
 			>
 				<template v-for="el in slots" #[el.slot]="data">
 					<slot :name="el.slot" v-bind="data" />
@@ -271,7 +272,8 @@ export default {
 		'external-files-removed',
     'new-draft-message',
     'click-archived-rooms',
-    'message-reply-click'
+    'message-reply-click',
+    'click-message-username'
 	],
 
 	data() {

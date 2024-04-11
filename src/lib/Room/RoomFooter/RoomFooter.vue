@@ -291,10 +291,10 @@ export default {
     'update-edited-message-id',
     'textarea-action-handler',
     'typing-message',
-      'attachment-picker-handler',
+    'attachment-picker-handler',
     'request-permission-to-send-external-files',
     'external-files-removed',
-    'new-draft-message',
+    'new-draft-message'
   ],
 
   data() {
@@ -355,7 +355,7 @@ export default {
       this.$emit('new-draft-message', {
         roomId: roomIdOld,
         content: this.message
-      });
+      })
 
       this.resetMessage(true, true)
 
@@ -394,7 +394,6 @@ export default {
     externalFiles(val) {
       if (val.length) {
         this.files = this.mergeFiles(this.files, val)
-        return
       }
     },
     allowSendingExternalFiles(val) {
@@ -404,7 +403,6 @@ export default {
       }
       if (val == 'false') {
         this.resetMessage()
-        return
       }
       /**
        * any other value means user not allow nor
@@ -483,14 +481,14 @@ export default {
         })
       }
     },
-    onChangeInput(shouldEmitTypingEvent=true) {
+    onChangeInput(shouldEmitTypingEvent = true) {
       if (this.getTextareaRef()?.value || this.getTextareaRef()?.value === '') {
         this.message = this.getTextareaRef()?.value
       }
       this.keepKeyboardOpen = true
       this.resizeTextarea()
       if (!shouldEmitTypingEvent) {
-        return;
+        return
       }
       this.$emit('typing-message', this.message)
     },
@@ -649,7 +647,7 @@ export default {
       }
 
       setTimeout(() => (this.fileDialog = false), 500)
-  },
+    },
     removeFile(index) {
       const removedFile = this.files[index]
       this.files.splice(index, 1)

@@ -21,7 +21,7 @@
       :title="file.name"
     >
       <div>
-        <i :class="file.icon" class="vac-optiwork-file-icon"></i>
+        <i :class="file.icon" class="vac-optiwork-file-icon" />
       </div>
 
       <div class="vac-optiwork-file-name vac-text-ellipsis">
@@ -72,7 +72,7 @@ import SvgIcon from '../../../../../components/SvgIcon/SvgIcon'
 
 import { isImageFile, isVideoFile } from '../../../../../utils/media-file'
 
-const SOURCE_OPTIWORK_DRIVE = 'SOURCE_OPTIWORK_DRIVE';
+const SOURCE_OPTIWORK_DRIVE = 'SOURCE_OPTIWORK_DRIVE'
 
 export default {
   name: 'RoomFiles',

@@ -574,26 +574,26 @@ export default {
     },
     messageActionHandler({ action, message }) {
       switch (action.name) {
-        case 'replyMessage':
-          this.initReplyMessage = message
-          setTimeout(() => {
-            this.initReplyMessage = null
-          })
-          return
-        case 'editMessage':
-          this.initEditMessage = message
-          setTimeout(() => {
-            this.initEditMessage = null
-          })
-          return
-        case 'deleteMessage':
-          return this.$emit('delete-message', message)
-        case 'selectMessages':
-          this.selectedMessages = [message]
-          this.messageSelectionEnabled = true
-          return
-        default:
-          return this.$emit('message-action-handler', { action, message })
+      case 'replyMessage':
+        this.initReplyMessage = message
+        setTimeout(() => {
+          this.initReplyMessage = null
+        })
+        return
+      case 'editMessage':
+        this.initEditMessage = message
+        setTimeout(() => {
+          this.initEditMessage = null
+        })
+        return
+      case 'deleteMessage':
+        return this.$emit('delete-message', message)
+      case 'selectMessages':
+        this.selectedMessages = [message]
+        this.messageSelectionEnabled = true
+        return
+      default:
+        return this.$emit('message-action-handler', { action, message })
       }
     },
     messageSelectionActionHandler(action) {

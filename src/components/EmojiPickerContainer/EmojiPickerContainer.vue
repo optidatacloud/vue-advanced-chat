@@ -168,8 +168,8 @@ export default {
         this.emojiPickerRight = this.positionTop
           ? '0px'
           : this.positionRight
-          ? '60px'
-          : ''
+            ? '60px'
+            : ''
       }
     }
   }

@@ -535,7 +535,7 @@ export default {
 
     selectMessage() {
       if (!this.messageSelectionEnabled || this.message.system) {
-          return
+        return
       }
       if (this.isMessageSelected) {
         this.$emit('unselect-message', this.message._id)

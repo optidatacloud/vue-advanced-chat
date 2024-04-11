@@ -48,7 +48,7 @@
             <div class="vac-format-message-wrapper vac-text-ellipsis">
               <div class="vac-format-container vac-text-ellipsis">
                 <span class="draft-message vac-text-ellipsis">
-                  <span class="draft-message-label"> {{translate('Draft')}}: </span> {{ room.draftMessage }}
+                  <span class="draft-message-label"> {{ translate('Draft') }}: </span> {{ room.draftMessage }}
                 </span>
               </div>
             </div>
@@ -99,8 +99,8 @@
             >
               {{ room.unreadCount }}
             </div>
-            <i v-if="room.isPinned" class="vac-pinned-icon bi bi-pin-angle-fill"></i>
-            <i v-if="room.isMuted" class="vac-muted-icon bi bi-bell-slash-fill"></i>
+            <i v-if="room.isPinned" class="vac-pinned-icon bi bi-pin-angle-fill" />
+            <i v-if="room.isMuted" class="vac-muted-icon bi bi-bell-slash-fill" />
             <slot :name="'room-list-options_' + room.roomId">
               <div
                 v-if="roomActions.length"
@@ -250,11 +250,11 @@ export default {
       this.roomMenuOpened = null
     },
     translate(key) {
-      if (typeof __ == 'function') {
-        return __(key);
+      if (typeof __ === 'function') {
+        return __(key)
       }
-      console.warn('No translation function found');
-      return key;
+      console.warn('No translation function found')
+      return key
     }
   }
 }

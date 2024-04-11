@@ -107,7 +107,7 @@
                 @unselect-message="unselectMessage"
                 @message-reaction-click="messageReactionClick"
                 @message-reply-click="$emit('message-reply-click', $event)"
-								@click-message-username="$emit('click-message-username', $event)"
+                @click-message-username="$emit('click-message-username', $event)"
               >
                 <template v-for="(idx, name) in $slots" #[name]="data">
                   <slot :name="name" v-bind="data" />
@@ -283,7 +283,7 @@ export default {
     'external-files-removed',
     'new-draft-message',
     'message-reply-click',
-		'click-message-username'
+    'click-message-username'
   ],
 
   data() {

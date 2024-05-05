@@ -211,7 +211,9 @@ export default {
           if (!this.loadingRooms) {
             this.showLoader = false
           }
+          return
         }
+        this.showLoader = true
       }
     },
     room: {

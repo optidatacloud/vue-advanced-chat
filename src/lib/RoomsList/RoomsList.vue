@@ -31,7 +31,8 @@
       </template>
     </loader>
 
-    <div v-if="!loadingRooms && !rooms.length" class="vac-rooms-empty">
+    <!-- If any of filtered array has no length then show: "no results found" -->
+    <div v-if="!loadingRooms && roomsQuery.length && !this.customSearchRooms.length && !this.filteredRooms.length" class="vac-rooms-empty">
       <slot name="rooms-empty">
         {{ textMessages.ROOMS_EMPTY }}
       </slot>
@@ -204,9 +205,9 @@ export default {
           if (!this.loadingRooms) {
             this.showLoader = false
           }
-          return
+        } else {
+          this.showLoader = true
         }
-        this.showLoader = true
       }
     },
     room: {

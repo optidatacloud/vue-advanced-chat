@@ -94,15 +94,6 @@
         </div>
       </transition>
     </div>
-    <transition name="vac-fade-message">
-      <!--
-        I only want to show this label when there is a non
-        empty query AND when it matches no room.
-      -->
-      <div v-if="roomsQuery.length && !filteredRooms.length" class="no-rooms-found-message">
-        {{ roomsNotFoundMessage }}
-      </div>
-    </transition>
   </div>
 </template>
 
@@ -142,7 +133,6 @@ export default {
     customSearchRoomEnabled: { type: [Boolean, String], default: false },
     roomActions: { type: Array, required: true },
     scrollDistance: { type: Number, required: true },
-    roomsNotFoundMessage: { type: String, required: true },
     call: { type: Object, required: true },
     showArchivedRooms: { type: Boolean, required: true }
   },

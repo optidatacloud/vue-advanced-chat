@@ -19,7 +19,6 @@
         :link-options="linkOptionsCasted"
         :is-mobile="isMobile"
         :scroll-distance="scrollDistance"
-        :rooms-not-found-message="roomsNotFoundMessage"
         :show-archived-rooms="showArchivedRoomsCasted"
         @fetch-room="fetchRoom"
         @fetch-more-rooms="fetchMoreRooms"
@@ -233,7 +232,6 @@ export default {
       default: () => ({ minUsers: 3, currentUser: false })
     },
     emojiDataSource: { type: String, default: undefined },
-    roomsNotFoundMessage: { type: String, default: '' },
     attachmentOptions: { type: Array, default: () => [] },
     call: { type: [Object, String], default: () => ({}) },
     textareaHighlight: { type: Boolean, default: false },

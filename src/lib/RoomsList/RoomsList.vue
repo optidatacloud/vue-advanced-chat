@@ -243,10 +243,10 @@ export default {
       }
     },
     searchRoom(ev) {
+      this.roomsQuery = ev.target.value
       if (this.customSearchRoomEnabled) {
         this.$emit('search-room', ev.target.value)
       } else {
-        this.roomsQuery = ev.target.value
         this.filteredRooms = filteredItems(
           this.rooms,
           ['roomName', 'email'],
@@ -255,6 +255,7 @@ export default {
       }
     },
     openRoom(room) {
+      this.roomsQuery = ''
       if (room.roomId === this.room.roomId && !this.isMobile) return
       if (!this.isMobile) this.selectedRoomId = room.roomId
       this.$emit('fetch-room', { room })

@@ -5,6 +5,7 @@
         v-if="!singleRoomCasted"
         :current-user-id="currentUserId"
         :rooms="orderedRooms"
+        :custom-search-rooms="customSearchRoomsCasted"
         :loading-rooms="loadingRoomsCasted"
         :rooms-loaded="roomsLoadedCasted"
         :room="room"
@@ -39,6 +40,7 @@
       <room
         :current-user-id="currentUserId"
         :rooms="roomsCasted"
+        :custom-search-rooms="customSearchRoomsCasted"
         :room-id="room.roomId || ''"
         :load-first-room="loadFirstRoomCasted"
         :messages="messagesCasted"
@@ -158,6 +160,7 @@ export default {
     textMessages: { type: [Object, String], default: () => ({}) },
     currentUserId: { type: String, default: '' },
     rooms: { type: [Array, String], default: () => [] },
+    customSearchRooms: { type: [Array, String], default: () => [] },
     roomsOrder: { type: String, default: 'desc' },
     loadingRooms: { type: [Boolean, String], default: false },
     roomsLoaded: { type: [Boolean, String], default: false },
@@ -391,6 +394,9 @@ export default {
     },
     roomsCasted() {
       return this.castArray(this.rooms)
+    },
+    customSearchRoomsCasted() {
+      return this.castArray(this.customSearchRooms)
     },
     messagesCasted() {
       return this.castArray(this.messages)

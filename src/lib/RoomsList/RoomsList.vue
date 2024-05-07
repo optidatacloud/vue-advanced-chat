@@ -127,6 +127,7 @@ export default {
     linkOptions: { type: Object, required: true },
     isMobile: { type: Boolean, required: true },
     rooms: { type: Array, required: true },
+    customSearchRooms: { type: Array, required: false, default: () => []},
     loadingRooms: { type: Boolean, required: true },
     roomsLoaded: { type: Boolean, required: true },
     room: { type: Object, required: true },

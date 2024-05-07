@@ -164,13 +164,15 @@ export default {
 
   computed: {
     roomsToDisplay: function() {
-      let roomsToReturn = this.roomsQuery.length ? this.filteredRooms : this.rooms
-
-      if (this.showArchivedRooms) {
-        return roomsToReturn.filter(room => room.isArchived)
+      if (!this.roomsQuery.length) {
+        return this.rooms
       }
 
-      return roomsToReturn.filter(room => !room.isArchived)
+      if (this.customSearchRoomEnabled) {
+        return this.customSearchRooms
+      }
+
+      return this.filteredRooms
     },
     hasArchivedRooms: function() {
       return this.rooms.some(room => room.isArchived)

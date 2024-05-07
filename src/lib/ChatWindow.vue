@@ -481,10 +481,6 @@ export default {
       }
     },
 
-    loadingRoomsCasted(val) {
-      if (val) this.room = {}
-    },
-
     roomId: {
       immediate: true,
       handler(newVal, oldVal) {

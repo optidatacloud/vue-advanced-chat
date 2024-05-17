@@ -306,10 +306,7 @@ export default {
 
   computed: {
     room() {
-      if (this.showArchivedRooms) {
-        return this.archivedRooms.find(room => room.roomId === this.roomId) || {}
-      }
-      return this.rooms.find(room => room.roomId === this.roomId) || {}
+      return this.rooms.find(room => room.roomId === this.roomId) || this.archivedRooms.find(room => room.roomId === this.roomId) || {}
     },
     showNoMessages() {
       return (

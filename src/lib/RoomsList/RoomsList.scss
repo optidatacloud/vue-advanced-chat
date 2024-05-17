@@ -20,7 +20,7 @@
     color: #9ca6af;
     font-style: italic;
     text-align: center;
-    margin: 40px 0;
+    margin: 30px 15px;
     line-height: 20px;
     white-space: pre-line;
   }
@@ -73,22 +73,29 @@
     }
   }
 
-  .rooms-move,
+  .rooms-move, /* apply transition to moving elements */
   .rooms-enter-active,
-  .rooms-leave-active {
-    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  .rooms-leave-active,
+  .rooms-archived-move,
+  .rooms-archived-enter-active,
+  .rooms-archived-leave-active {
+    transition: all 0.5s ease;
   }
 
-  .rooms-enter-from {
-    opacity: 0;
-    transform: translateY(2rem);
-  }
-
+  .rooms-enter-from,
   .rooms-leave-to {
     opacity: 0;
+    transform: translateX(-30px);
   }
 
-  .rooms-leave-active {
+  .rooms-archived-enter-from,
+  .rooms-archived-leave-to {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+
+  .rooms-leave-active,
+  .rooms-archived-leave-active {
     position: absolute;
   }
 

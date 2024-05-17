@@ -24,7 +24,7 @@
         </template>
       </rooms-search>
 
-      <div class="vac-rooms-archived" @click="clickArchivedRooms">
+      <div class="vac-rooms-archived" @click="clickArchivedRooms" v-if="showSearch">
         <div class="rooms-archived-icon">
           <i v-if="showArchivedRooms" class="bi bi-arrow-left"></i>
           <i v-else class="bi bi-archive-fill"></i>

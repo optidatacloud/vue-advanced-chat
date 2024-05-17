@@ -218,6 +218,8 @@ export default {
     showRoomsList: { type: Boolean, required: true },
     isMobile: { type: Boolean, required: true },
     rooms: { type: Array, required: true },
+    archivedRooms: { type: Array, required: true },
+    showArchivedRooms: { type: Boolean, required: true },
     roomId: { type: [String, Number], required: true },
     loadFirstRoom: { type: Boolean, required: true },
     messages: { type: Array, required: true },
@@ -304,6 +306,9 @@ export default {
 
   computed: {
     room() {
+      if (this.showArchivedRooms) {
+        return this.archivedRooms.find(room => room.roomId === this.roomId) || {}
+      }
       return this.rooms.find(room => room.roomId === this.roomId) || {}
     },
     showNoMessages() {

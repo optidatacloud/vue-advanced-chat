@@ -288,6 +288,9 @@ export default {
       const canAcceptCall = room.call && !room.call.attendance.statusCallEnded && !room.call.attendance.statusDeclined
 
       return !hasCallEnded && canAcceptCall
+    },
+    clickArchivedRooms() {
+      this.$emit('click-archived-rooms', !this.showArchivedRooms )
     }
   }
 }

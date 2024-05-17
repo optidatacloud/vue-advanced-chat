@@ -23,6 +23,16 @@
           <slot :name="name" v-bind="data" />
         </template>
       </rooms-search>
+
+      <div class="vac-rooms-archived" @click="clickArchivedRooms">
+        <div class="rooms-archived-icon">
+          <i v-if="showArchivedRooms" class="bi bi-arrow-left"></i>
+          <i v-else class="bi bi-archive-fill"></i>
+        </div>
+        <div>
+          {{ textMessages.ARCHIVED_ROOMS }}
+        </div>
+      </div>
     </slot>
 
     <loader :show="loadingRooms" type="rooms">

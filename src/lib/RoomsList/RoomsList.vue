@@ -42,21 +42,20 @@
     </loader>
 
     <!-- If any of filtered array has no length then show: "no results found" -->
-    <div v-if="!loadingRooms && roomsQuery.length && !this.customSearchRooms.length && !this.filteredRooms.length" class="vac-rooms-empty">
+    <div v-if="!loadingRooms && roomsQuery.length && !customSearchRooms.length && !filteredRooms.length" class="vac-rooms-empty">
       <slot name="rooms-empty">
         {{ textMessages.ROOMS_EMPTY }}
       </slot>
     </div>
 
-    <div v-if="!loadingRooms && roomsToDisplay.length" id="rooms-list" class="vac-room-list">
-      <transition-group name="rooms">
-        <slot v-if="hasArchivedRooms" name="rooms-list-archived">
-          <div class="vac-rooms-archived" @click="$emit('click-archived-rooms')">
-            <svg-icon name="archive" />
-            <span>{{ textMessages.ARCHIVED_ROOMS }}</span>
-          </div>
-        </slot>
+    <div v-if="!loadingRooms && showArchivedRooms && !archivedRooms.length" class="vac-rooms-empty">
+      <slot name="rooms-empty">
+        {{ textMessages.ARCHIVED_ROOMS_EMPTY }}
+      </slot>
+    </div>
 
+    <div v-if="!loadingRooms && roomsToDisplay.length" id="rooms-list" class="vac-room-list">
+      <transition-group :name="roomListTransition">
         <div
           v-for="fRoom in roomsToDisplay"
           :id="fRoom.roomId"
@@ -114,7 +113,6 @@ import Loader from '../../components/Loader/Loader'
 import RoomsSearch from './RoomsSearch/RoomsSearch'
 import RoomContent from './RoomContent/RoomContent'
 import RoomCallContent from './RoomCallContent/RoomCallContent'
-import SvgIcon from '../../components/SvgIcon/SvgIcon'
 
 import filteredItems from '../../utils/filter-items'
 
@@ -125,7 +123,6 @@ export default {
     RoomsSearch,
     RoomContent,
     RoomCallContent,
-    SvgIcon
   },
 
   props: {
@@ -138,6 +135,7 @@ export default {
     linkOptions: { type: Object, required: true },
     isMobile: { type: Boolean, required: true },
     rooms: { type: Array, required: true },
+    archivedRooms: { type: Array, required: true },
     customSearchRooms: { type: Array, required: false, default: () => []},
     loadingRooms: { type: Boolean, required: true },
     roomsLoaded: { type: Boolean, required: true },
@@ -146,7 +144,7 @@ export default {
     roomActions: { type: Array, required: true },
     scrollDistance: { type: Number, required: true },
     call: { type: Object, required: true },
-    showArchivedRooms: { type: Boolean, required: true }
+    showArchivedRooms: { type: Boolean, required: true, default: false}
   },
 
   emits: [
@@ -176,7 +174,7 @@ export default {
   computed: {
     roomsToDisplay: function() {
       if (!this.roomsQuery.length) {
-        return this.rooms
+        return this.showArchivedRooms ? this.archivedRooms : this.rooms
       }
 
       if (this.customSearchRoomEnabled) {
@@ -185,8 +183,8 @@ export default {
 
       return this.filteredRooms
     },
-    hasArchivedRooms: function() {
-      return this.rooms.some(room => room.isArchived)
+    roomListTransition() {
+      return this.showArchivedRooms ? 'rooms-archived': 'rooms';
     }
   },
 
@@ -224,6 +222,15 @@ export default {
       immediate: true,
       handler(val) {
         if (val && !this.isMobile) this.selectedRoomId = val.roomId
+      }
+    },
+    /**
+     * If user change rooms view between archived and
+     * non-archived rooms, then reset the search.
+     */
+    showArchivedRooms: {
+      handler() {
+        this.roomsQuery = ''
       }
     }
   },

@@ -41,14 +41,15 @@
       </template>
     </loader>
 
-    <!-- If any of filtered array has no length then show: "no results found" -->
-    <div v-if="!loadingRooms && roomsQuery.length && !customSearchRooms.length && !filteredRooms.length" class="vac-rooms-empty">
+    <!-- Displayed when user searches for something and result it's empty -->
+    <div v-if="!loadingRooms && roomsQuery.length && !customSearchRooms.length && !roomsToDisplay.length" class="vac-rooms-empty xesquedele pinto">
       <slot name="rooms-empty">
         {{ textMessages.ROOMS_EMPTY }}
       </slot>
     </div>
 
-    <div v-if="!loadingRooms && showArchivedRooms && !archivedRooms.length" class="vac-rooms-empty">
+    <!-- Displayed when user has no archived rooms -->
+    <div v-if="!loadingRooms && !roomsQuery.length && showArchivedRooms && !archivedRooms.length" class="vac-rooms-empty">
       <slot name="rooms-empty">
         {{ textMessages.ARCHIVED_ROOMS_EMPTY }}
       </slot>

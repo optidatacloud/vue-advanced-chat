@@ -318,7 +318,7 @@ export default {
     },
     showNoRoom() {
       const noRoomSelected =
-        (!this.rooms.length && !this.loadingRooms) ||
+        (!this.rooms.length && !this.archivedRooms.length && !this.loadingRooms) ||
         (!this.roomId && !this.loadFirstRoom)
 
       if (noRoomSelected) {

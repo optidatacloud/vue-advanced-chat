@@ -96,7 +96,7 @@
         </div>
       </transition-group>
       <transition name="vac-fade-message">
-        <div v-if="rooms.length && !loadingRooms" id="infinite-loader-rooms">
+        <div v-if="(rooms.length || archivedRooms.length || customSearchRooms.length) && !loadingRooms" id="infinite-loader-rooms">
           <loader :show="showLoader" :infinite="true" type="infinite-rooms">
             <template v-for="(idx, name) in $slots" #[name]="data">
               <slot :name="name" v-bind="data" />
@@ -232,6 +232,7 @@ export default {
     showArchivedRooms: {
       handler() {
         this.roomsQuery = ''
+        setTimeout(() => this.initIntersectionObserver())
       }
     }
   },

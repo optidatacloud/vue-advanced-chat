@@ -23,6 +23,13 @@
       </div>
     </transition>
 
+    <div class="vac-preview-download-button" @click="downloadFile($event, file)">
+      <slot :name="'document-icon_' + file.url">
+        <svg-icon name="document" />
+        <span>Baixar</span>
+      </slot>
+    </div>
+
     <div class="vac-svg-button">
       <slot name="preview-close-icon">
         <svg-icon name="close-outline" param="preview" />
@@ -63,6 +70,11 @@ export default {
   methods: {
     closeModal() {
       this.$emit('close-media-preview')
+    },
+    downloadFile(event, file) {
+      event.preventDefault()
+      event.stopPropagation()
+      window.open(file.downloadUrl, '_self')
     }
   }
 }

@@ -1,3 +1,4 @@
+
 <template>
   <div
     ref="modal"
@@ -23,10 +24,10 @@
       </div>
     </transition>
 
-    <div class="vac-preview-download-button" @click="downloadFile($event, file)">
+    <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
       <slot :name="'document-icon_' + file.url">
         <svg-icon name="document" />
-        <span>Baixar</span>
+        <span>{{ translate('Download') }}</span>
       </slot>
     </div>
 
@@ -37,8 +38,11 @@
     </div>
   </div>
 </template>
+
 <script>
 import SvgIcon from '../../components/SvgIcon/SvgIcon'
+
+import { translate } from '../../utils/i18n/index'
 
 import { isImageFile, isVideoFile } from '../../utils/media-file'
 
@@ -68,6 +72,9 @@ export default {
   },
 
   methods: {
+    translate(str) {
+      return translate(str)
+    },
     closeModal() {
       this.$emit('close-media-preview')
     },

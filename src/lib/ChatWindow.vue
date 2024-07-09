@@ -164,7 +164,7 @@ export default {
     currentUserId: { type: String, default: '' },
     rooms: { type: [Array, String], default: () => [] },
     customSearchRooms: { type: [Array, String], default: () => [] },
-    archivedRooms: { type: Array, default: () => []},
+    archivedRooms: { type: Array, default: () => [] },
     roomsOrder: { type: String, default: 'desc' },
     loadingRooms: { type: [Boolean, String], default: false },
     roomsLoaded: { type: [Boolean, String], default: false },

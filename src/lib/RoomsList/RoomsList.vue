@@ -24,10 +24,10 @@
         </template>
       </rooms-search>
 
-      <div class="vac-rooms-archived" @click="clickArchivedRooms" v-if="showSearch">
+      <div v-if="showSearch" class="vac-rooms-archived" @click="clickArchivedRooms">
         <div class="rooms-archived-icon">
-          <i v-if="showArchivedRooms" class="bi bi-arrow-left"></i>
-          <i v-else class="bi bi-archive-fill"></i>
+          <i v-if="showArchivedRooms" class="bi bi-arrow-left" />
+          <i v-else class="bi bi-archive-fill" />
         </div>
         <div>
           {{ textMessages.ARCHIVED_ROOMS }}
@@ -123,7 +123,7 @@ export default {
     Loader,
     RoomsSearch,
     RoomContent,
-    RoomCallContent,
+    RoomCallContent
   },
 
   props: {
@@ -137,7 +137,7 @@ export default {
     isMobile: { type: Boolean, required: true },
     rooms: { type: Array, required: true },
     archivedRooms: { type: Array, required: true },
-    customSearchRooms: { type: Array, required: false, default: () => []},
+    customSearchRooms: { type: Array, required: false, default: () => [] },
     loadingRooms: { type: Boolean, required: true },
     roomsLoaded: { type: Boolean, required: true },
     room: { type: Object, required: true },
@@ -145,7 +145,7 @@ export default {
     roomActions: { type: Array, required: true },
     scrollDistance: { type: Number, required: true },
     call: { type: Object, required: true },
-    showArchivedRooms: { type: Boolean, required: true, default: false}
+    showArchivedRooms: { type: Boolean, required: true, default: false }
   },
 
   emits: [
@@ -185,7 +185,7 @@ export default {
       return this.filteredRooms
     },
     roomListTransition() {
-      return this.showArchivedRooms ? 'rooms-archived': 'rooms';
+      return this.showArchivedRooms ? 'rooms-archived' : 'rooms'
     }
   },
 
@@ -299,7 +299,7 @@ export default {
       return !hasCallEnded && canAcceptCall
     },
     clickArchivedRooms() {
-      this.$emit('click-archived-rooms', !this.showArchivedRooms )
+      this.$emit('click-archived-rooms', !this.showArchivedRooms)
     }
   }
 }

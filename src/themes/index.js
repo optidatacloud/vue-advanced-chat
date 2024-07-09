@@ -1,6 +1,7 @@
 export const defaultThemeStyles = {
   light: {
     general: {
+      primary: '#7367f0',
       color: '#0a0a0a',
       colorButtonClear: '#1976d2',
       colorButton: '#fff',
@@ -17,7 +18,7 @@ export const defaultThemeStyles = {
       border: 'none',
       borderRadius: '4px',
       boxShadow:
-        '0px 1px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)'
+				'0px 1px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)'
     },
 
     header: {
@@ -151,6 +152,7 @@ export const defaultThemeStyles = {
   },
   dark: {
     general: {
+      primary: '#7367f0',
       color: '#fff',
       colorButtonClear: '#fff',
       colorButton: '#fff',
@@ -167,7 +169,7 @@ export const defaultThemeStyles = {
       border: 'none',
       borderRadius: '4px',
       boxShadow:
-        '0px 1px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)'
+				'0px 1px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)'
     },
 
     header: {
@@ -317,6 +319,7 @@ export const cssThemeVars = ({
 }) => {
   return {
     // general
+    '--chat-primary': general.primary,
     '--chat-color': general.color,
     '--chat-color-button-clear': general.colorButtonClear,
     '--chat-color-button': general.colorButton,
@@ -389,20 +392,20 @@ export const cssThemeVars = ({
     '--chat-message-border-style-reaction': message.borderStyleReaction,
     '--chat-message-bg-color-reaction-hover': message.backgroundReactionHover,
     '--chat-message-border-style-reaction-hover':
-      message.borderStyleReactionHover,
+			message.borderStyleReactionHover,
     '--chat-message-color-reaction-counter': message.colorReactionCounter,
     '--chat-message-bg-color-reaction-me': message.backgroundReactionMe,
     '--chat-message-border-style-reaction-me': message.borderStyleReactionMe,
     '--chat-message-bg-color-reaction-hover-me':
-      message.backgroundReactionHoverMe,
+			message.backgroundReactionHoverMe,
     '--chat-message-border-style-reaction-hover-me':
-      message.borderStyleReactionHoverMe,
+			message.borderStyleReactionHoverMe,
     '--chat-message-color-reaction-counter-me': message.colorReactionCounterMe,
     '--chat-message-bg-color-audio-record': message.backgroundAudioRecord,
     '--chat-message-bg-color-audio-line': message.backgroundAudioLine,
     '--chat-message-bg-color-audio-progress': message.backgroundAudioProgress,
     '--chat-message-bg-color-audio-progress-selector':
-      message.backgroundAudioProgressSelector,
+			message.backgroundAudioProgressSelector,
     '--chat-message-color-file-extension': message.colorFileExtension,
 
     // markdown

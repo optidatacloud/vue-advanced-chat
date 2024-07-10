@@ -149,8 +149,7 @@ import {
 import FileUploadManager from '../utils/uploader/'
 
 const uploader = new FileUploadManager()
-console.clear()
-console.log('uploader', uploader)
+uploader.initEventListeners()
 
 export default {
   name: 'ChatContainer',

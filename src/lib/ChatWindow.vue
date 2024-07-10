@@ -1,3 +1,4 @@
+
 <template>
   <div class="vac-card-window" :style="[{ height }, cssVars]">
     <div class="vac-chat-container">
@@ -144,6 +145,12 @@ import {
   roomsValidation,
   partcipantsValidation
 } from '../utils/data-validation'
+
+import FileUploadManager from '../utils/uploader/'
+
+const uploader = new FileUploadManager()
+console.clear()
+console.log('uploader', uploader)
 
 export default {
   name: 'ChatContainer',

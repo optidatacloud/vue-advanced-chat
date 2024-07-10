@@ -1,4 +1,4 @@
-import { translate } from '../i18n'
+// import { translate } from '../i18n'
 
 window.Optidata = window.Optidata || {}
 
@@ -38,7 +38,7 @@ export default class FileManagerUploader {
 
       event.preventDefault()
 
-      const dragOverlay = $('.drag-overlay')
+      const dragOverlay = $('.vac-drag-overlay')
       const target = $(event.relatedTarget)
 
       if (event.type === 'dragenter' && dragOverlay.length === 0) {
@@ -52,9 +52,8 @@ export default class FileManagerUploader {
     }
 
     this.addDragOverlay = () => {
-      console.log('addDragOverlay')
-
-      const chat = $('vue-advanced-chat')
+      const chat = $('#teste')
+      chat.removeClass('d-none')
 
       //   chat.append(`
       //     <div class="drag-overlay">
@@ -68,19 +67,21 @@ export default class FileManagerUploader {
       //     </div>
       // `)
 
-      chat.addClass('drag-overlay-border')
-
       // const indicator = chat.find('.drag-overlay-indicator')
       // indicator.animate({ bottom: '+=50px' }, 200, 'linear')
+      console.log(chat)
     }
 
     this.removeDragOverlay = () => {
-      const chat = $('vue-advanced-chat')
+      const chat = $('#teste')
+      chat.addClass('d-none')
 
-      chat.removeClass('drag-overlay-border')
-      // const dragOverlay = chat.find('.drag-overlay')
+      // chat.removeClass('vac-drag-overlay-border')
+
+      // const dragOverlay = body.find('.drag-overlay')
 
       // dragOverlay.remove()
+      console.log(chat)
     }
 
     this.activate = () => {

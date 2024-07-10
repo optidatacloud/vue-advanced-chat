@@ -146,11 +146,6 @@ import {
   partcipantsValidation
 } from '../utils/data-validation'
 
-import FileUploadManager from '../utils/uploader/'
-
-const uploader = new FileUploadManager()
-uploader.initEventListeners()
-
 export default {
   name: 'ChatContainer',
   components: {

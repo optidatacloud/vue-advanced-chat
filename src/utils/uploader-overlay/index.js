@@ -1,11 +1,9 @@
-// import { translate } from '../i18n'
+import { translate } from '../i18n'
 
 window.Optidata = window.Optidata || {}
 
-export default class FileManagerUploader {
+export default class FileUploaderOverlay {
   constructor() {
-    this.active = true
-
     this.initEventListeners = () => {
       document.body.addEventListener('drop', this.onDrop.bind(this))
       document.body.addEventListener('dragenter', this.onDrag.bind(this))
@@ -14,6 +12,7 @@ export default class FileManagerUploader {
 
     this.onDrop = async event => {
       event.preventDefault()
+      event.stopPropagation()
       this.removeDragOverlay()
     }
 
@@ -34,18 +33,19 @@ export default class FileManagerUploader {
     }
 
     this.addDragOverlay = () => {
-      const chat = $('#chat')
+      if ($('#vac-overlay').length !== 0) {
+        return
+      }
 
-      chat.prepend(`
-        
+      $('#chat').prepend(`
         <div id='vac-overlay'>
           <div class="vac-drag-overlay-border"></div>
           <div class='vac-drag-overlay'>
             <div class='vac-drag-overlay-indicator'>
-              <span class='vac-drag-overlay-title'>Drop the files to send</span>
+              <span class='vac-drag-overlay-title'>${translate('Drop the files to send')}</span>
 
               <div>
-                <span>Tip: you can drop multiple files at once</span>
+                <span>${translate('Tip: you can drop multiple files at once')}</span>
               </div>
             </div>
           </div>
@@ -54,9 +54,13 @@ export default class FileManagerUploader {
     }
 
     this.removeDragOverlay = () => {
+      if ($('#vac-overlay').length === 0) {
+        return
+      }
+
       document.getElementById('vac-overlay').remove()
     }
   }
 }
 
-window.Optidata.FileManagerUploader = new FileManagerUploader()
+window.Optidata.FileUploaderOverlay = new FileUploaderOverlay()

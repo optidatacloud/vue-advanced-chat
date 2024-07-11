@@ -39,10 +39,11 @@ export default class FileUploaderOverlay {
 
       $('#chat').prepend(`
         <div id='vac-overlay'>
-          <div class="vac-drag-overlay-border"></div>
-          <div class='vac-drag-overlay'>
+        <div class='vac-drag-overlay'>
+            <div class="vac-drag-overlay-border"></div>
             <div class='vac-drag-overlay-indicator'>
-              <span class='vac-drag-overlay-title'>${translate('Drop the files to send')}</span>
+              <i class="bi bi-upload"></i>
+              <span class='vac-drag-overlay-title'>${translate('Drop the file here to send')}</span>
 
               <div>
                 <span>${translate('Tip: you can drop multiple files at once')}</span>
@@ -51,6 +52,8 @@ export default class FileUploaderOverlay {
           </div>
         </div>
       `)
+
+      this.calculatePosition()
     }
 
     this.removeDragOverlay = () => {
@@ -58,7 +61,15 @@ export default class FileUploaderOverlay {
         return
       }
 
-      document.getElementById('vac-overlay').remove()
+      $('#vac-overlay').remove()
+    }
+
+    this.calculatePosition = () => {
+      const overlay = $('.vac-drag-overlay')
+      const overlayNewX = $('div[slot="rooms-header"]').width() + 'px'
+      const overlayNewWidth = `calc(100vw - ${overlayNewX})`
+
+      overlay.css({ left: overlayNewX, width: overlayNewWidth })
     }
   }
 }

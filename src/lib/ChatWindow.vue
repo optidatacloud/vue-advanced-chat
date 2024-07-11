@@ -1,4 +1,3 @@
-
 <template>
   <div class="vac-card-window" :style="[{ height }, cssVars]">
     <div class="vac-chat-container">

@@ -1,3 +1,4 @@
+
 <template>
   <div
     ref="modal"
@@ -35,6 +36,13 @@
 			</div>
     </transition>
 
+    <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
+      <slot :name="'document-icon_' + file.url">
+        <svg-icon name="document" />
+        <span>{{ translate('Download') }}</span>
+      </slot>
+    </div>
+
     <div class="vac-svg-button">
       <slot name="preview-close-icon">
         <svg-icon name="close-outline" param="preview" />
@@ -42,12 +50,14 @@
     </div>
   </div>
 </template>
+
 <script>
 
 import Loader from '../../components/Loader/Loader'
 import SvgIcon from '../../components/SvgIcon/SvgIcon'
 
 import { isImageFile, isVideoFile, isPdfFile } from '../../utils/media-file'
+import { translate } from '../../utils/i18n/index'
 
 export default {
   name: 'MediaPreview',
@@ -85,8 +95,16 @@ export default {
   },
 
   methods: {
+    translate(str) {
+      return translate(str)
+    },
     closeModal() {
       this.$emit('close-media-preview')
+    },
+    downloadFile(event, file) {
+      event.preventDefault()
+      event.stopPropagation()
+      window.open(file.downloadUrl, '_self')
     },
     onIframeFinishedLoading() {
       this.isLoadingIframe = false

@@ -4,6 +4,10 @@ window.Optidata = window.Optidata || {}
 
 export default class FileUploaderOverlay {
   constructor() {
+    this.init = () => {
+      this.initEventListeners()
+    }
+
     this.initEventListeners = () => {
       document.body.addEventListener('drop', this.onDrop.bind(this))
       document.body.addEventListener('dragenter', this.onDrag.bind(this))

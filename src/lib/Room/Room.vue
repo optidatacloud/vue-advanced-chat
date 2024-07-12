@@ -471,7 +471,7 @@ export default {
 
       if (!isNaN(parseInt(this.roomId)) && !this.overlayInitialized) {
         const uploadOverlay = new FileUploaderOverlay()
-        uploadOverlay.initEventListeners()
+        uploadOverlay.init()
         this.overlayInitialized = true
       }
 

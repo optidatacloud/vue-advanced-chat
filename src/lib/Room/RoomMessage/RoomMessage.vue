@@ -478,7 +478,9 @@ export default {
   methods: {
     onMessageAvatarClicked(msg) {
       const id = msg?.senderId
-      if (!id) return
+      if (!id) {
+        return
+      }
       this.$emit('avatar-click', id)
     },
     onHoverMessage() {

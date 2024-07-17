@@ -568,7 +568,7 @@ export default {
         this.roomInfo()
         return
       }
-      this.$emit('room-info', { senderId: id })
+      this.$emit('room-info', { userId: id })
     },
     addRoom() {
       this.$emit('add-room')

@@ -566,9 +566,9 @@ export default {
     onAvatarClick(id) {
       if (this.room?.isIndividual) {
         this.roomInfo()
-      } else {
-        this.$emit('room-info', { senderId: id })
+        return
       }
+      this.$emit('room-info', { senderId: id })
     },
     addRoom() {
       this.$emit('add-room')

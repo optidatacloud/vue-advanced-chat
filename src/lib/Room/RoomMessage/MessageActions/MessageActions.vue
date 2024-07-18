@@ -73,7 +73,7 @@
       >
         <div class="vac-menu-list">
           <div v-for="action in filteredMessageActions" :key="action.name">
-            <div class="vac-menu-item" :class="{ 'vac-action-disabled': action.name === 'copyMessage' && message.content === '' }" @click="messageActionHandler(action)">
+            <div class="vac-menu-item" :class="{ 'vac-action-disabled': action?.disableIfContentIsNull && message.content === '' }" @click="messageActionHandler(action)">
               {{ action.title }}
             </div>
           </div>

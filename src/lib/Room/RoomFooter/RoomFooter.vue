@@ -467,7 +467,7 @@ export default {
 
   methods: {
     hasReachedMaxLength(message) {
-      return message.length === this.MAX_MESSAGE_LENGTH
+      return message?.length >= this.MAX_MESSAGE_LENGTH
     },
     mergeFiles(files, externalFiles) {
       const newExternalFiles = externalFiles.filter(
@@ -495,8 +495,9 @@ export default {
       }
     },
     onChangeInput(shouldEmitTypingEvent = true) {
-      if (this.getTextareaRef()?.value || this.getTextareaRef()?.value === '') {
-        this.message = this.getTextareaRef()?.value
+      const messageTyped = this.getTextareaRef()?.value
+      if (messageTyped || messageTyped === '') {
+        this.message = messageTyped
       }
       this.keepKeyboardOpen = true
       this.resizeTextarea()
@@ -581,6 +582,7 @@ export default {
         emoji +
         this.message.substr(endPosition, this.message.length - 1)
 
+      this.message = this.message.substring(0, this.MAX_MESSAGE_LENGTH)
       this.cursorRangePosition = position
       this.focusTextarea()
     },
@@ -734,7 +736,7 @@ export default {
         return
       }
 
-      let message = this.message.trim()
+      let message = this.message.trim().substring(0, this.MAX_MESSAGE_LENGTH)
 
       if (!this.files.length && !message) return
 

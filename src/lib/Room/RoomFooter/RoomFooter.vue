@@ -330,7 +330,8 @@ export default {
       filteredTemplatesText: [],
       recorder: this.initRecorder(),
       isRecording: false,
-      MAX_MESSAGE_LENGTH: 20000
+      MAX_MESSAGE_LENGTH: 20000,
+      isFileAttachementAllowed: false
     }
   },
 
@@ -477,6 +478,8 @@ export default {
         return
       }
 
+      this.isFileAttachementAllowed = state === 'all'
+
       elem.css({ 'pointer-events': state })
     },
     hasReachedMaxLength(message) {
@@ -547,6 +550,9 @@ export default {
       })
     },
     onPasteImage(pasteEvent) {
+      if (!this.isFileAttachementAllowed) {
+        return
+      }
       const items = pasteEvent.clipboardData?.items
 
       if (items) {

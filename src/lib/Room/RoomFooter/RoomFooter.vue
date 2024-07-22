@@ -550,9 +550,6 @@ export default {
       })
     },
     onPasteImage(pasteEvent) {
-      if (!this.isFileAttachementAllowed) {
-        return
-      }
       const items = pasteEvent.clipboardData?.items
 
       if (items) {
@@ -652,6 +649,9 @@ export default {
       this.$emit('attachment-picker-handler', option)
     },
     async onFileChange(files) {
+      if (!this.isFileAttachementAllowed) {
+        return
+      }
       this.fileDialog = true
       this.focusTextarea()
 

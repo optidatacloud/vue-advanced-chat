@@ -466,6 +466,19 @@ export default {
   },
 
   methods: {
+    setFilePickerState(state = null) {
+      if (state !== 'all' && state !== 'none') {
+        return
+      }
+
+      var elem = $(this.getTextareaRef())?.parent()?.find('.room-attachment-picker-wrapper')
+
+      if (!elem) {
+        return
+      }
+
+      elem.css({ 'pointer-events': state })
+    },
     hasReachedMaxLength(message) {
       return message?.length >= this.MAX_MESSAGE_LENGTH
     },
@@ -781,6 +794,7 @@ export default {
     },
     editMessage(message) {
       this.resetMessage()
+      this.setFilePickerState('none')
 
       this.editedMessage = { ...message }
 
@@ -949,6 +963,7 @@ export default {
       }
     },
     resetMessage(disableMobileFocus = false, initRoom = false) {
+      this.setFilePickerState('all')
       if (!initRoom) {
         this.$emit('typing-message', null)
       }

@@ -237,6 +237,9 @@ import Recorder from '../../../utils/recorder'
 import { detectChrome } from '../../../utils/browser-detection'
 import { detectMobile } from '../../../utils/mobile-detection'
 
+import { translate } from '../../../utils/i18n'
+
+
 /**
  * Constants defined on File model on Chat backend
  */
@@ -330,7 +333,8 @@ export default {
       filteredTemplatesText: [],
       recorder: this.initRecorder(),
       isRecording: false,
-      MAX_MESSAGE_LENGTH: 20000
+      MAX_MESSAGE_LENGTH: 20000,
+      isLastMessageUpdated: false
     }
   },
 
@@ -356,6 +360,12 @@ export default {
   },
 
   watch: {
+    room(newMessage, _) {
+      console.log(`atualizou o room`)
+      console.log('msg', newMessage?.lastMessage)
+      console.log('text', newMessage?.lastMessage?.content)
+      this.isLastMessageUpdated = true
+    },
     roomId(roomIdNew, roomIdOld) {
       /**
        * If roomId changes it means user switched
@@ -427,7 +437,39 @@ export default {
     let isComposed = true
 
     this.getTextareaRef().addEventListener('keyup', e => {
-      if (e.key === 'Enter' && !e.shiftKey && !this.fileDialog) {
+      if (e.key === 'ArrowUp') {
+        console.log(`isLastMessageUpdated`, this.isLastMessageUpdated)
+
+        if (!this.isLastMessageUpdated) {
+          return
+        }
+
+        if (this.files.length || this.message.length) {
+          return
+        }
+
+        if (this.messageReply || this.editedMessage._id) {
+          return
+        }
+
+        const lastMessage = this.room.lastMessage
+
+        if (!lastMessage.content.length) {
+          return
+        }
+
+        // eslint-disable-next-line no-undef
+        if (lastMessage.senderId != this.currentUserId && lastMessage.username !== translate('You')) {
+          console.log(`lastMessage.username`, lastMessage.username)
+          console.log(`translate('You')`, translate('You'))
+          console.log(`lastMessage.senderId`, lastMessage.senderId)
+          console.log(`this.currentUserId`, this.currentUserId)
+          console.log(`return 4`)
+          return
+        }
+
+        this.editMessage(lastMessage)
+      } else if (e.key === 'Enter' && !e.shiftKey && !this.fileDialog) {
         if (isMobile) {
           this.message = this.message + '\n'
           setTimeout(() => this.onChangeInput())
@@ -529,6 +571,9 @@ export default {
       } else {
         this.resetMessage()
       }
+
+      this.isLastMessageUpdated = false
+
       this.$emit('attachment-picker-handler', {
         cancel: true
       })
@@ -750,6 +795,8 @@ export default {
       })
 
       const files = this.files.length ? this.files : null
+
+      this.isLastMessageUpdated = false
 
       if (this.editedMessage._id) {
         if (

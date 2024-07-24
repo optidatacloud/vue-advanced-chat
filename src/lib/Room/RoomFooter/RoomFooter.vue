@@ -361,9 +361,6 @@ export default {
 
   watch: {
     room(newMessage, _) {
-      console.log(`atualizou o room`)
-      console.log('msg', newMessage?.lastMessage)
-      console.log('text', newMessage?.lastMessage?.content)
       this.isLastMessageUpdated = true
     },
     roomId(roomIdNew, roomIdOld) {
@@ -378,6 +375,10 @@ export default {
       })
 
       this.resetMessage(true, true)
+
+      if (this.recorder.isRecording) {
+        this.stopRecorder()
+      }
 
       if (this.roomMessage || this.room.draftMessage) {
         this.message = this.roomMessage || this.room.draftMessage
@@ -438,8 +439,6 @@ export default {
 
     this.getTextareaRef().addEventListener('keyup', e => {
       if (e.key === 'ArrowUp') {
-        console.log(`isLastMessageUpdated`, this.isLastMessageUpdated)
-
         if (!this.isLastMessageUpdated) {
           return
         }
@@ -460,11 +459,6 @@ export default {
 
         // eslint-disable-next-line no-undef
         if (lastMessage.senderId != this.currentUserId && lastMessage.username !== translate('You')) {
-          console.log(`lastMessage.username`, lastMessage.username)
-          console.log(`translate('You')`, translate('You'))
-          console.log(`lastMessage.senderId`, lastMessage.senderId)
-          console.log(`this.currentUserId`, this.currentUserId)
-          console.log(`return 4`)
           return
         }
 

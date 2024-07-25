@@ -1,6 +1,6 @@
 <template>
   <div class="vac-message-files-container">
-    <div v-for="(file, i) in imageVideoFiles" :key="i + 'iv'">
+    <div v-for="(file, i) in imageVideoFiles" :key="i + 'iv'" :name="`image_video_${i}`" @click.stop="handleMediaClick(file, i)">
       <message-file
         :file="file"
         :current-user-id="currentUserId"
@@ -89,6 +89,12 @@ export default {
   },
 
   methods: {
+    handleMediaClick(file, index) {
+      console.clear()
+      console.log(`file`, file)
+      console.log(`index`, index)
+      console.log(`imageVideoFiles`, this.imageVideoFiles)
+    },
     openFile(event, file) {
       if (this.messageSelectionEnabled) {
         return

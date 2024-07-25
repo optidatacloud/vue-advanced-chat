@@ -579,7 +579,6 @@ export default {
       } else {
         this.resetMessage()
       }
-
       this.$emit('attachment-picker-handler', {
         cancel: true
       })

@@ -237,9 +237,6 @@ import Recorder from '../../../utils/recorder'
 import { detectChrome } from '../../../utils/browser-detection'
 import { detectMobile } from '../../../utils/mobile-detection'
 
-import { translate } from '../../../utils/i18n'
-
-
 /**
  * Constants defined on File model on Chat backend
  */
@@ -361,7 +358,7 @@ export default {
   },
 
   watch: {
-    room(newMessage, _) {
+    room() {
       this.isLastMessageUpdated = true
     },
     roomId(roomIdNew, roomIdOld) {
@@ -439,35 +436,12 @@ export default {
     let isComposed = true
 
     this.getTextareaRef().addEventListener('keyup', e => {
-      if (e.key === 'ArrowUp') {
-        if (!this.isLastMessageUpdated) {
-          return
-        }
-
-        if (this.files.length || this.message.length) {
-          return
-        }
-
-        if (this.messageReply || this.editedMessage._id) {
-          return
-        }
-
+      if (e.key === 'ArrowUp' && !e.shiftKey) {
         const lastMessage = this.room.lastMessage
-
-        if (!lastMessage?._id) {
-          return
+        if (this.isAbleToEditLastMessage(lastMessage)) {
+          return this.editMessage(lastMessage)
         }
-
-        if (!lastMessage.content.length) {
-          return
-        }
-
-        // eslint-disable-next-line no-undef
-        if (lastMessage.senderId != this.currentUserId && lastMessage.username !== translate('You')) {
-          return
-        }
-
-        this.editMessage(lastMessage)
+        return
       } else if (e.key === 'Enter' && !e.shiftKey && !this.fileDialog) {
         if (isMobile) {
           this.message = this.message + '\n'
@@ -507,6 +481,20 @@ export default {
   },
 
   methods: {
+    isAbleToEditLastMessage(lastMessage) {
+      const isDoingOtherAction = this.messageReply || this.editedMessage._id
+      const isLastMessageValid = !!lastMessage?._id && lastMessage.content.length
+      const isLastMessageMine = Number(lastMessage.senderId) === Number(this.currentUserId)
+      const isInputEmpty = !this.files.length && !this.message.length
+
+      return (
+        isInputEmpty &&
+        isLastMessageMine &&
+        isLastMessageValid &&
+        !isDoingOtherAction &&
+        this.isLastMessageUpdated
+      )
+    },
     setFilePickerState(state = null) {
       if (state !== 'all' && state !== 'none') {
         return
@@ -585,8 +573,6 @@ export default {
       } else {
         this.resetMessage()
       }
-
-      this.isLastMessageUpdated = false
 
       this.$emit('attachment-picker-handler', {
         cancel: true
@@ -813,8 +799,6 @@ export default {
 
       const files = this.files.length ? this.files : null
 
-      this.isLastMessageUpdated = false
-
       if (this.editedMessage._id) {
         if (
           this.editedMessage.content !== message ||
@@ -842,6 +826,7 @@ export default {
         cancel: true
       })
       this.resetMessage(true)
+      this.isLastMessageUpdated = false
     },
     editMessage(message) {
       this.resetMessage()
@@ -1033,6 +1018,8 @@ export default {
       if (this.textareaAutoFocus || !initRoom) {
         setTimeout(() => this.focusTextarea(disableMobileFocus))
       }
+
+      this.isLastMessageUpdated = true
     },
     resetTextareaSize() {
       if (this.getTextareaRef()) {

@@ -453,6 +453,10 @@ export default {
 
         const lastMessage = this.room.lastMessage
 
+        if (!lastMessage?._id) {
+          return
+        }
+
         if (!lastMessage.content.length) {
           return
         }

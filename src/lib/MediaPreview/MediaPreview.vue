@@ -7,7 +7,6 @@
     @click.stop="closeModal"
     @keydown.esc="closeModal"
   >
-    <transition name="vac-bounce-preview" appear>
       <div v-if="isImage" class="vac-media-preview-container">
         <div
           class="vac-image-preview"
@@ -36,20 +35,38 @@
 			</div>
 
       <div v-else-if="isText" class="vac-media-preview-container">
-        <div v-if="textFileContent" class="vac-text-preview-container">
-          <pre class="vac-pre-preview-text">
-            {{ textFileContent }}
-          </pre>
-        </div>
-        <div>
-          <span>Não foi possível carregar conteúdo do arquivo, tente baixar</span>
+        <div class="vac-text-preview-container">
+          <pre v-if="textFileContent" class="vac-pre-preview-text">{{ textFileContent }}</pre>
+          <loader v-else-if="isFetchingFile" show="true" type="messages" />
+          <div v-else>
+            <div class="vac-media-preview-container">
+              <span>
+                Não foi possível carregar conteúdo do arquivo, tente baixar
+              </span>
+              <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
+                <slot :name="'document-icon_' + file.url">
+                  <svg-icon name="document" />
+                  <span>{{ translate('Download') }}</span>
+                </slot>
+              </div>
+            </div>
+          </div>
         </div>
 			</div>
 
-      <div v-else>
-        <span>Não é possivel abrir, tente baixar</span>
+      <div v-else class="vac-media-preview-container">
+        <div class="vac-preview-failed-container">
+          <span>
+            Formato não é valido para exibição, tente baixar
+          </span>
+          <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
+            <slot :name="'document-icon_' + file.url">
+              <svg-icon name="document" />
+              <span>{{ translate('Download') }}</span>
+            </slot>
+          </div>
+        </div>
       </div>
-    </transition>
 
     <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
       <slot :name="'document-icon_' + file.url">
@@ -104,7 +121,8 @@ export default {
       showArrows: this.files.length > 1,
       fileIndex: this.index,
       textFileContent: null,
-      cachedFiles: {}
+      cachedFiles: {},
+      isFetchingFile: false
     }
   },
 
@@ -135,14 +153,14 @@ export default {
     prevMedia() {
       this.fileIndex = this.fileIndex - 1 < 0 ? this.files.length - 1 : this.fileIndex - 1
       this.file = this.files[this.fileIndex]
-      // console.log(`prevMedia`)
-      // console.log(`this.file`, this.file)
+      this.textFileContent = null
+      console.log(`this.file`, this.file)
     },
     nextMedia() {
       this.fileIndex = this.fileIndex + 1 > this.files.length - 1 ? 0 : this.fileIndex + 1
       this.file = this.files[this.fileIndex]
-      // console.log(`nextMedia`)
-      // console.log(`this.file`, this.file)
+      this.textFileContent = null
+      console.log(`this.file`, this.file)
     },
     translate(str) {
       return translate(str)
@@ -159,11 +177,14 @@ export default {
       this.isLoadingIframe = false
     },
     async getTextFileContent(file) {
+      this.isFetchingFile = true
+
       const url = file?.downloadUrl ?? file?.previewUrl
 
       if (this.cachedFiles[url]) {
         this.textFileContent = this.cachedFiles[url]
-        return this.textFileContent
+        this.isFetchingFile = false
+        return
       }
 
       try {
@@ -176,7 +197,7 @@ export default {
       }
 
       this.cachedFiles[url] = this.textFileContent
-      return this.textFileContent
+      this.isFetchingFile = false
     }
   }
 }

@@ -75,48 +75,19 @@
     </div>
 
     <div
-      v-else-if="isText || isPdf"
+      v-else
       class="vac-text-container"
-      @click.prevent="openFile($event, 'preview')"
+      @click.prevent="openFile($event, isText || isPdf ? 'preview' : 'download')"
     >
-      <progress-bar
-        v-if="file.progress >= 0"
-        :progress="file.progress"
-        :style="{ top: '44px' }"
-      />
+      <progress-bar v-if="file.progress >= 0" :progress="file.progress" :style="{ top: '44px' }" />
       <div
         class="vac-file-container"
         :class="{ 'vac-file-container-progress': file.progress >= 0 }"
         @click="openFile($event, file)"
       >
         <div class="vac-svg-button">
-          <slot name="file-icon">
-            <svg-icon name="file" />
-          </slot>
-        </div>
-        <div class="vac-text-ellipsis">
-          {{ file.name }}
-        </div>
-        <div v-if="file.extension" class="vac-text-ellipsis vac-text-extension">
-          {{ file.extension }}
-        </div>
-      </div>
-    </div>
-
-    <div v-else @click.prevent="openFile($event, 'download')">
-      <progress-bar
-        v-if="file.progress >= 0"
-        :progress="file.progress"
-        :style="{ top: '44px' }"
-      />
-      <div
-        class="vac-file-container"
-        :class="{ 'vac-file-container-progress': file.progress >= 0 }"
-        @click="openFile($event, file)"
-      >
-        <div class="vac-svg-button">
-          <slot name="document-icon">
-            <svg-icon name="document" />
+          <slot :name="isText || isPdf ? 'file-icon' : 'document-icon'">
+            <svg-icon :name="isText || isPdf ? 'file' : 'document'" />
           </slot>
         </div>
         <div class="vac-text-ellipsis">

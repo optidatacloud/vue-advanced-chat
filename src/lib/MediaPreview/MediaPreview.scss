@@ -73,6 +73,23 @@ $media-preview-width-sm: 20px;
         overflow: scroll;
       }
     }
+
+    .vac-preview-failed-container {
+      background: lightgray;
+      color: black;
+      height: 50%;
+      width: 50%;
+      transform: translate(50%, 50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+
+      .vac-preview-download-button {
+        margin-left: 1rem;
+        position: initial;
+      }
+    }
   }
 
   .vac-image-preview {

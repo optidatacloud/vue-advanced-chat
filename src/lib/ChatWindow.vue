@@ -599,8 +599,6 @@ export default {
       this.$emit('delete-message', { message, roomId: this.room.roomId })
     },
     openFile(event) {
-      // console.log(`event`, event)
-
       const file = typeof event?.files !== 'undefined' ? event?.files[event.index] : event.file
       const message = event.message
 

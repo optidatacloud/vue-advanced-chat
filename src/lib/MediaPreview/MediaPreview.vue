@@ -59,7 +59,7 @@
 			</div>
 
       <div v-else class="vac-media-preview-container">
-        <div class="vac-preview-failed-container">
+        <div class="vac-preview-failed-container" @click.stop.prevent="null">
           <span>
             Formato não é valido para exibição, tente baixar
           </span>

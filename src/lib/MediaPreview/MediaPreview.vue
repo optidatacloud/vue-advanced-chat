@@ -34,9 +34,13 @@
 				</div>
 			</div>
 
-      <div v-else-if="isText" class="vac-media-preview-container">
+      <div v-else-if="isText" class="vac-media-preview-container" @click.stop.prevent="null">
         <div class="vac-text-preview-container">
-          <pre v-if="textFileContent" class="vac-pre-preview-text">{{ textFileContent }}</pre>
+          <div v-if="textFileContent" class="vac-preview-text">
+            <code>
+              {{ textFileContent }}
+            </code>
+          </div>
           <loader v-else-if="isFetchingFile" show="true" type="messages" />
           <div v-else>
             <div class="vac-media-preview-container">

@@ -73,6 +73,60 @@
         <source :src="file.url" />
       </video>
     </div>
+
+    <div
+      v-else-if="isText || isPdf"
+      class="vac-text-container"
+      @click.prevent="openFile($event, 'preview')"
+    >
+      <progress-bar
+        v-if="file.progress >= 0"
+        :progress="file.progress"
+        :style="{ top: '44px' }"
+      />
+      <div
+        class="vac-file-container"
+        :class="{ 'vac-file-container-progress': file.progress >= 0 }"
+        @click="openFile($event, file)"
+      >
+        <div class="vac-svg-button">
+          <slot name="file-icon">
+            <svg-icon name="file" />
+          </slot>
+        </div>
+        <div class="vac-text-ellipsis">
+          {{ file.name }}
+        </div>
+        <div v-if="file.extension" class="vac-text-ellipsis vac-text-extension">
+          {{ file.extension }}
+        </div>
+      </div>
+    </div>
+
+    <div v-else @click.prevent="openFile($event, 'download')">
+      <progress-bar
+        v-if="file.progress >= 0"
+        :progress="file.progress"
+        :style="{ top: '44px' }"
+      />
+      <div
+        class="vac-file-container"
+        :class="{ 'vac-file-container-progress': file.progress >= 0 }"
+        @click="openFile($event, file)"
+      >
+        <div class="vac-svg-button">
+          <slot name="document-icon">
+            <svg-icon name="document" />
+          </slot>
+        </div>
+        <div class="vac-text-ellipsis">
+          {{ file.name }}
+        </div>
+        <div v-if="file.extension" class="vac-text-ellipsis vac-text-extension">
+          {{ file.extension }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -81,7 +135,7 @@ import Loader from '../../../../../components/Loader/Loader'
 import ProgressBar from '../../../../../components/ProgressBar/ProgressBar'
 import SvgIcon from '../../../../../components/SvgIcon/SvgIcon'
 
-import { isImageFile, isVideoFile } from '../../../../../utils/media-file'
+import { isImageFile, isVideoFile, isTextFile, isPdfFile } from '../../../../../utils/media-file'
 
 export default {
   name: 'MessageFile',
@@ -114,6 +168,12 @@ export default {
     },
     isVideo() {
       return isVideoFile(this.file)
+    },
+    isText() {
+      return isTextFile(this.file)
+    },
+    isPdf() {
+      return isPdfFile(this.file)
     }
   },
 

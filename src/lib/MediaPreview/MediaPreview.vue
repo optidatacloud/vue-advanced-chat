@@ -34,6 +34,21 @@
 					<loader :show="isLoadingIframe" type="messages" />
 				</div>
 			</div>
+
+      <div v-else-if="isText" class="vac-media-preview-container">
+        <div v-if="textFileContent" class="vac-text-preview-container">
+          <pre class="vac-pre-preview-text">
+            {{ textFileContent }}
+          </pre>
+        </div>
+        <div>
+          <span>Não foi possível carregar conteúdo do arquivo, tente baixar</span>
+        </div>
+			</div>
+
+      <div v-else>
+        <span>Não é possivel abrir, tente baixar</span>
+      </div>
     </transition>
 
     <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
@@ -65,7 +80,7 @@
 import Loader from '../../components/Loader/Loader'
 import SvgIcon from '../../components/SvgIcon/SvgIcon'
 
-import { isImageFile, isVideoFile, isPdfFile } from '../../utils/media-file'
+import { isImageFile, isVideoFile, isPdfFile, isTextFile } from '../../utils/media-file'
 import { translate } from '../../utils/i18n/index'
 
 export default {
@@ -87,7 +102,9 @@ export default {
       isLoadingIframe: true,
       file: this.files[this.index],
       showArrows: this.files.length > 1,
-      fileIndex: this.index
+      fileIndex: this.index,
+      textFileContent: null,
+      cachedFiles: {}
     }
   },
 
@@ -100,6 +117,13 @@ export default {
     },
     isPdf() {
       return isPdfFile(this.file)
+    },
+    isText() {
+      const temp = isTextFile(this.file)
+      if (temp) {
+        this.getTextFileContent(this.file)
+      }
+      return temp
     }
   },
 
@@ -111,10 +135,14 @@ export default {
     prevMedia() {
       this.fileIndex = this.fileIndex - 1 < 0 ? this.files.length - 1 : this.fileIndex - 1
       this.file = this.files[this.fileIndex]
+      // console.log(`prevMedia`)
+      // console.log(`this.file`, this.file)
     },
     nextMedia() {
       this.fileIndex = this.fileIndex + 1 > this.files.length - 1 ? 0 : this.fileIndex + 1
       this.file = this.files[this.fileIndex]
+      // console.log(`nextMedia`)
+      // console.log(`this.file`, this.file)
     },
     translate(str) {
       return translate(str)
@@ -129,6 +157,26 @@ export default {
     },
     onIframeFinishedLoading() {
       this.isLoadingIframe = false
+    },
+    async getTextFileContent(file) {
+      const url = file?.downloadUrl ?? file?.previewUrl
+
+      if (this.cachedFiles[url]) {
+        this.textFileContent = this.cachedFiles[url]
+        return this.textFileContent
+      }
+
+      try {
+        await fetch(url)
+          .then(async res => {
+            this.textFileContent = await res.text()
+          })
+      } catch (error) {
+        this.textFileContent = null
+      }
+
+      this.cachedFiles[url] = this.textFileContent
+      return this.textFileContent
     }
   }
 }

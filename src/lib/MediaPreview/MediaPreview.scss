@@ -56,6 +56,23 @@ $media-preview-width-sm: 20px;
         border: none;
       }
     }
+
+    .vac-text-preview-container {
+      width: 50%;
+      height: 100%;
+      text-wrap: wrap;
+      box-sizing: border-box;
+      transform: translateX(+50%);
+      margin-top: 1rem;
+
+      .vac-pre-preview-text {
+        width: 100%;
+        height: 100%;
+        color: white;
+        background-color: black;
+        overflow: scroll;
+      }
+    }
   }
 
   .vac-image-preview {

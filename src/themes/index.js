@@ -150,6 +150,12 @@ export const defaultThemeStyles = {
       audioPause: '#455247',
       audioCancel: '#eb4034',
       audioConfirm: '#1ba65b'
+    },
+
+    carousel: {
+      arrowBackground: '#434343',
+      arrowColor: '#fff',
+      arrowShadow: '#ffffff52'
     }
   },
   dark: {
@@ -303,6 +309,11 @@ export const defaultThemeStyles = {
       audioPause: '#b7d4d3',
       audioCancel: '#eb4034',
       audioConfirm: '#1ba65b'
+    },
+    carousel: {
+      arrowBackground: '#434343',
+      arrowColor: '#fff',
+      arrowShadow: '#ffffff52'
     }
   }
 }
@@ -319,7 +330,8 @@ export const cssThemeVars = ({
   markdown,
   room,
   emoji,
-  icons
+  icons,
+  carousel
 }) => {
   return {
     // general
@@ -463,6 +475,12 @@ export const cssThemeVars = ({
     '--chat-icon-color-audio-play': icons.audioPlay,
     '--chat-icon-color-audio-pause': icons.audioPause,
     '--chat-icon-color-audio-cancel': icons.audioCancel,
-    '--chat-icon-color-audio-confirm': icons.audioConfirm
+    '--chat-icon-color-audio-confirm': icons.audioConfirm,
+
+    // carousel
+    '--chat-carousel-arrow-bg-color': carousel.arrowBackground,
+    '--chat-carousel-arrow-color': carousel.arrowColor,
+    '--chat-carousel-arrow-shadow': carousel.arrowShadow
+
   }
 }

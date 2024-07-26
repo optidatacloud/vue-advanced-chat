@@ -48,6 +48,15 @@
         <svg-icon name="close-outline" param="preview" />
       </slot>
     </div>
+
+    <div v-if="showArrows" class="vac-carousel-arrows">
+      <button class="vac-carousel-arrow" @click.stop.prevent="prevMedia()">
+        <i class="bi bi-chevron-left" />
+      </button>
+      <button class="vac-carousel-arrow" @click.stop.prevent="nextMedia()">
+        <i class="bi bi-chevron-right" />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -67,14 +76,18 @@ export default {
   },
 
   props: {
-    file: { type: Object, required: true }
+    files: { type: Array, required: true },
+    index: { type: Number, required: true }
   },
 
   emits: ['close-media-preview'],
 
   data() {
     return {
-      isLoadingIframe: true
+      isLoadingIframe: true,
+      file: this.files[this.index],
+      showArrows: this.files.length > 1,
+      fileIndex: this.index
     }
   },
 
@@ -95,6 +108,14 @@ export default {
   },
 
   methods: {
+    prevMedia() {
+      this.fileIndex = this.fileIndex - 1 < 0 ? this.files.length - 1 : this.fileIndex - 1
+      this.file = this.files[this.fileIndex]
+    },
+    nextMedia() {
+      this.fileIndex = this.fileIndex + 1 > this.files.length - 1 ? 0 : this.fileIndex + 1
+      this.file = this.files[this.fileIndex]
+    },
     translate(str) {
       return translate(str)
     },

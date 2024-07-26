@@ -1,13 +1,13 @@
 <template>
   <div class="vac-message-files-container">
-    <div v-for="(file, i) in imageVideoFiles" :key="i + 'iv'" :name="`image_video_${i}`" @click.stop="handleMediaClick(file, i)">
+    <div v-for="(file, i) in imageVideoFiles" :key="i + 'iv'">
       <message-file
         :file="file"
         :current-user-id="currentUserId"
         :message="message"
         :index="i"
         :message-selection-enabled="messageSelectionEnabled"
-        @open-file="$emit('open-file', $event)"
+        @open-file="$emit('open-file', { index: i, files: imageVideoFiles, action: 'preview' })"
       >
         <template v-for="(idx, name) in $slots" #[name]="data">
           <slot :name="name" v-bind="data" />
@@ -89,12 +89,6 @@ export default {
   },
 
   methods: {
-    handleMediaClick(file, index) {
-      console.clear()
-      console.log(`file`, file)
-      console.log(`index`, index)
-      console.log(`imageVideoFiles`, this.imageVideoFiles)
-    },
     openFile(event, file) {
       if (this.messageSelectionEnabled) {
         return

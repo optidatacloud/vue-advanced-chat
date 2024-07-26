@@ -34,8 +34,8 @@
 				</div>
 			</div>
 
-      <div v-else-if="isText" class="vac-media-preview-container" @click.stop.prevent="null">
-        <div class="vac-text-preview-container">
+      <div v-else-if="isText" class="vac-media-preview-container">
+        <div class="vac-text-preview-container" @click.stop.prevent="null">
           <div v-if="textFileContent" class="vac-preview-text">
             <code>
               {{ textFileContent }}

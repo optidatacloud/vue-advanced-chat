@@ -76,7 +76,7 @@
 
     <div
       v-else
-      class="vac-text-container"
+      class="vac-file-wrapper vac-text-container"
       @click.prevent="openFile($event, isText || isPdf || isSVG ? 'preview' : 'download')"
     >
       <progress-bar v-if="file.progress >= 0" :progress="file.progress" :style="{ top: '44px' }" />

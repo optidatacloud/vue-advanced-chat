@@ -45,6 +45,14 @@ $media-preview-width-sm: 20px;
     padding: $media-preview-height $media-preview-width-lg;
     margin: 0 auto;
     
+    .vac-svg-preview {
+      background-color: #747f89;
+      border: 2px solid white;
+      border-radius: 8px;
+      max-height: 85vh;
+      overflow: hidden;
+    }
+
     .vac-iframe-preview-container {
       width: 70%;
       height: 100%;
@@ -87,15 +95,18 @@ $media-preview-width-sm: 20px;
     }
 
     .vac-preview-failed-container {
-      background: #efefef;
-      color: var(--chat-markdown-color);
-      height: 50%;
-      width: 50%;
-      transform: translate(50%, 50%);
+      background: #656565;
+      color: white;
+      height: 100px;
+      width: 350px;
+      transform: translateY(250%);
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 10px;
+      border-radius: 8px;
+      text-align: center;
+      padding: 1rem 2rem;
+      margin: auto;
 
       .vac-preview-download-button {
         margin-left: 1rem;

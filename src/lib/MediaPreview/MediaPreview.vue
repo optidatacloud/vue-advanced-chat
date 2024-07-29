@@ -8,12 +8,11 @@
     @keydown.esc="closeModal"
   >
       <div v-if="isImage" class="vac-media-preview-container">
-        <div
-          class="vac-image-preview"
-          :style="{
-            'background-image': `url('${file.url}')`
-          }"
-        />
+        <div v-if="isSVG" class="vac-svg-preview">
+          <div v-if="loadSVG(file)" v-html="fileContent" />
+          <loader v-else show="true" type="messages" />
+        </div>
+        <div v-else class="vac-image-preview" :style="{ 'background-image': `url('${file.url}')` }" />
       </div>
 
       <div v-else-if="isVideo" class="vac-media-preview-container">
@@ -36,16 +35,16 @@
 
       <div v-else-if="isText" class="vac-media-preview-container">
         <div class="vac-text-preview-container" @click.stop.prevent="null">
-          <div v-if="textFileContent" class="vac-preview-text">
+          <div v-if="fileContent" class="vac-preview-text">
             <code>
-              {{ textFileContent }}
+              {{ fileContent }}
             </code>
           </div>
           <loader v-else-if="isFetchingFile" show="true" type="messages" />
           <div v-else>
             <div class="vac-media-preview-container">
               <span>
-                Não foi possível carregar conteúdo do arquivo, tente baixar
+                Was not possible to load file content at this time, try downloading instead
               </span>
               <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
                 <slot :name="'document-icon_' + file.url">
@@ -58,11 +57,9 @@
         </div>
 			</div>
 
-      <div v-else class="vac-media-preview-container">
-        <div class="vac-preview-failed-container" @click.stop.prevent="null">
-          <span>
-            Formato não é valido para exibição, tente baixar
-          </span>
+      <div v-else class="vac-media-preview-container" @click.stop.prevent="null">
+        <div class="vac-preview-failed-container">
+          <span>Can not preview file, try downloading instead</span>
           <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
             <slot :name="'document-icon_' + file.url">
               <svg-icon name="document" />
@@ -101,7 +98,7 @@
 import Loader from '../../components/Loader/Loader'
 import SvgIcon from '../../components/SvgIcon/SvgIcon'
 
-import { isImageFile, isVideoFile, isPdfFile, isTextFile } from '../../utils/media-file'
+import { isImageFile, isVideoFile, isPdfFile, isTextFile, isSVGFile } from '../../utils/media-file'
 import { translate } from '../../utils/i18n/index'
 
 export default {
@@ -124,7 +121,7 @@ export default {
       file: this.files[this.index],
       showArrows: this.files.length > 1,
       fileIndex: this.index,
-      textFileContent: null,
+      fileContent: null,
       cachedFiles: {},
       isFetchingFile: false
     }
@@ -133,6 +130,9 @@ export default {
   computed: {
     isImage() {
       return isImageFile(this.file)
+    },
+    isSVG() {
+      return isSVGFile(this.file)
     },
     isVideo() {
       return isVideoFile(this.file)
@@ -143,7 +143,7 @@ export default {
     isText() {
       const temp = isTextFile(this.file)
       if (temp) {
-        this.getTextFileContent(this.file)
+        this.getFileContent(this.file)
       }
       return temp
     }
@@ -157,14 +157,12 @@ export default {
     prevMedia() {
       this.fileIndex = this.fileIndex - 1 < 0 ? this.files.length - 1 : this.fileIndex - 1
       this.file = this.files[this.fileIndex]
-      this.textFileContent = null
-      console.log(`this.file`, this.file)
+      this.fileContent = null
     },
     nextMedia() {
       this.fileIndex = this.fileIndex + 1 > this.files.length - 1 ? 0 : this.fileIndex + 1
       this.file = this.files[this.fileIndex]
-      this.textFileContent = null
-      console.log(`this.file`, this.file)
+      this.fileContent = null
     },
     translate(str) {
       return translate(str)
@@ -180,28 +178,46 @@ export default {
     onIframeFinishedLoading() {
       this.isLoadingIframe = false
     },
-    async getTextFileContent(file) {
+    async getFileContent(file) {
       this.isFetchingFile = true
 
       const url = file?.downloadUrl ?? file?.previewUrl
 
       if (this.cachedFiles[url]) {
-        this.textFileContent = this.cachedFiles[url]
+        this.fileContent = this.cachedFiles[url]
         this.isFetchingFile = false
-        return
+        return this.fileContent
       }
 
       try {
         await fetch(url)
           .then(async res => {
-            this.textFileContent = await res.text()
+            this.fileContent = await res.text()
           })
       } catch (error) {
-        this.textFileContent = null
+        this.fileContent = null
       }
 
-      this.cachedFiles[url] = this.textFileContent
+      this.cachedFiles[url] = this.fileContent
       this.isFetchingFile = false
+      return this.fileContent
+    },
+    sanitizeSVG(svg) {
+      if (!svg || !svg.length) {
+        return ''
+      }
+      return svg.toString().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    },
+    async loadSVG(file) {
+      const svg = await this.getFileContent(file)
+
+      if (!svg) {
+        return null
+      }
+
+      const sanitized = this.sanitizeSVG(svg)
+      this.fileContent = sanitized
+      return sanitized
     }
   }
 }

@@ -9,7 +9,7 @@
   >
       <div v-if="isImage" class="vac-media-preview-container">
         <div v-if="isSVG" class="vac-svg-preview">
-          <div v-if="loadSVG(file)" v-html="fileContent" />
+          <div v-if="!isSVGLoading" v-html="fileContent" />
           <loader v-else show="true" type="messages" />
         </div>
         <div v-else class="vac-image-preview" :style="{ 'background-image': `url('${file.url}')` }" />
@@ -123,7 +123,8 @@ export default {
       fileIndex: this.index,
       fileContent: null,
       cachedFiles: {},
-      isFetchingFile: false
+      isFetchingFile: false,
+      isSVGLoading: true
     }
   },
 
@@ -132,7 +133,11 @@ export default {
       return isImageFile(this.file)
     },
     isSVG() {
-      return isSVGFile(this.file)
+      const temp = isSVGFile(this.file)
+      if (temp) {
+        this.loadSVG(this.file)
+      }
+      return temp
     },
     isVideo() {
       return isVideoFile(this.file)
@@ -154,6 +159,9 @@ export default {
   },
 
   methods: {
+    setSVGLoading(state) {
+      this.isSVGLoading = state
+    },
     prevMedia() {
       this.fileIndex = this.fileIndex - 1 < 0 ? this.files.length - 1 : this.fileIndex - 1
       this.file = this.files[this.fileIndex]
@@ -209,14 +217,17 @@ export default {
       return svg.toString().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
     },
     async loadSVG(file) {
+      this.setSVGLoading(true)
       const svg = await this.getFileContent(file)
 
       if (!svg) {
+        this.setSVGLoading(false)
         return null
       }
 
       const sanitized = this.sanitizeSVG(svg)
       this.fileContent = sanitized
+      this.setSVGLoading(false)
       return sanitized
     }
   }

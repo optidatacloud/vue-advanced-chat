@@ -1,7 +1,6 @@
 .vac-message-file-container {
   position: relative;
   z-index: 0;
-  margin-bottom: 4px;
 
   .vac-message-image-container {
     cursor: pointer;
@@ -53,7 +52,7 @@
   }
 
   .vac-video-container {
-    width: 350px;
+    width: 250px;
     max-width: 100%;
     margin: 4px auto 5px;
     cursor: pointer;

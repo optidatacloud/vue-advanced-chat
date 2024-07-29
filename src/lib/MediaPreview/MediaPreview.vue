@@ -57,8 +57,8 @@
         </div>
 			</div>
 
-      <div v-else class="vac-media-preview-container" @click.stop.prevent="null">
-        <div class="vac-preview-failed-container">
+      <div v-else class="vac-media-preview-container">
+        <div class="vac-preview-failed-container" @click.stop.prevent="null">
           <span>Can not preview file, try downloading instead</span>
           <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
             <slot :name="'document-icon_' + file.url">

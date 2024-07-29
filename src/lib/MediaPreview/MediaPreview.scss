@@ -95,11 +95,14 @@ $media-preview-width-sm: 20px;
     }
 
     .vac-preview-failed-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       background: #656565;
       color: white;
       height: 100px;
       width: 350px;
-      transform: translateY(250%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -107,6 +110,7 @@ $media-preview-width-sm: 20px;
       text-align: center;
       padding: 1rem 2rem;
       margin: auto;
+      z-index: 9999;
 
       .vac-preview-download-button {
         margin-left: 1rem;

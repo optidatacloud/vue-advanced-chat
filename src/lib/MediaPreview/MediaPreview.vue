@@ -7,6 +7,7 @@
     @click.stop="closeModal"
     @keydown.esc="closeModal"
   >
+    <transition name="vac-bounce-preview" appear>
       <div v-if="isImage" class="vac-media-preview-container">
         <div v-if="isSVG" class="vac-svg-preview">
           <div v-if="!isSVGLoading" v-html="fileContent" />
@@ -68,7 +69,7 @@
           </div>
         </div>
       </div>
-
+    </transition>
     <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
       <slot :name="'document-icon_' + file.url">
         <svg-icon name="document" />

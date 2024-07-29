@@ -155,7 +155,9 @@ export const defaultThemeStyles = {
     carousel: {
       arrowBackground: '#434343',
       arrowColor: '#fff',
-      arrowShadow: '#ffffff52'
+      arrowShadow: '#ffffff52',
+      alertBackground: '#434343',
+      alertColor: '#fff'
     }
   },
   dark: {
@@ -313,7 +315,9 @@ export const defaultThemeStyles = {
     carousel: {
       arrowBackground: '#434343',
       arrowColor: '#fff',
-      arrowShadow: '#ffffff52'
+      arrowShadow: '#ffffff52',
+      alertBackground: '#434343',
+      alertColor: '#fff'
     }
   }
 }
@@ -480,7 +484,9 @@ export const cssThemeVars = ({
     // carousel
     '--chat-carousel-arrow-bg-color': carousel.arrowBackground,
     '--chat-carousel-arrow-color': carousel.arrowColor,
-    '--chat-carousel-arrow-shadow': carousel.arrowShadow
+    '--chat-carousel-arrow-shadow': carousel.arrowShadow,
+    '--chat-carousel-alert-bg-color': carousel.alertBackground,
+    '--chat-carousel-alert-color': carousel.alertColor
 
   }
 }

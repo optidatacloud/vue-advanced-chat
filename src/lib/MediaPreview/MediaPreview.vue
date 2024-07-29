@@ -44,7 +44,7 @@
           <div v-else>
             <div class="vac-media-preview-container">
               <span>
-                Was not possible to load file content at this time, try downloading instead
+                {{ translate('Was not possible to load file content at this time, try downloading instead') }}
               </span>
               <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
                 <slot :name="'document-icon_' + file.url">
@@ -59,7 +59,7 @@
 
       <div v-else class="vac-media-preview-container">
         <div class="vac-preview-failed-container" @click.stop.prevent="null">
-          <span>Can not preview file, try downloading instead</span>
+          <span>{{ translate('Can not preview file, try downloading instead') }}</span>
           <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
             <slot :name="'document-icon_' + file.url">
               <svg-icon name="document" />

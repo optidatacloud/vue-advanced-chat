@@ -1,7 +1,7 @@
 <template>
   <div class="vac-message-file-container">
     <div
-      v-if="isImage"
+      v-if="isImage && !isSVG"
       :ref="'imageRef' + index"
       class="vac-message-image-container"
       @mouseover="imageHover = true"
@@ -77,7 +77,7 @@
     <div
       v-else
       class="vac-text-container"
-      @click.prevent="openFile($event, isText || isPdf ? 'preview' : 'download')"
+      @click.prevent="openFile($event, isText || isPdf || isSVG ? 'preview' : 'download')"
     >
       <progress-bar v-if="file.progress >= 0" :progress="file.progress" :style="{ top: '44px' }" />
       <div
@@ -106,7 +106,7 @@ import Loader from '../../../../../components/Loader/Loader'
 import ProgressBar from '../../../../../components/ProgressBar/ProgressBar'
 import SvgIcon from '../../../../../components/SvgIcon/SvgIcon'
 
-import { isImageFile, isVideoFile, isTextFile, isPdfFile } from '../../../../../utils/media-file'
+import { isImageFile, isVideoFile, isTextFile, isPdfFile, isSVGFile } from '../../../../../utils/media-file'
 
 export default {
   name: 'MessageFile',
@@ -145,6 +145,9 @@ export default {
     },
     isPdf() {
       return isPdfFile(this.file)
+    },
+    isSVG() {
+      return isSVGFile(this.file)
     }
   },
 

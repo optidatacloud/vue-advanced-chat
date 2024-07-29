@@ -7,69 +7,67 @@
     @click.stop="closeModal"
     @keydown.esc="closeModal"
   >
-    <transition name="vac-bounce-preview" appear>
-      <div v-if="isImage" class="vac-media-preview-container">
-        <div v-if="isSVG" class="vac-svg-preview">
-          <div v-if="!isSVGLoading" v-html="fileContent" />
-          <loader v-else show="true" type="messages" />
+    <div v-if="isImage" class="vac-media-preview-container">
+      <div v-if="isSVG" class="vac-svg-preview">
+        <div v-if="!isSVGLoading" v-html="fileContent" />
+        <loader v-else show="true" type="messages" />
+      </div>
+      <div v-else class="vac-image-preview" :style="{ 'background-image': `url('${file.url}')` }" />
+    </div>
+
+    <div v-else-if="isVideo" class="vac-media-preview-container">
+      <video controls autoplay>
+        <source :src="file.url" />
+      </video>
+    </div>
+
+    <div v-else-if="isPdf" class="vac-media-preview-container">
+      <div class="vac-iframe-preview-container">
+        <iframe
+          :src="file.url"
+          title="PDF Viewer"
+          class="vac-iframe-preview-pdf"
+          @load="onIframeFinishedLoading"
+        />
+        <loader :show="isLoadingIframe" type="messages" />
+      </div>
+    </div>
+
+    <div v-else-if="isText" class="vac-media-preview-container">
+      <div class="vac-text-preview-container" @click.stop.prevent="null">
+        <div v-if="fileContent" class="vac-preview-text">
+          <code>
+            {{ fileContent }}
+          </code>
         </div>
-        <div v-else class="vac-image-preview" :style="{ 'background-image': `url('${file.url}')` }" />
-      </div>
-
-      <div v-else-if="isVideo" class="vac-media-preview-container">
-        <video controls autoplay>
-          <source :src="file.url" />
-        </video>
-      </div>
-
-      <div v-else-if="isPdf" class="vac-media-preview-container">
-				<div class="vac-iframe-preview-container">
-          <iframe
-            :src="file.url"
-            title="PDF Viewer"
-            class="vac-iframe-preview-pdf"
-            @load="onIframeFinishedLoading"
-          />
-					<loader :show="isLoadingIframe" type="messages" />
-				</div>
-			</div>
-
-      <div v-else-if="isText" class="vac-media-preview-container">
-        <div class="vac-text-preview-container" @click.stop.prevent="null">
-          <div v-if="fileContent" class="vac-preview-text">
-            <code>
-              {{ fileContent }}
-            </code>
-          </div>
-          <loader v-else-if="isFetchingFile" show="true" type="messages" />
-          <div v-else>
-            <div class="vac-media-preview-container">
-              <span>
-                {{ translate('Was not possible to load file content at this time, try downloading instead') }}
-              </span>
-              <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
-                <slot :name="'document-icon_' + file.url">
-                  <svg-icon name="document" />
-                  <span>{{ translate('Download') }}</span>
-                </slot>
-              </div>
+        <loader v-else-if="isFetchingFile" show="true" type="messages" />
+        <div v-else>
+          <div class="vac-media-preview-container">
+            <span>
+              {{ translate('Was not possible to load file content at this time, try downloading instead') }}
+            </span>
+            <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
+              <slot :name="'document-icon_' + file.url">
+                <svg-icon name="document" />
+                <span>{{ translate('Download') }}</span>
+              </slot>
             </div>
           </div>
         </div>
-			</div>
+      </div>
+    </div>
 
-      <div v-else class="vac-media-preview-container">
-        <div class="vac-preview-failed-container" @click.stop.prevent="null">
-          <span>{{ translate('Can not preview file, try downloading instead') }}</span>
-          <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
-            <slot :name="'document-icon_' + file.url">
-              <svg-icon name="document" />
-              <span>{{ translate('Download') }}</span>
-            </slot>
-          </div>
+    <div v-else class="vac-media-preview-container">
+      <div class="vac-preview-failed-container" @click.stop.prevent="null">
+        <span>{{ translate('Can not preview file, try downloading instead') }}</span>
+        <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
+          <slot :name="'document-icon_' + file.url">
+            <svg-icon name="document" />
+            <span>{{ translate('Download') }}</span>
+          </slot>
         </div>
       </div>
-    </transition>
+    </div>
     <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
       <slot :name="'document-icon_' + file.url">
         <svg-icon name="document" />

@@ -98,8 +98,8 @@ export const defaultThemeStyles = {
     },
 
     markdown: {
-      background: 'rgba(239, 239, 239, 0.7)',
-      border: 'rgba(212, 212, 212, 0.9)',
+      background: 'rgb(239, 239, 239)',
+      border: 'rgb(212, 212, 212)',
       color: '#e01e5a',
       colorMulti: '#0a0a0a'
     },
@@ -257,8 +257,8 @@ export const defaultThemeStyles = {
     },
 
     markdown: {
-      background: 'rgba(239, 239, 239, 0.7)',
-      border: 'rgba(212, 212, 212, 0.9)',
+      background: 'rgb(239, 239, 239)',
+      border: 'rgb(212, 212, 212)',
       color: '#e01e5a',
       colorMulti: '#0a0a0a'
     },

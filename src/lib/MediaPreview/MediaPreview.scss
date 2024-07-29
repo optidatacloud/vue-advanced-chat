@@ -46,11 +46,17 @@ $media-preview-width-sm: 20px;
     margin: 0 auto;
     
     .vac-svg-preview {
-      background-color: #747f89;
-      border: 2px solid white;
-      border-radius: 8px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      height: 50%;
       max-height: 85vh;
-      overflow: hidden;
+      width: 100%;
+      max-width: 50vw;
+      background-color: #747f89;
+      border-radius: 8px;
+      overflow: scroll;
     }
 
     .vac-iframe-preview-container {
@@ -74,22 +80,21 @@ $media-preview-width-sm: 20px;
       .vac-preview-text {
         width: 100%;
         height: 100%;
-        background: #efefef;
+        background: var(--chat-markdown-bg);
         border-radius: 8px;
         box-sizing: border-box;
         padding: 10px;
+        overflow: scroll;
         
         code {
           white-space: pre-wrap;
           font-family: monospace;
-          
+          border-bottom: 1px solid var(--chat-markdown-border);
+          display: initial;
           overflow: scroll;
-          display: inline-block;
-          font-size: 14px;
+          font-size: 14px;;
           color: var(--chat-markdown-color);
           text-wrap: wrap;
-          width: 100%;
-          height: 100%
         }
       }
     }

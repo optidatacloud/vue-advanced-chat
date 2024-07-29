@@ -1,13 +1,13 @@
 <template>
   <div class="vac-message-files-container">
-    <div v-for="(file, i) in [ ...imageVideoFiles, ...otherFiles ]" :key="i + 'iv'">
+    <div v-for="(file, i) in allFiles" :key="i + 'iv'">
       <message-file
         :file="file"
         :current-user-id="currentUserId"
         :message="message"
         :index="i"
         :message-selection-enabled="messageSelectionEnabled"
-        @open-file="$emit('open-file', { index: i, files: [...imageVideoFiles, ...otherFiles], action: 'preview' })"
+        @open-file="$emit('open-file', { index: i, files: allFiles, action: 'preview' })"
       >
         <template v-for="(idx, name) in $slots" #[name]="data">
           <slot :name="name" v-bind="data" />
@@ -54,6 +54,9 @@ export default {
     },
     otherFiles() {
       return this.message.files.filter(file => !isImageVideoFile(file))
+    },
+    allFiles() {
+      return [ ...this.imageVideoFiles, ...this.otherFiles ]
     }
   }
 }

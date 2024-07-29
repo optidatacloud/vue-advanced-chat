@@ -211,24 +211,23 @@ export default {
       return this.fileContent
     },
     sanitizeSVG(svg) {
-      if (!svg || !svg.length) {
-        return ''
-      }
-      return svg.toString().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      return (
+        !svg || !svg.length
+          ? ''
+          : svg.toString().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      )
     },
     async loadSVG(file) {
       this.setSVGLoading(true)
       const svg = await this.getFileContent(file)
 
       if (!svg) {
-        this.setSVGLoading(false)
-        return null
+        return this.setSVGLoading(false)
       }
 
       const sanitized = this.sanitizeSVG(svg)
       this.fileContent = sanitized
       this.setSVGLoading(false)
-      return sanitized
     }
   }
 }

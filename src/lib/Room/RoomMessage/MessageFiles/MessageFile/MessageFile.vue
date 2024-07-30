@@ -6,7 +6,7 @@
       class="vac-message-image-container"
       @mouseover="imageHover = true"
       @mouseleave="imageHover = false"
-      @click="openFile($event, 'preview')"
+      @click.prevent.stop="openFile($event, 'preview')"
     >
       <progress-bar
         v-if="file.progress >= 0"
@@ -44,7 +44,7 @@
           >
             <div
               class="vac-svg-button vac-button-view"
-              @click="openFile($event, 'preview')"
+              @click.prevent.stop="openFile($event, 'preview')"
             >
               <slot :name="'eye-icon_' + message._id">
                 <svg-icon name="eye" />
@@ -52,7 +52,7 @@
             </div>
             <div
               class="vac-svg-button vac-button-download"
-              @click="openFile($event, 'download')"
+              @click.prevent.stop="openFile($event, 'download')"
             >
               <slot :name="'document-icon_' + message._id">
                 <svg-icon name="document" />
@@ -74,20 +74,21 @@
       </video>
     </div>
 
-    <div
-      v-else
-      class="vac-file-wrapper vac-text-container"
-      @click.prevent="openFile($event, isText || isPdf || isSVG ? 'preview' : 'download')"
-    >
+    <div v-else class="vac-file-wrapper vac-text-container">
       <progress-bar v-if="file.progress >= 0" :progress="file.progress" :style="{ top: '44px' }" />
       <div
         class="vac-file-container"
         :class="{ 'vac-file-container-progress': file.progress >= 0 }"
-        @click="openFile($event, file)"
+        @click="openFile($event, isPreviewable() ? 'preview' : 'download')"
       >
         <div class="vac-svg-button">
-          <slot :name="isText || isPdf ? 'file-icon' : 'document-icon'">
-            <svg-icon :name="isText || isPdf ? 'file' : 'document'" />
+          <slot v-if="isPreviewable()" name="file-icon">
+            <!-- <svg-icon name="file" /> -->
+            previewable
+          </slot>
+          <slot v-else name="document-icon">
+            <!-- <svg-icon name="document" /> -->
+            download
           </slot>
         </div>
         <div class="vac-text-ellipsis">
@@ -172,6 +173,9 @@ export default {
   },
 
   methods: {
+    isPreviewable() {
+      return this.isText || this.isPdf || this.isSVG
+    },
     checkImgLoad() {
       if (!isImageFile(this.file)) return
       this.imageLoading = true
@@ -182,7 +186,7 @@ export default {
     openFile(event, action) {
       if (!this.messageSelectionEnabled) {
         event.stopPropagation()
-        this.$emit('open-file', { file: this.file, action })
+        this.$emit('open-file', { file: this.file, 'action': action })
       }
     }
   }

@@ -607,7 +607,7 @@ export default {
         this.previewIndex = event.index ?? 0
         this.showMediaPreview = true
       } else {
-        this.$emit('open-file', { message, file })
+        this.$emit('open-file', { message, file: file, action: event.action })
       }
     },
     openUserTag({ user }) {

@@ -24,7 +24,9 @@
         </template>
       </rooms-search>
 
-      <div v-if="showSearch" class="vac-rooms-archived" @click="clickArchivedRooms">
+      <rooms-filter />
+
+      <!-- <div class="vac-rooms-archived" @click="clickArchivedRooms">
         <div class="rooms-archived-icon">
           <i v-if="showArchivedRooms" class="bi bi-arrow-left" />
           <i v-else class="bi bi-archive-fill" />
@@ -32,7 +34,7 @@
         <div>
           {{ textMessages.ARCHIVED_ROOMS }}
         </div>
-      </div>
+      </div> -->
     </slot>
 
     <loader :show="loadingRooms" type="rooms">
@@ -49,11 +51,11 @@
     </div>
 
     <!-- Displayed when user has no archived rooms -->
-    <div v-if="!loadingRooms && !roomsQuery.length && showArchivedRooms && !archivedRooms.length" class="vac-rooms-empty">
+    <!-- <div v-if="!loadingRooms && !roomsQuery.length && showArchivedRooms && !archivedRooms.length" class="vac-rooms-empty">
       <slot name="rooms-empty">
         {{ textMessages.ARCHIVED_ROOMS_EMPTY }}
       </slot>
-    </div>
+    </div> -->
 
     <div v-if="!loadingRooms && roomsToDisplay.length" id="rooms-list" class="vac-room-list">
       <transition-group :name="roomListTransition">
@@ -112,6 +114,7 @@
 import Loader from '../../components/Loader/Loader'
 
 import RoomsSearch from './RoomsSearch/RoomsSearch'
+import RoomsFilter from './RoomsFilter/RoomsFilter'
 import RoomContent from './RoomContent/RoomContent'
 import RoomCallContent from './RoomCallContent/RoomCallContent'
 
@@ -122,6 +125,7 @@ export default {
   components: {
     Loader,
     RoomsSearch,
+    RoomsFilter,
     RoomContent,
     RoomCallContent
   },

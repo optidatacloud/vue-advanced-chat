@@ -44,7 +44,8 @@ $media-preview-width-sm: 20px;
     width: calc(100% - #{$media-preview-width-lg * 2});
     padding: $media-preview-height $media-preview-width-lg;
     margin: 0 auto;
-    
+    max-width: 75vw;
+
     .vac-svg-preview {
       position: absolute;
       left: 50%;
@@ -53,16 +54,14 @@ $media-preview-width-sm: 20px;
       height: 50%;
       max-height: 85vh;
       width: 100%;
-      max-width: 50vw;
+      max-width: 75vw;
       background-color: #747f89;
       border-radius: 8px;
       overflow: scroll;
     }
 
     .vac-iframe-preview-container {
-      width: 70%;
       height: 100%;
-      z-index: 999;
       margin: auto;
 
       .vac-iframe-preview-pdf {
@@ -73,9 +72,7 @@ $media-preview-width-sm: 20px;
     }
 
     .vac-text-preview-container {
-      width: 50%;
       height: 100%;
-      transform: translateX(+50%);
 
       .vac-preview-text {
         width: 100%;
@@ -115,7 +112,7 @@ $media-preview-width-sm: 20px;
       text-align: center;
       padding: 1rem 2rem;
       margin: auto;
-      z-index: 9999;
+      z-index: 1000;
 
       .vac-preview-download-button {
         margin-left: 1rem;

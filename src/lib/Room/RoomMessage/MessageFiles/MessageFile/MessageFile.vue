@@ -83,12 +83,10 @@
       >
         <div class="vac-svg-button">
           <slot v-if="isPreviewable()" name="file-icon">
-            <!-- <svg-icon name="file" /> -->
-            previewable
+            <svg-icon name="file" />
           </slot>
           <slot v-else name="document-icon">
-            <!-- <svg-icon name="document" /> -->
-            download
+            <svg-icon name="document" />
           </slot>
         </div>
         <div class="vac-text-ellipsis">

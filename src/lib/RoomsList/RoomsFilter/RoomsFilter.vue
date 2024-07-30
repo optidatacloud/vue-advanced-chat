@@ -1,10 +1,10 @@
 <template>
   <div class="vac-rooms-filter-container">
     <div
-      v-for="option in filterOptions" :key="option"
+      v-for="option in filterOptions" :key="option.name"
       class="vac-filter-option"
       :class="{ 'vac-filter-selected': isFilterSelected(option.name) }"
-      @click="setFilterOption(option.name)"
+      @click.prevent.stop="setFilterOption(option.name)"
     >
       <span class="vac-filter-option-name" v-html="translate(option.name)" />
       <span class="vac-filter-option-counter" v-html="option.counter" />
@@ -26,7 +26,8 @@ export default {
   // },
 
   emits: [
-    'filter-rooms'
+    'filter-rooms',
+    'click-archived-rooms'
   ],
 
   data() {
@@ -61,10 +62,15 @@ export default {
   // },
 
   watch: {
-    filterSelected() {
-      console.log(`filterSelected: ${this.filterSelected}`)
-      // this.$emit('filter-rooms', this.filterSelected)
-    }
+    // filterSelected() {
+    //   if (this.filterSelected === 'archived') {
+    //     this.$emit('click-archived-rooms')
+    //     return
+    //   }
+
+    //   console.log(`filterSelected: ${this.filterSelected}`)
+    //   this.$emit('filter-rooms', this.filterSelected)
+    // }
   },
 
   mounted() {
@@ -76,8 +82,28 @@ export default {
     isFilterSelected(option) {
       return option === this.filterSelected
     },
+    resetFilterApplied() {
+      this.setFilterOption('all')
+    },
     setFilterOption(option) {
-      this.filterSelected = option
+      // console.log(`setFilterOption`)
+      // console.log(`option clicked`, option)
+      // console.log(`this.filterSelected`, this.filterSelected)
+
+      if (this.filterSelected === 'all' && option === 'all') {
+        return
+      }
+
+      if (this.filterSelected === option) {
+        this.resetFilterApplied()
+      } else {
+        this.filterSelected = option
+      }
+
+      if (option === 'archived') {
+        this.$emit('click-archived-rooms')
+      }
+      // this.$emit('click-outro-room')
     },
     translate(str) {
       return translate(str)

@@ -24,7 +24,7 @@
         </template>
       </rooms-search>
 
-      <rooms-filter />
+      <rooms-filter @click-archived-rooms="$emit('click-archived-rooms', !showArchivedRooms)" />
 
       <!-- <div class="vac-rooms-archived" @click="clickArchivedRooms">
         <div class="rooms-archived-icon">
@@ -301,9 +301,6 @@ export default {
       const canAcceptCall = room.call && !room.call.attendance.statusCallEnded && !room.call.attendance.statusDeclined
 
       return !hasCallEnded && canAcceptCall
-    },
-    clickArchivedRooms() {
-      this.$emit('click-archived-rooms', !this.showArchivedRooms)
     }
   }
 }

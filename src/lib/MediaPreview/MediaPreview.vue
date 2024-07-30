@@ -97,6 +97,7 @@
 import Loader from '../../components/Loader/Loader'
 import SvgIcon from '../../components/SvgIcon/SvgIcon'
 
+import { sanitize } from '../../utils/dompurify'
 import { isImageFile, isVideoFile, isPdfFile, isTextFile, isSVGFile } from '../../utils/media-file'
 import { translate } from '../../utils/i18n/index'
 
@@ -209,13 +210,6 @@ export default {
       this.isFetchingFile = false
       return this.fileContent
     },
-    sanitizeSVG(svg) {
-      return (
-        !svg || !svg.length
-          ? ''
-          : svg.toString().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-      )
-    },
     async loadSVG(file) {
       this.setSVGLoading(true)
       const svg = await this.getFileContent(file)
@@ -224,8 +218,7 @@ export default {
         return this.setSVGLoading(false)
       }
 
-      const sanitized = this.sanitizeSVG(svg)
-      this.fileContent = sanitized
+      this.fileContent = sanitize(svg)
       this.setSVGLoading(false)
     }
   }

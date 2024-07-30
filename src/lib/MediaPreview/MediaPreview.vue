@@ -41,8 +41,8 @@
           </code>
         </div>
         <loader v-else-if="isFetchingFile" show="true" type="messages" />
-        <div v-else>
-          <div class="vac-media-preview-container">
+        <div v-else class="vac-media-preview-container">
+          <div class="vac-preview-failed-container" @click.stop.prevent="null">
             <span>
               {{ translate('Was not possible to load file content at this time, try downloading instead') }}
             </span>
@@ -59,7 +59,9 @@
 
     <div v-else class="vac-media-preview-container">
       <div class="vac-preview-failed-container" @click.stop.prevent="null">
-        <span>{{ translate('Can not preview file, try downloading instead') }}</span>
+        <span>
+          {{ translate('Can not preview file, try downloading instead') }}
+        </span>
         <div class="vac-preview-download-button" @click.stop.prevent="downloadFile($event, file)">
           <slot :name="'document-icon_' + file.url">
             <svg-icon name="document" />
@@ -97,7 +99,7 @@
 import Loader from '../../components/Loader/Loader'
 import SvgIcon from '../../components/SvgIcon/SvgIcon'
 
-import { sanitize } from '../../utils/dompurify'
+import { safe } from '../../utils/dompurify'
 import { isImageFile, isVideoFile, isPdfFile, isTextFile, isSVGFile } from '../../utils/media-file'
 import { translate } from '../../utils/i18n/index'
 
@@ -133,11 +135,7 @@ export default {
       return isImageFile(this.file)
     },
     isSVG() {
-      const temp = isSVGFile(this.file)
-      if (temp) {
-        this.loadSVG(this.file)
-      }
-      return temp
+      return isSVGFile(this.file)
     },
     isVideo() {
       return isVideoFile(this.file)
@@ -146,16 +144,27 @@ export default {
       return isPdfFile(this.file)
     },
     isText() {
-      const temp = isTextFile(this.file)
-      if (temp) {
-        this.getFileContent(this.file)
+      if (!isTextFile(this.file)) {
+        return false
       }
-      return temp
+      this.loadAndCacheFileContent(this.file)
+      return true
+    }
+  },
+
+  watch: {
+    'file.url': function(newVal) {
+      if (this.isSVG) {
+        this.loadSVG(this.file)
+      }
     }
   },
 
   mounted() {
     this.$refs.modal.focus()
+    if (this.isSVG) {
+      this.loadSVG(this.file)
+    }
   },
 
   methods: {
@@ -186,7 +195,7 @@ export default {
     onIframeFinishedLoading() {
       this.isLoadingIframe = false
     },
-    async getFileContent(file) {
+    async loadAndCacheFileContent(file) {
       this.isFetchingFile = true
 
       const url = file?.downloadUrl ?? file?.previewUrl
@@ -197,28 +206,31 @@ export default {
         return this.fileContent
       }
 
+      const content = await this.getFileContentFromURL(url)
+      this.cachedFiles[url] = content
+      this.isFetchingFile = false
+      return content
+    },
+    async getFileContentFromURL(url) {
+      let content = null
+
       try {
         await fetch(url)
           .then(async res => {
-            this.fileContent = await res.text()
+            content = await res.text()
           })
       } catch (error) {
-        this.fileContent = null
       }
-
-      this.cachedFiles[url] = this.fileContent
-      this.isFetchingFile = false
-      return this.fileContent
+      this.fileContent = content
+      return content
     },
     async loadSVG(file) {
       this.setSVGLoading(true)
-      const svg = await this.getFileContent(file)
-
-      if (!svg) {
-        return this.setSVGLoading(false)
+      const svg = await this.loadAndCacheFileContent(file)
+      if (svg) {
+        this.fileContent = safe(svg)
       }
 
-      this.fileContent = sanitize(svg)
       this.setSVGLoading(false)
     }
   }

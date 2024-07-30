@@ -1,8 +1,5 @@
 import dompurify from 'dompurify'
 
-export function sanitize(string) {
-  if (!string || !string.length) {
-    return ''
-  }
-  return dompurify.sanitize(string)
+export function safe(html) {
+  return !html || !html.length ? '' : dompurify.sanitize(html)
 }

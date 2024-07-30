@@ -7,7 +7,7 @@
       @click.prevent.stop="setFilterOption(option.name)"
     >
       <span class="vac-filter-option-name" v-html="translate(option.name)" />
-      <span class="vac-filter-option-counter" v-html="option.counter" />
+      <!-- <span class="vac-filter-option-counter" v-html="option.counter" /> -->
       <div v-if="option.hasUnreadMessage" class="vac-has-unread-message" />
     </div>
   </div>

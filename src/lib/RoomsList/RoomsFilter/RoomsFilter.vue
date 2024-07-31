@@ -46,8 +46,8 @@ export default {
           counter: null,
           hasUnreadMessage: null
         },
-        'groups': {
-          name: 'groups',
+        'group': {
+          name: 'group',
           counter: null,
           hasUnreadMessage: null
         },
@@ -62,8 +62,7 @@ export default {
 
   computed: { },
 
-  watch: {
-  },
+  watch: { },
 
   mounted() {
     this.checkUnreadMessages()
@@ -90,9 +89,13 @@ export default {
 
       switch (option) {
       case 'archived':
+        this.$emit('click-archived-rooms')
+        break
       case 'unread':
+        this.$emit('click-unread-rooms')
+        break
       case 'group':
-        this.$emit(`click-${option}-rooms`)
+        this.$emit('click-group-rooms')
         break
       default:
         this.$emit('reset-filter-rooms')
@@ -111,7 +114,7 @@ export default {
         this.filterOptions[option].hasUnreadMessage = Math.random() > 0.5
       }
 
-      if (this.filterOptions['groups'].hasUnreadMessage || this.filterOptions['unread'].hasUnreadMessage) {
+      if (this.filterOptions['group'].hasUnreadMessage || this.filterOptions['unread'].hasUnreadMessage) {
         this.filterOptions['all'].hasUnreadMessage = true
       }
 
@@ -127,7 +130,7 @@ export default {
       }
 
       this.filterOptions['all'].counter = (
-        Number(this.filterOptions['groups'].counter) + Number(this.filterOptions['unread'].counter)
+        Number(this.filterOptions['group'].counter) + Number(this.filterOptions['unread'].counter)
       )
     }
   }

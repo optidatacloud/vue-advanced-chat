@@ -279,6 +279,12 @@ export default {
         this.roomsQuery = ''
         setTimeout(() => this.initIntersectionObserver())
       }
+    },
+    showGroupRooms: {
+      handler() {
+        this.roomsQuery = ''
+        setTimeout(() => this.initIntersectionObserver())
+      }
     }
   },
 

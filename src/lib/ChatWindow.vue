@@ -259,6 +259,7 @@ export default {
     allowSendingExternalFiles: { type: Boolean, default: null },
     showArchivedRooms: { type: Boolean, default: false },
     showUnreadRooms: { type: Boolean, default: false },
+    showGroupRooms: { type: Boolean, default: false },
     maxMessageRows: { type: Number, default: 0 }
   },
 

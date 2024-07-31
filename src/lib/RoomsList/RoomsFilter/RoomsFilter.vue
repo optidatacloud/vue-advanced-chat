@@ -19,15 +19,15 @@ import { translate } from '../../../utils/i18n'
 
 export default {
   name: 'RoomsFilter',
-  // components: {
-  // },
 
-  // props: {
-  // },
+  components: { },
+
+  props: { },
 
   emits: [
     'filter-rooms',
-    'click-archived-rooms'
+    'click-archived-rooms',
+    'click-unread-rooms'
   ],
 
   data() {
@@ -58,19 +58,9 @@ export default {
     }
   },
 
-  // computed: {
-  // },
+  computed: { },
 
   watch: {
-    // filterSelected() {
-    //   if (this.filterSelected === 'archived') {
-    //     this.$emit('click-archived-rooms')
-    //     return
-    //   }
-
-    //   console.log(`filterSelected: ${this.filterSelected}`)
-    //   this.$emit('filter-rooms', this.filterSelected)
-    // }
   },
 
   mounted() {
@@ -86,10 +76,6 @@ export default {
       this.setFilterOption('all')
     },
     setFilterOption(option) {
-      // console.log(`setFilterOption`)
-      // console.log(`option clicked`, option)
-      // console.log(`this.filterSelected`, this.filterSelected)
-
       if (this.filterSelected === 'all' && option === 'all') {
         return
       }
@@ -100,10 +86,16 @@ export default {
         this.filterSelected = option
       }
 
-      if (option === 'archived') {
+      switch (option) {
+      case 'archived':
         this.$emit('click-archived-rooms')
+        break
+      case 'unread':
+        this.$emit('click-unread-rooms')
+        break
+      default:
+        break
       }
-      // this.$emit('click-outro-room')
     },
     translate(str) {
       return translate(str)

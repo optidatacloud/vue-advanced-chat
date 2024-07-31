@@ -6,6 +6,7 @@
         :current-user-id="currentUserId"
         :rooms="orderedRooms"
         :archived-rooms="archivedRoomsCasted"
+        :unread-rooms="unreadRoomsCasted"
         :custom-search-rooms="customSearchRoomsCasted"
         :loading-rooms="loadingRoomsCasted"
         :rooms-loaded="roomsLoadedCasted"
@@ -22,6 +23,7 @@
         :is-mobile="isMobile"
         :scroll-distance="scrollDistance"
         :show-archived-rooms="showArchivedRoomsCasted"
+        :show-unread-rooms="showUnreadRoomsCasted"
         @fetch-room="fetchRoom"
         @fetch-more-rooms="fetchMoreRooms"
         @loading-more-rooms="loadingMoreRooms = $event"
@@ -32,6 +34,7 @@
         @hang-up-call="hangUpCallHandler"
         @return-to-call="returnToCallHandler"
         @click-archived-rooms="clickArchivedRoomsHandler"
+        @click-unread-rooms="clickUnreadRoomsHandler"
       >
         <template v-for="el in slots" #[el.slot]="data">
           <slot :name="el.slot" v-bind="data" />
@@ -42,7 +45,9 @@
         :current-user-id="currentUserId"
         :rooms="roomsCasted"
         :archived-rooms="archivedRoomsCasted"
+        :unread-rooms="unreadRoomsCasted"
         :show-archived-rooms="showArchivedRoomsCasted"
+        :show-unread-rooms="showUnreadRoomsCasted"
         :custom-search-rooms="customSearchRoomsCasted"
         :room-id="room.roomId || ''"
         :load-first-room="loadFirstRoomCasted"
@@ -165,7 +170,8 @@ export default {
     currentUserId: { type: String, default: '' },
     rooms: { type: [Array, String], default: () => [] },
     customSearchRooms: { type: [Array, String], default: () => [] },
-    archivedRooms: { type: Array, default: () => []},
+    archivedRooms: { type: Array, default: () => [] },
+    unreadRooms: { type: Array, default: () => [] },
     roomsOrder: { type: String, default: 'desc' },
     loadingRooms: { type: [Boolean, String], default: false },
     roomsLoaded: { type: [Boolean, String], default: false },
@@ -246,6 +252,7 @@ export default {
     externalFiles: { type: Array, default: () => [] },
     allowSendingExternalFiles: { type: Boolean, default: null },
     showArchivedRooms: { type: Boolean, default: false },
+    showUnreadRooms: { type: Boolean, default: false },
     maxMessageRows: { type: Number, default: 0 }
   },
 
@@ -280,6 +287,7 @@ export default {
     'external-files-removed',
     'new-draft-message',
     'click-archived-rooms',
+    'click-unread-rooms',
     'message-reply-click',
     'click-message-username'
   ],
@@ -330,6 +338,9 @@ export default {
     },
     archivedRoomsCasted() {
       return this.castArray(this.archivedRooms)
+    },
+    unreadRoomsCasted() {
+      return this.castArray(this.unreadRooms)
     },
     singleRoomCasted() {
       return this.castBoolean(this.singleRoom)
@@ -456,6 +467,9 @@ export default {
     },
     showArchivedRoomsCasted() {
       return this.castBoolean(this.showArchivedRooms)
+    },
+    showUnreadRoomsCasted() {
+      return this.castBoolean(this.showUnreadRooms)
     }
   },
 
@@ -493,7 +507,19 @@ export default {
       immediate: true,
       handler(newVal, oldVal) {
         if (newVal && !this.loadingRoomsCasted && this.roomsCasted.length) {
-          const room = this.showArchivedRoomsCasted ? this.archivedRoomsCasted.find(r => r.roomId === newVal) : this.roomsCasted.find(r => r.roomId === newVal)
+          let room = null
+          switch (true) {
+          case this.showArchivedRoomsCasted:
+            room = this.archivedRoomsCasted.find(r => r.roomId === newVal)
+            break
+          case this.showUnreadRoomsCasted:
+            room = this.unreadRoomsCasted.find(r => r.roomId === newVal)
+            break
+          default:
+            room = this.roomsCasted.find(r => r.roomId === newVal)
+            break
+          }
+
           this.fetchRoom({ room })
         } else if (oldVal && !newVal) {
           this.room = {}
@@ -634,6 +660,9 @@ export default {
     },
     clickArchivedRoomsHandler(event) {
       this.$emit('click-archived-rooms', event)
+    },
+    clickUnreadRoomsHandler(event) {
+      this.$emit('click-unread-rooms', event)
     },
     messageActionHandler(ev) {
       this.$emit('message-action-handler', {

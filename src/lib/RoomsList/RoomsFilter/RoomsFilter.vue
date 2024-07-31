@@ -28,6 +28,7 @@ export default {
     'filter-rooms',
     'click-archived-rooms',
     'click-unread-rooms',
+    'click-group-rooms',
     'reset-filter-rooms'
   ],
 
@@ -89,10 +90,9 @@ export default {
 
       switch (option) {
       case 'archived':
-        this.$emit('click-archived-rooms')
-        break
       case 'unread':
-        this.$emit('click-unread-rooms')
+      case 'group':
+        this.$emit(`click-${option}-rooms`)
         break
       default:
         this.$emit('reset-filter-rooms')

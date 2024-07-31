@@ -6,6 +6,7 @@
         :current-user-id="currentUserId"
         :rooms="orderedRooms"
         :archived-rooms="archivedRoomsCasted"
+        :group-rooms="groupRoomsCasted"
         :unread-rooms="unreadRoomsCasted"
         :custom-search-rooms="customSearchRoomsCasted"
         :loading-rooms="loadingRoomsCasted"
@@ -23,6 +24,7 @@
         :is-mobile="isMobile"
         :scroll-distance="scrollDistance"
         :show-archived-rooms="showArchivedRoomsCasted"
+        :show-group-rooms="showGroupRoomsCasted"
         :show-unread-rooms="showUnreadRoomsCasted"
         @fetch-room="fetchRoom"
         @fetch-more-rooms="fetchMoreRooms"
@@ -34,6 +36,7 @@
         @hang-up-call="hangUpCallHandler"
         @return-to-call="returnToCallHandler"
         @click-archived-rooms="clickArchivedRoomsHandler"
+        @click-group-rooms="clickGroupRoomsHandler"
         @click-unread-rooms="clickUnreadRoomsHandler"
       >
         <template v-for="el in slots" #[el.slot]="data">
@@ -45,8 +48,10 @@
         :current-user-id="currentUserId"
         :rooms="roomsCasted"
         :archived-rooms="archivedRoomsCasted"
+        :group-rooms="groupRoomsCasted"
         :unread-rooms="unreadRoomsCasted"
         :show-archived-rooms="showArchivedRoomsCasted"
+        :show-group-rooms="showGroupRoomsCasted"
         :show-unread-rooms="showUnreadRoomsCasted"
         :custom-search-rooms="customSearchRoomsCasted"
         :room-id="room.roomId || ''"
@@ -171,6 +176,7 @@ export default {
     rooms: { type: [Array, String], default: () => [] },
     customSearchRooms: { type: [Array, String], default: () => [] },
     archivedRooms: { type: Array, default: () => [] },
+    groupRooms: { type: Array, default: () => [] },
     unreadRooms: { type: Array, default: () => [] },
     roomsOrder: { type: String, default: 'desc' },
     loadingRooms: { type: [Boolean, String], default: false },
@@ -287,6 +293,7 @@ export default {
     'external-files-removed',
     'new-draft-message',
     'click-archived-rooms',
+    'click-group-rooms',
     'click-unread-rooms',
     'message-reply-click',
     'click-message-username'
@@ -338,6 +345,9 @@ export default {
     },
     archivedRoomsCasted() {
       return this.castArray(this.archivedRooms)
+    },
+    groupRoomsCasted() {
+      return this.castArray(this.groupRooms)
     },
     unreadRoomsCasted() {
       return this.castArray(this.unreadRooms)
@@ -468,6 +478,9 @@ export default {
     showArchivedRoomsCasted() {
       return this.castBoolean(this.showArchivedRooms)
     },
+    showGroupRoomsCasted() {
+      return this.castBoolean(this.showGroupRooms)
+    },
     showUnreadRoomsCasted() {
       return this.castBoolean(this.showUnreadRooms)
     }
@@ -511,6 +524,9 @@ export default {
           switch (true) {
           case this.showArchivedRoomsCasted:
             room = this.archivedRoomsCasted.find(r => r.roomId === newVal)
+            break
+          case this.showGroupRoomsCasted:
+            room = this.groupRoomsCasted.find(r => r.roomId === newVal)
             break
           case this.showUnreadRoomsCasted:
             room = this.unreadRoomsCasted.find(r => r.roomId === newVal)
@@ -660,6 +676,9 @@ export default {
     },
     clickArchivedRoomsHandler(event) {
       this.$emit('click-archived-rooms', event)
+    },
+    clickGroupRoomsHandler(event) {
+      this.$emit('click-group-rooms', event)
     },
     clickUnreadRoomsHandler(event) {
       this.$emit('click-unread-rooms', event)

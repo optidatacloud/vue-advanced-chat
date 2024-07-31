@@ -27,6 +27,7 @@
       <rooms-filter
         @click-archived-rooms="$emit('click-archived-rooms', !showArchivedRooms)"
         @click-unread-rooms="$emit('click-unread-rooms', !showUnreadRooms)"
+        @click-group-rooms="$emit('click-group-rooms', !showGroupRooms)"
         @reset-filter-rooms="handleResetFilterRooms"
       />
     </slot>
@@ -54,6 +55,12 @@
     <div v-else-if="!loadingRooms && !roomsQuery.length && showUnreadRooms && !unreadRooms.length" class="vac-rooms-empty">
       <slot name="rooms-empty">
         {{ textMessages.UNREAD_ROOMS_EMPTY }}
+      </slot>
+    </div>
+    <!-- Displayed when user has no group rooms -->
+    <div v-else-if="!loadingRooms && !roomsQuery.length && showGroupRooms && !groupRooms.length" class="vac-rooms-empty">
+      <slot name="rooms-empty">
+        {{ textMessages.GROUP_ROOMS_EMPTY }}
       </slot>
     </div>
 
@@ -98,7 +105,7 @@
         </div>
       </transition-group>
       <transition name="vac-fade-message">
-        <div v-if="(rooms.length || archivedRooms.length || customSearchRooms.length) && !loadingRooms" id="infinite-loader-rooms">
+        <div v-if="(rooms.length || archivedRooms.length || unreadRooms.length || groupRooms.length || customSearchRooms.length) && !loadingRooms" id="infinite-loader-rooms">
           <loader :show="showLoader" :infinite="true" type="infinite-rooms">
             <template v-for="(idx, name) in $slots" #[name]="data">
               <slot :name="name" v-bind="data" />
@@ -139,9 +146,12 @@ export default {
     textFormatting: { type: Object, required: true },
     linkOptions: { type: Object, required: true },
     isMobile: { type: Boolean, required: true },
+
     rooms: { type: Array, required: true },
     archivedRooms: { type: Array, required: true },
     unreadRooms: { type: Array, required: true },
+    groupRooms: { type: Array, required: true },
+
     customSearchRooms: { type: Array, required: false, default: () => [] },
     loadingRooms: { type: Boolean, required: true },
     roomsLoaded: { type: Boolean, required: true },
@@ -150,8 +160,10 @@ export default {
     roomActions: { type: Array, required: true },
     scrollDistance: { type: Number, required: true },
     call: { type: Object, required: true },
+
     showArchivedRooms: { type: Boolean, required: true, default: false },
-    showUnreadRooms: { type: Boolean, required: true, default: false }
+    showUnreadRooms: { type: Boolean, required: true, default: false },
+    showGroupRooms: { type: Boolean, required: true, default: false }
   },
 
   emits: [
@@ -166,6 +178,7 @@ export default {
     'return-to-call',
     'click-archived-rooms',
     'click-unread-rooms',
+    'click-group-rooms',
     'reset-filter-rooms'
   ],
 
@@ -188,6 +201,8 @@ export default {
           return this.unreadRooms
         case this.showArchivedRooms:
           return this.archivedRooms
+        case this.showGroupRooms:
+          return this.groupRooms
         default:
           return this.rooms
         }
@@ -205,6 +220,8 @@ export default {
         return 'rooms-archived'
       case this.showUnreadRooms:
         return 'rooms-unread'
+      case this.showGroupRooms:
+        return 'rooms-group'
       default:
         return 'rooms'
       }
@@ -269,6 +286,7 @@ export default {
     handleResetFilterRooms() {
       this.$emit('click-archived-rooms', false)
       this.$emit('click-unread-rooms', false)
+      this.$emit('click-group-rooms', false)
     },
     initIntersectionObserver() {
       if (this.observer) {

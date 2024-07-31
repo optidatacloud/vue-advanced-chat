@@ -27,7 +27,8 @@ export default {
   emits: [
     'filter-rooms',
     'click-archived-rooms',
-    'click-unread-rooms'
+    'click-unread-rooms',
+    'reset-filter-rooms'
   ],
 
   data() {
@@ -94,6 +95,7 @@ export default {
         this.$emit('click-unread-rooms')
         break
       default:
+        this.$emit('reset-filter-rooms')
         break
       }
     },

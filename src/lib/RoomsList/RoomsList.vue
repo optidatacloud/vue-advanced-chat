@@ -27,6 +27,7 @@
       <rooms-filter
         @click-archived-rooms="$emit('click-archived-rooms', !showArchivedRooms)"
         @click-unread-rooms="$emit('click-unread-rooms', !showUnreadRooms)"
+        @reset-filter-rooms="handleResetFilterRooms"
       />
     </slot>
 
@@ -164,7 +165,8 @@ export default {
     'hang-up-call',
     'return-to-call',
     'click-archived-rooms',
-    'click-unread-rooms'
+    'click-unread-rooms',
+    'reset-filter-rooms'
   ],
 
   data() {
@@ -264,6 +266,10 @@ export default {
   },
 
   methods: {
+    handleResetFilterRooms() {
+      this.$emit('click-archived-rooms', false)
+      this.$emit('click-unread-rooms', false)
+    },
     initIntersectionObserver() {
       if (this.observer) {
         this.showLoader = true

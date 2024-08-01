@@ -6,8 +6,8 @@
       :class="{ 'vac-filter-selected': isFilterSelected(option.name) }"
       @click.prevent.stop="setFilterOption(option.name)"
     >
-      <span class="vac-filter-option-name" v-html="translate(option.name)" />
-      <!-- <span class="vac-filter-option-counter" v-html="option.counter" /> -->
+      <span class="vac-filter-option-name" v-html="translate(option.label)" />
+      <span class="vac-filter-option-counter" v-html="option.counter" />
       <div v-if="option.hasUnreadMessage" class="vac-has-unread-message" />
     </div>
   </div>
@@ -22,7 +22,12 @@ export default {
 
   components: { },
 
-  props: { },
+  props: {
+    unreadRooms: { type: Array, default: () => [] },
+    archivedRooms: { type: Array, default: () => [] },
+    groupRooms: { type: Array, default: () => [] },
+    rooms: { type: Array, default: () => [] }
+  },
 
   emits: [
     'filter-rooms',
@@ -38,21 +43,25 @@ export default {
       filterOptions: {
         'all': {
           name: 'all',
+          label: 'All',
           counter: null,
           hasUnreadMessage: null
         },
         'unread': {
           name: 'unread',
+          label: 'Unread',
           counter: null,
           hasUnreadMessage: null
         },
         'group': {
           name: 'group',
+          label: 'Group',
           counter: null,
           hasUnreadMessage: null
         },
         'archived': {
           name: 'archived',
+          label: 'Archived',
           counter: null,
           hasUnreadMessage: null
         }
@@ -62,12 +71,23 @@ export default {
 
   computed: { },
 
-  watch: { },
-
-  mounted() {
-    this.checkUnreadMessages()
-    this.checkRoomsCounter()
+  watch: {
+    unreadRooms() {
+      this.filterOptions['unread'].counter = this.unreadRooms.length
+      this.filterOptions['unread'].hasUnreadMessage = this.unreadRooms.length > 0
+    },
+    archivedRooms() {
+      this.filterOptions['archived'].counter = this.archivedRooms.length
+    },
+    groupRooms() {
+      this.filterOptions['group'].counter = this.groupRooms.length
+    },
+    rooms() {
+      this.filterOptions['all'].counter = this.rooms.length
+    }
   },
+
+  mounted() { },
 
   methods: {
     isFilterSelected(option) {
@@ -89,12 +109,15 @@ export default {
 
       switch (option) {
       case 'archived':
+        this.$emit('reset-filter-rooms')
         this.$emit('click-archived-rooms')
         break
       case 'unread':
+        this.$emit('reset-filter-rooms')
         this.$emit('click-unread-rooms')
         break
       case 'group':
+        this.$emit('reset-filter-rooms')
         this.$emit('click-group-rooms')
         break
       default:
@@ -104,34 +127,6 @@ export default {
     },
     translate(str) {
       return translate(str)
-    },
-    checkUnreadMessages() {
-      const options = Object.fromEntries(Object.entries(this.filterOptions).filter(([k, v]) => {
-        return 	k !== 'all' && k !== 'archived'
-      }))
-
-      for (const option in options) {
-        this.filterOptions[option].hasUnreadMessage = Math.random() > 0.5
-      }
-
-      if (this.filterOptions['group'].hasUnreadMessage || this.filterOptions['unread'].hasUnreadMessage) {
-        this.filterOptions['all'].hasUnreadMessage = true
-      }
-
-      this.filterOptions['archived'].hasUnreadMessage = Math.random() > 0.5
-    },
-    checkRoomsCounter() {
-      const options = Object.fromEntries(Object.entries(this.filterOptions).filter(([k, v]) => {
-        return 	k !== 'all'
-      }))
-
-      for (const option in options) {
-        this.filterOptions[option].counter = Math.floor(Math.random() * 10).toFixed(0)
-      }
-
-      this.filterOptions['all'].counter = (
-        Number(this.filterOptions['group'].counter) + Number(this.filterOptions['unread'].counter)
-      )
     }
   }
 }

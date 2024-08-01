@@ -25,6 +25,10 @@
       </rooms-search>
 
       <rooms-filter
+        :unread-rooms="unreadRooms"
+        :archived-rooms="archivedRooms"
+        :group-rooms="groupRooms"
+        :rooms="rooms"
         @click-archived-rooms="$emit('click-archived-rooms', !showArchivedRooms)"
         @click-unread-rooms="$emit('click-unread-rooms', !showUnreadRooms)"
         @click-group-rooms="$emit('click-group-rooms', !showGroupRooms)"

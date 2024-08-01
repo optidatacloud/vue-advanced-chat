@@ -109,7 +109,7 @@
         </div>
       </transition-group>
       <transition name="vac-fade-message">
-        <div v-if="(rooms.length || archivedRooms.length || unreadRooms.length || groupRooms.length || customSearchRooms.length) && !loadingRooms" id="infinite-loader-rooms">
+        <div v-if="noRoomToShow && !loadingRooms" id="infinite-loader-rooms">
           <loader :show="showLoader" :infinite="true" type="infinite-rooms">
             <template v-for="(idx, name) in $slots" #[name]="data">
               <slot :name="name" v-bind="data" />
@@ -150,13 +150,11 @@ export default {
     textFormatting: { type: Object, required: true },
     linkOptions: { type: Object, required: true },
     isMobile: { type: Boolean, required: true },
-
     rooms: { type: Array, required: true },
     archivedRooms: { type: Array, required: true },
+    customSearchRooms: { type: Array, required: false, default: () => [] },
     unreadRooms: { type: Array, required: true },
     groupRooms: { type: Array, required: true },
-
-    customSearchRooms: { type: Array, required: false, default: () => [] },
     loadingRooms: { type: Boolean, required: true },
     roomsLoaded: { type: Boolean, required: true },
     room: { type: Object, required: true },
@@ -164,7 +162,6 @@ export default {
     roomActions: { type: Array, required: true },
     scrollDistance: { type: Number, required: true },
     call: { type: Object, required: true },
-
     showArchivedRooms: { type: Boolean, required: true, default: false },
     showUnreadRooms: { type: Boolean, required: true, default: false },
     showGroupRooms: { type: Boolean, required: true, default: false }
@@ -198,6 +195,15 @@ export default {
   },
 
   computed: {
+    noRoomToShow() {
+      return (
+        !this.rooms.length &&
+        !this.archivedRooms.length &&
+        !this.unreadRooms.length &&
+        !this.groupRooms.length &&
+        !this.customSearchRooms.length
+      )
+    },
     roomsToDisplay() {
       if (!this.roomsQuery.length) {
         switch (true) {

@@ -1,5 +1,5 @@
 import dompurify from 'dompurify'
 
-export function safe(html) {
+export function sanitize(html) {
   return !html || !html.length ? '' : dompurify.sanitize(html)
 }

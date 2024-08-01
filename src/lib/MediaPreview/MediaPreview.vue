@@ -99,7 +99,7 @@
 import Loader from '../../components/Loader/Loader'
 import SvgIcon from '../../components/SvgIcon/SvgIcon'
 
-import { safe } from '../../utils/dompurify'
+import { sanitize } from '../../utils/dompurify'
 import { isImageFile, isVideoFile, isPdfFile, isTextFile, isSVGFile } from '../../utils/media-file'
 import { translate } from '../../utils/i18n/index'
 
@@ -228,7 +228,7 @@ export default {
       this.setSVGLoading(true)
       const svg = await this.loadAndCacheFileContent(file)
       if (svg) {
-        this.fileContent = safe(svg)
+        this.fileContent = sanitize(svg)
       }
 
       this.setSVGLoading(false)

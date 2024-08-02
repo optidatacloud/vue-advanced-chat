@@ -39,6 +39,7 @@ export default {
 
   data() {
     return {
+      previousOption: 'all',
       filterSelected: 'all',
       filterOptions: {
         'all': {
@@ -95,6 +96,28 @@ export default {
     },
     resetFilterApplied() {
       this.setFilterOption('all')
+      this.deselectPreviousOption()
+    },
+    deselectPreviousOption() {
+      if (!this.previousOption || this.previousOption === 'all') {
+        return
+      }
+
+      switch (this.previousOption) {
+      case 'archived':
+        this.$emit('click-archived-rooms')
+        break
+      case 'unread':
+        this.$emit('click-unread-rooms')
+        break
+      case 'group':
+        this.$emit('click-group-rooms')
+        break
+      case 'all':
+      default:
+        break
+      }
+      this.previousOption = null
     },
     setFilterOption(option) {
       if (this.filterSelected === 'all' && option === 'all') {
@@ -103,27 +126,28 @@ export default {
 
       if (this.filterSelected === option) {
         this.resetFilterApplied()
+        return
       } else {
+        this.previousOption = this.filterSelected
         this.filterSelected = option
       }
 
       switch (option) {
       case 'archived':
-        this.$emit('reset-filter-rooms')
         this.$emit('click-archived-rooms')
         break
       case 'unread':
-        this.$emit('reset-filter-rooms')
         this.$emit('click-unread-rooms')
         break
       case 'group':
-        this.$emit('reset-filter-rooms')
         this.$emit('click-group-rooms')
         break
       default:
         this.$emit('reset-filter-rooms')
         break
       }
+
+      this.deselectPreviousOption()
     },
     translate(str) {
       return translate(str)

@@ -275,8 +275,7 @@ export default {
       }
     },
     /**
-     * If user change rooms view between archived and
-     * non-archived rooms, then reset the search.
+     * If user change rooms view, then reset the search.
      */
     showArchivedRooms: {
       handler() {

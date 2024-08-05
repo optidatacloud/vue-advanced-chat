@@ -11,8 +11,6 @@
 
     <slot name="rooms-list-search">
       <rooms-search
-        :rooms="rooms"
-        :loading-rooms="loadingRooms"
         :text-messages="textMessages"
         :show-search="showSearch"
         :show-add-room="showAddRoom"
@@ -277,27 +275,22 @@ export default {
     /**
      * If user change rooms view, then reset the search.
      */
-    showArchivedRooms: {
-      handler() {
-        this.roomsQuery = ''
-        setTimeout(() => this.initIntersectionObserver())
-      }
+    showArchivedRooms() {
+      this.resetRoomsQueryAndInitObserver()
     },
-    showUnreadRooms: {
-      handler() {
-        this.roomsQuery = ''
-        setTimeout(() => this.initIntersectionObserver())
-      }
+    showUnreadRooms() {
+      this.resetRoomsQueryAndInitObserver()
     },
-    showGroupRooms: {
-      handler() {
-        this.roomsQuery = ''
-        setTimeout(() => this.initIntersectionObserver())
-      }
+    showGroupRooms() {
+      this.resetRoomsQueryAndInitObserver()
     }
   },
 
   methods: {
+    resetRoomsQueryAndInitObserver() {
+      this.roomsQuery = ''
+      setTimeout(() => this.initIntersectionObserver())
+    },
     handleResetFilterRooms() {
       this.$emit('click-archived-rooms', false)
       this.$emit('click-unread-rooms', false)

@@ -313,37 +313,7 @@ export default {
 
   computed: {
     room() {
-      const foundOnAllRooms = this.rooms.find(room => room.roomId === this.roomId)
-
-      if (foundOnAllRooms) {
-        return foundOnAllRooms
-      }
-
-      const foundOnArchivedRooms = this.archivedRooms.find(
-        room => room.roomId === this.roomId
-      )
-
-      if (foundOnArchivedRooms) {
-        return foundOnArchivedRooms
-      }
-
-      const foundOnUnreadRooms = this.unreadRooms.find(
-        room => room.roomId === this.roomId
-      )
-
-      if (foundOnUnreadRooms) {
-        return foundOnUnreadRooms
-      }
-
-      const foundOnGroupRooms = this.groupRooms.find(
-        room => room.roomId === this.roomId
-      )
-
-      if (foundOnGroupRooms) {
-        return foundOnGroupRooms
-      }
-
-      return {}
+      return this.rooms.find(room => room.roomId === this.roomId) || this.archivedRooms.find(room => room.roomId === this.roomId) || {}
     },
     showNoMessages() {
       return (
@@ -355,7 +325,7 @@ export default {
     },
     showNoRoom() {
       const noRoomSelected =
-        (!this.rooms.length && !this.archivedRooms.length && !this.unreadRooms.length && !this.groupRooms.length && !this.loadingRooms) ||
+        (!this.rooms.length && !this.archivedRooms.length && !this.loadingRooms) ||
         (!this.roomId && !this.loadFirstRoom)
 
       if (noRoomSelected) {

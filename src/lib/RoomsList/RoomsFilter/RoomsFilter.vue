@@ -8,7 +8,7 @@
     >
       <span class="vac-filter-option-name" v-html="translate(option.label)" />
       <!-- <span class="vac-filter-option-counter" v-html="option.counter" /> -->
-      <div v-if="option.hasUnreadMessage" class="vac-has-unread-message" :title="translate('You have unread messages')" />
+      <!-- <div v-if="option.hasUnreadMessage" class="vac-has-unread-message" :title="translate('You have unread messages')" /> -->
     </div>
   </div>
 </template>
@@ -76,6 +76,10 @@ export default {
     unreadRooms() {
       this.filterOptions['unread'].counter = this.unreadRooms.length
       this.filterOptions['unread'].hasUnreadMessage = this.unreadRooms.length > 0
+
+      if (this.unreadRooms.length > 0) {
+        this.filterOptions['all'].hasUnreadMessage = true
+      }
     },
     archivedRooms() {
       this.filterOptions['archived'].counter = this.archivedRooms.length

@@ -7,8 +7,8 @@
       @click.prevent.stop="setFilterOption(option.name)"
     >
       <span class="vac-filter-option-name" v-html="translate(option.label)" />
-      <span class="vac-filter-option-counter" v-html="option.counter" />
-      <div v-if="option.hasUnreadMessage" class="vac-has-unread-message" />
+      <!-- <span class="vac-filter-option-counter" v-html="option.counter" /> -->
+      <div v-if="option.hasUnreadMessage" class="vac-has-unread-message" :title="translate('You have unread messages')" />
     </div>
   </div>
 </template>
@@ -146,7 +146,6 @@ export default {
         this.$emit('reset-filter-rooms')
         break
       }
-
       this.deselectPreviousOption()
     },
     translate(str) {

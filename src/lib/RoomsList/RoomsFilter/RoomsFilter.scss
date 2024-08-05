@@ -6,7 +6,7 @@
     padding: 1rem;
 
     .vac-filter-option {
-        background-color: #d9d9d9;
+        background-color: var(--chat-sidemenu-bg-filter-option);
         border-radius: 20px;
         width: 22%;
         text-align: center;
@@ -22,19 +22,19 @@
         }
         
         &:hover {
-            background-color: #d4d1fa;
+            background-color: var(--chat-sidemenu-bg-hover-filter-option);
         }
     }
 
     .vac-filter-selected {
-        background-color: #d4d1fa;
         font-weight: bold;
+        background-color: var(--chat-sidemenu-bg-hover-filter-option);
     }
 
     .vac-has-unread-message {
         width: 12px;
         height: 12px;
-        background: crimson;
+        background: var(--chat-warning);
         top: -3px;
         right: -2px;
         position: absolute;

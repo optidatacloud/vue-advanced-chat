@@ -107,20 +107,7 @@ export default {
         return
       }
 
-      switch (this.previousOption) {
-      case 'archived':
-        this.$emit('click-archived-rooms')
-        break
-      case 'unread':
-        this.$emit('click-unread-rooms')
-        break
-      case 'group':
-        this.$emit('click-group-rooms')
-        break
-      case 'all':
-      default:
-        break
-      }
+      this.sendCorrectSignal(this.previousOption)
       this.previousOption = null
     },
     setFilterOption(option) {
@@ -136,24 +123,30 @@ export default {
         this.filterSelected = option
       }
 
-      switch (option) {
-      case 'archived':
-        this.$emit('click-archived-rooms')
-        break
-      case 'unread':
-        this.$emit('click-unread-rooms')
-        break
-      case 'groups':
-        this.$emit('click-group-rooms')
-        break
-      default:
-        this.$emit('reset-filter-rooms')
-        break
-      }
+      this.sendCorrectSignal(option)
       this.deselectPreviousOption()
     },
     translate(str) {
       return translate(str)
+    },
+    sendCorrectSignal(option) {
+      let signalToEmit = ''
+      switch (option) {
+      case 'archived':
+        signalToEmit = 'click-archived-rooms'
+        break
+      case 'unread':
+        signalToEmit = 'click-unread-rooms'
+        break
+      case 'groups':
+        signalToEmit = 'click-group-rooms'
+        break
+      case 'all':
+      default:
+        signalToEmit = 'reset-filter-rooms'
+        break
+      }
+      this.$emit(signalToEmit)
     }
   }
 }

@@ -538,7 +538,9 @@ export default {
             break
           }
 
-          this.fetchRoom({ room })
+          if (room) {
+            this.fetchRoom({ room })
+          }
         } else if (oldVal && !newVal) {
           this.room = {}
         }

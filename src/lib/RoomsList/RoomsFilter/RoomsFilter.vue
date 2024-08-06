@@ -55,8 +55,8 @@ export default {
           hasUnreadMessage: null
         },
         'group': {
-          name: 'group',
-          label: 'Group',
+          name: 'groups',
+          label: 'Groups',
           counter: null,
           hasUnreadMessage: null
         },
@@ -143,7 +143,7 @@ export default {
       case 'unread':
         this.$emit('click-unread-rooms')
         break
-      case 'group':
+      case 'groups':
         this.$emit('click-group-rooms')
         break
       default:

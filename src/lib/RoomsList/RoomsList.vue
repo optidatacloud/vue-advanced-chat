@@ -23,10 +23,6 @@
       </rooms-search>
 
       <rooms-filter
-        :unread-rooms="unreadRooms"
-        :archived-rooms="archivedRooms"
-        :group-rooms="groupRooms"
-        :rooms="rooms"
         :room-filter-selected="roomFilterSelected"
         @click-archived-rooms="$emit('click-archived-rooms', !showArchivedRooms)"
         @click-unread-rooms="$emit('click-unread-rooms', !showUnreadRooms)"
@@ -210,11 +206,9 @@ export default {
       if (!this.roomsQuery.length) {
         if (this.showUnreadRooms) {
           return this.unreadRooms
-        }
-        if (this.showArchivedRooms) {
+        } else if (this.showArchivedRooms) {
           return this.archivedRooms
-        }
-        if (this.showGroupRooms) {
+        } else if (this.showGroupRooms) {
           return this.groupRooms
         }
         return this.rooms
@@ -229,11 +223,9 @@ export default {
     roomListTransition() {
       if (this.showArchivedRooms) {
         return 'rooms-archived'
-      }
-      if (this.showUnreadRooms) {
+      } else if (this.showUnreadRooms) {
         return 'rooms-unread'
-      }
-      if (this.showGroupRooms) {
+      } else if (this.showGroupRooms) {
         return 'rooms-group'
       }
       return 'rooms'

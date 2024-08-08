@@ -7,8 +7,6 @@
       @click.prevent.stop="setFilterOption(option.name)"
     >
       <span class="vac-filter-option-name" v-html="translate(option.label)" />
-      <!-- <span class="vac-filter-option-counter" v-html="option.counter" /> -->
-      <!-- <div v-if="option.hasUnreadMessage" class="vac-has-unread-message" :title="translate('You have unread messages')" /> -->
     </div>
   </div>
 </template>
@@ -23,10 +21,6 @@ export default {
   components: { },
 
   props: {
-    unreadRooms: { type: Array, default: () => [] },
-    archivedRooms: { type: Array, default: () => [] },
-    groupRooms: { type: Array, default: () => [] },
-    rooms: { type: Array, default: () => [] },
     roomFilterSelected: { type: String, required: true }
   },
 
@@ -42,56 +36,18 @@ export default {
   data() {
     return {
       previousOption: 'all',
-      filterOptions: {
-        'all': {
-          name: 'all',
-          label: 'All',
-          counter: null,
-          hasUnreadMessage: null
-        },
-        'unread': {
-          name: 'unread',
-          label: 'Unread',
-          counter: null,
-          hasUnreadMessage: null
-        },
-        'group': {
-          name: 'groups',
-          label: 'Groups',
-          counter: null,
-          hasUnreadMessage: null
-        },
-        'archived': {
-          name: 'archived',
-          label: 'Archived',
-          counter: null,
-          hasUnreadMessage: null
-        }
-      }
+      filterOptions: [
+        { name: 'all', label: 'All' },
+        { name: 'unread', label: 'Unread' },
+        { name: 'groups', label: 'Groups' },
+        { name: 'archived', label: 'Archived' }
+      ]
     }
   },
 
   computed: { },
 
-  watch: {
-    unreadRooms() {
-      this.filterOptions['unread'].counter = this.unreadRooms.length
-      this.filterOptions['unread'].hasUnreadMessage = this.unreadRooms.length > 0
-
-      if (this.unreadRooms.length > 0) {
-        this.filterOptions['all'].hasUnreadMessage = true
-      }
-    },
-    archivedRooms() {
-      this.filterOptions['archived'].counter = this.archivedRooms.length
-    },
-    groupRooms() {
-      this.filterOptions['group'].counter = this.groupRooms.length
-    },
-    rooms() {
-      this.filterOptions['all'].counter = this.rooms.length
-    }
-  },
+  watch: { },
 
   mounted() { },
 

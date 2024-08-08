@@ -3,7 +3,7 @@
     <div
       v-for="option in filterOptions" :key="option.name"
       class="vac-filter-option"
-      :class="{ 'vac-filter-selected': isFilterSelected(option.name) }"
+      :class="{ 'vac-filter-selected': isOptionSelected(option.name) }"
       @click.prevent.stop="setFilterOption(option.name)"
     >
       <span class="vac-filter-option-name" v-html="translate(option.label)" />
@@ -26,7 +26,8 @@ export default {
     unreadRooms: { type: Array, default: () => [] },
     archivedRooms: { type: Array, default: () => [] },
     groupRooms: { type: Array, default: () => [] },
-    rooms: { type: Array, default: () => [] }
+    rooms: { type: Array, default: () => [] },
+    roomFilterSelected: { type: String, required: true }
   },
 
   emits: [
@@ -34,13 +35,13 @@ export default {
     'click-archived-rooms',
     'click-unread-rooms',
     'click-group-rooms',
-    'reset-filter-rooms'
+    'reset-filter-rooms',
+    'set-room-filter-selected'
   ],
 
   data() {
     return {
       previousOption: 'all',
-      filterSelected: 'all',
       filterOptions: {
         'all': {
           name: 'all',
@@ -95,8 +96,8 @@ export default {
   mounted() { },
 
   methods: {
-    isFilterSelected(option) {
-      return option === this.filterSelected
+    isOptionSelected(option) {
+      return option === this.roomFilterSelected
     },
     resetFilterApplied() {
       this.setFilterOption('all')
@@ -111,16 +112,16 @@ export default {
       this.previousOption = null
     },
     setFilterOption(option) {
-      if (this.filterSelected === 'all' && option === 'all') {
+      if (this.roomFilterSelected === 'all' && option === 'all') {
         return
       }
 
-      if (this.filterSelected === option) {
+      if (this.roomFilterSelected === option) {
         this.resetFilterApplied()
         return
       } else {
-        this.previousOption = this.filterSelected
-        this.filterSelected = option
+        this.previousOption = this.roomFilterSelected
+        this.$emit('set-room-filter-selected', option)
       }
 
       this.sendCorrectSignal(option)

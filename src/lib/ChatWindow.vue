@@ -26,6 +26,8 @@
         :show-archived-rooms="showArchivedRoomsCasted"
         :show-group-rooms="showGroupRoomsCasted"
         :show-unread-rooms="showUnreadRoomsCasted"
+        :room-filter-selected="roomFilterSelected"
+        @set-room-filter-selected="setRoomFilterSelected"
         @fetch-room="fetchRoom"
         @fetch-more-rooms="fetchMoreRooms"
         @loading-more-rooms="loadingMoreRooms = $event"
@@ -123,7 +125,7 @@
         @external-files-removed="$emit('external-files-removed', $event)"
         @new-draft-message="$emit('new-draft-message', $event)"
         @message-reply-click="$emit('message-reply-click', $event)"
-        @click-message-username="$emit('click-message-username', $event)"
+        @click-message-username="handleMessageUsernameClick"
       >
         <template v-for="el in slots" #[el.slot]="data">
           <slot :name="el.slot" v-bind="data" />
@@ -309,7 +311,8 @@ export default {
       showRoomsList: true,
       isMobile: false,
       showMediaPreview: false,
-      previewFiles: []
+      previewFiles: [],
+      roomFilterSelected: 'all'
     }
   },
 
@@ -575,6 +578,16 @@ export default {
   },
 
   methods: {
+    setRoomFilterSelected(option) {
+      this.roomFilterSelected = option
+    },
+    handleMessageUsernameClick(event) {
+      this.roomFilterSelected = 'all'
+      this.clickArchivedRoomsHandler(false)
+      this.clickGroupRoomsHandler(false)
+      this.clickUnreadRoomsHandler(false)
+      this.$emit('click-message-username', event)
+    },
     castBoolean(val) {
       return val === 'true' || val === true
     },

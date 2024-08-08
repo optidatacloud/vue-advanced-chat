@@ -204,16 +204,16 @@ export default {
     },
     roomsToDisplay() {
       if (!this.roomsQuery.length) {
-        switch (true) {
-        case this.showUnreadRooms:
+        if (this.showUnreadRooms) {
           return this.unreadRooms
-        case this.showArchivedRooms:
-          return this.archivedRooms
-        case this.showGroupRooms:
-          return this.groupRooms
-        default:
-          return this.rooms
         }
+        if (this.showArchivedRooms) {
+          return this.archivedRooms
+        }
+        if (this.showGroupRooms) {
+          return this.groupRooms
+        }
+        return this.rooms
       }
 
       if (this.customSearchRoomEnabled) {
@@ -223,16 +223,16 @@ export default {
       return this.filteredRooms
     },
     roomListTransition() {
-      switch (true) {
-      case this.showArchivedRooms:
+      if (this.showArchivedRooms) {
         return 'rooms-archived'
-      case this.showUnreadRooms:
-        return 'rooms-unread'
-      case this.showGroupRooms:
-        return 'rooms-group'
-      default:
-        return 'rooms'
       }
+      if (this.showUnreadRooms) {
+        return 'rooms-unread'
+      }
+      if (this.showGroupRooms) {
+        return 'rooms-group'
+      }
+      return 'rooms'
     }
   },
 

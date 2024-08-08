@@ -523,19 +523,14 @@ export default {
       handler(newVal, oldVal) {
         if (newVal && !this.loadingRoomsCasted && this.roomsCasted.length) {
           let room = null
-          switch (true) {
-          case this.showArchivedRoomsCasted:
+          if (this.showArchivedRoomsCasted) {
             room = this.archivedRoomsCasted.find(r => r.roomId === newVal)
-            break
-          case this.showGroupRoomsCasted:
+          } else if (this.showGroupRoomsCasted) {
             room = this.groupRoomsCasted.find(r => r.roomId === newVal)
-            break
-          case this.showUnreadRoomsCasted:
+          } else if (this.showUnreadRoomsCasted) {
             room = this.unreadRoomsCasted.find(r => r.roomId === newVal)
-            break
-          default:
+          } else {
             room = this.roomsCasted.find(r => r.roomId === newVal)
-            break
           }
 
           if (room) {

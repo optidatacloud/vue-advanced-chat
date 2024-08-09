@@ -3,8 +3,8 @@
     <div
       v-for="option in filterOptions" :key="option.name"
       class="vac-filter-option"
-      :class="{ 'vac-filter-selected': isOptionSelected(option.name) }"
-      @click.prevent.stop="setFilterOption(option.name)"
+      :class="{ 'vac-filter-selected': isActive(option.name) }"
+      @click.prevent.stop="setFilter(option.name)"
     >
       <span class="vac-filter-option-name" v-html="translate(option.label)" />
     </div>
@@ -52,14 +52,14 @@ export default {
   mounted() { },
 
   methods: {
-    isOptionSelected(option) {
+    isActive(option) {
       return option === this.roomFilterSelected
     },
-    resetFilterApplied() {
-      this.setFilterOption('all')
-      this.deselectPreviousOption()
+    reset() {
+      this.setFilter('all')
+      this.deselectPrevious()
     },
-    deselectPreviousOption() {
+    deselectPrevious() {
       if (!this.previousOption || this.previousOption === 'all') {
         return
       }
@@ -67,13 +67,13 @@ export default {
       this.sendCorrectSignal(this.previousOption)
       this.previousOption = null
     },
-    setFilterOption(option) {
+    setFilter(option) {
       if (this.roomFilterSelected === 'all' && option === 'all') {
         return
       }
 
       if (this.roomFilterSelected === option) {
-        this.resetFilterApplied()
+        this.reset()
         return
       } else {
         this.previousOption = this.roomFilterSelected
@@ -81,7 +81,7 @@ export default {
       }
 
       this.sendCorrectSignal(option)
-      this.deselectPreviousOption()
+      this.deselectPrevious()
     },
     translate(str) {
       return translate(str)

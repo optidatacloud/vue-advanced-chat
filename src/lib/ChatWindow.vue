@@ -1,5 +1,5 @@
 <template>
-  <div class="vac-card-window" :style="[{ height }, cssVars]">
+  <!-- <div class="vac-card-window" :style="[{ height }, cssVars]">
     <div class="vac-chat-container">
       <rooms-list
         v-if="!singleRoomCasted"
@@ -132,7 +132,7 @@
         </template>
       </media-preview>
     </transition>
-  </div>
+  </div> -->
 </template>
 
 <script>

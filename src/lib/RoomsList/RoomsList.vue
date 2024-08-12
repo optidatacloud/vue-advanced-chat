@@ -36,29 +36,17 @@
     </loader>
 
     <!-- Displayed when user searches for something and result it's empty -->
-    <div v-if="!loadingRooms && roomsQuery.length && !customSearchRooms.length && !roomsToDisplay.length" class="vac-rooms-empty xesquedele pinto">
-      <slot name="rooms-empty">
-        {{ textMessages.ROOMS_EMPTY }}
-      </slot>
+    <div v-if="showMessageEmptyRooms" class="vac-rooms-empty xesquedele pinto">
+      <slot name="rooms-empty">{{ textMessages.ROOMS_EMPTY }}</slot>
     </div>
-
-    <!-- Displayed when user has no archived rooms -->
-    <div v-if="!loadingRooms && !roomsQuery.length && showArchivedRooms && !archivedRooms.length" class="vac-rooms-empty">
-      <slot name="rooms-empty">
-        {{ textMessages.ARCHIVED_ROOMS_EMPTY }}
-      </slot>
+    <div v-if="showMessageEmptyUnreadRooms" class="vac-rooms-empty">
+      <slot name="rooms-empty">{{ textMessages.UNREAD_ROOMS_EMPTY }}</slot>
     </div>
-    <!-- Displayed when user has no unread rooms -->
-    <div v-else-if="!loadingRooms && !roomsQuery.length && showUnreadRooms && !unreadRooms.length" class="vac-rooms-empty">
-      <slot name="rooms-empty">
-        {{ textMessages.UNREAD_ROOMS_EMPTY }}
-      </slot>
+    <div v-else-if="showMessageEmptyGroupRooms" class="vac-rooms-empty">
+      <slot name="rooms-empty">{{ textMessages.GROUP_ROOMS_EMPTY }}</slot>
     </div>
-    <!-- Displayed when user has no group rooms -->
-    <div v-else-if="!loadingRooms && !roomsQuery.length && showGroupRooms && !groupRooms.length" class="vac-rooms-empty">
-      <slot name="rooms-empty">
-        {{ textMessages.GROUP_ROOMS_EMPTY }}
-      </slot>
+    <div v-else-if="showMessageEmptyArchivedRooms" class="vac-rooms-empty">
+      <slot name="rooms-empty">{{ textMessages.ARCHIVED_ROOMS_EMPTY }}</slot>
     </div>
 
     <div v-if="!loadingRooms && roomsToDisplay.length" id="rooms-list" class="vac-room-list">
@@ -155,9 +143,6 @@ export default {
     roomActions: { type: Array, required: true },
     scrollDistance: { type: Number, required: true },
     call: { type: Object, required: true },
-    showArchivedRooms: { type: Boolean, required: true, default: false },
-    showUnreadRooms: { type: Boolean, required: true, default: false },
-    showGroupRooms: { type: Boolean, required: true, default: false },
     roomFilterSelected: { type: String, required: true },
     roomFilters: { type: Object, default: () => {} }
   },
@@ -172,7 +157,7 @@ export default {
     'accept-call',
     'hang-up-call',
     'return-to-call',
-    'set-room-filter-selected'
+    'set-room-filter'
   ],
 
   data() {
@@ -187,6 +172,26 @@ export default {
   },
 
   computed: {
+    showMessageEmptyRooms() {
+      const active = this.roomFilterSelected === this.roomFilters.DEFAULT.name
+      return active && this.isRoomListEmpty && !this.customSearchRooms.length
+    },
+    showMessageEmptyUnreadRooms() {
+      const active = this.roomFilterSelected === this.roomFilters.UNREAD.name
+      return active && this.isRoomListEmpty && !this.unreadRooms.length
+    },
+    showMessageEmptyGroupRooms() {
+      const active = this.roomFilterSelected === this.roomFilters.GROUP.name
+      return active && this.isRoomListEmpty && !this.groupRooms.length
+    },
+    showMessageEmptyArchivedRooms() {
+      const active = this.roomFilterSelected === this.roomFilters.ARCHIVED.name
+      return active && this.isRoomListEmpty && !this.archivedRooms.length
+    },
+    isRoomListEmpty() {
+      return !this.roomsToDisplay.length && !this.loadingRooms && !this.roomsQuery.length
+    },
+
     noRoomToShow() {
       return (
         !this.rooms.length &&
@@ -198,14 +203,16 @@ export default {
     },
     roomsToDisplay() {
       if (!this.roomsQuery.length) {
-        if (this.showUnreadRooms) {
+        switch (this.roomFilterSelected) {
+        case this.roomFilters.UNREAD.name:
           return this.unreadRooms
-        } else if (this.showArchivedRooms) {
+        case this.roomFilters.ARCHIVED.name:
           return this.archivedRooms
-        } else if (this.showGroupRooms) {
+        case this.roomFilters.GROUP.name:
           return this.groupRooms
+        default:
+          return this.rooms
         }
-        return this.rooms
       }
 
       if (this.customSearchRoomEnabled) {
@@ -215,14 +222,16 @@ export default {
       return this.filteredRooms
     },
     roomListTransition() {
-      if (this.showArchivedRooms) {
-        return 'rooms-archived'
-      } else if (this.showUnreadRooms) {
+      switch (this.roomFilterSelected) {
+      case this.roomFilters.UNREAD.name:
         return 'rooms-unread'
-      } else if (this.showGroupRooms) {
+      case this.roomFilters.ARCHIVED.name:
+        return 'rooms-archived'
+      case this.roomFilters.GROUP.name:
         return 'rooms-group'
+      default:
+        return 'rooms'
       }
-      return 'rooms'
     }
   },
 
@@ -261,18 +270,6 @@ export default {
       handler(val) {
         if (val && !this.isMobile) this.selectedRoomId = val.roomId
       }
-    },
-    /**
-     * If user change rooms view, then reset the search.
-     */
-    showArchivedRooms() {
-      this.resetRoomsQueryAndInitObserver()
-    },
-    showUnreadRooms() {
-      this.resetRoomsQueryAndInitObserver()
-    },
-    showGroupRooms() {
-      this.resetRoomsQueryAndInitObserver()
     }
   },
 
@@ -282,7 +279,8 @@ export default {
       setTimeout(() => this.initIntersectionObserver())
     },
     handleSetFilterSelected(option) {
-      this.$emit('set-room-filter-selected', option)
+      this.$emit('set-room-filter', option)
+      this.resetRoomsQueryAndInitObserver()
     },
     initIntersectionObserver() {
       if (this.observer) {

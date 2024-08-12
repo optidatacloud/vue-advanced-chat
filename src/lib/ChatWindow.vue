@@ -27,7 +27,7 @@
         :show-group-rooms="showGroupRoomsCasted"
         :show-unread-rooms="showUnreadRoomsCasted"
         :room-filter-selected="roomFilterSelected"
-        @set-room-filter-selected="setRoomFilterSelected"
+        :room-filters="roomFiltersObject"
         @fetch-room="fetchRoom"
         @fetch-more-rooms="fetchMoreRooms"
         @loading-more-rooms="loadingMoreRooms = $event"
@@ -37,15 +37,12 @@
         @accept-call="acceptCallHandler"
         @hang-up-call="hangUpCallHandler"
         @return-to-call="returnToCallHandler"
-        @click-archived-rooms="clickArchivedRoomsHandler"
-        @click-group-rooms="clickGroupRoomsHandler"
-        @click-unread-rooms="clickUnreadRoomsHandler"
+        @set-room-filter-selected="$emit('set-room-filter-selected', $event)"
       >
         <template v-for="el in slots" #[el.slot]="data">
           <slot :name="el.slot" v-bind="data" />
         </template>
       </rooms-list>
-
       <room
         :current-user-id="currentUserId"
         :rooms="roomsCasted"
@@ -263,7 +260,9 @@ export default {
     showArchivedRooms: { type: Boolean, default: false },
     showUnreadRooms: { type: Boolean, default: false },
     showGroupRooms: { type: Boolean, default: false },
-    maxMessageRows: { type: Number, default: 0 }
+    maxMessageRows: { type: Number, default: 0 },
+    roomFilters: { type: String, default: () => {} },
+    roomFilterSelected: { type: String, required: true }
   },
 
   emits: [
@@ -296,11 +295,14 @@ export default {
     'request-permission-to-send-external-files',
     'external-files-removed',
     'new-draft-message',
-    'click-archived-rooms',
-    'click-group-rooms',
-    'click-unread-rooms',
     'message-reply-click',
-    'click-message-username'
+    'click-message-username',
+    'click-default-filter',
+    'click-unread-filter',
+    'click-group-filter',
+    'click-archived-filter',
+    'set-room-filter-selected',
+    'reset-filter'
   ],
 
   data() {
@@ -312,7 +314,7 @@ export default {
       isMobile: false,
       showMediaPreview: false,
       previewFiles: [],
-      roomFilterSelected: 'all'
+      roomFiltersObject: {}
     }
   },
 
@@ -564,6 +566,8 @@ export default {
   },
 
   created() {
+    this.roomFiltersObject = JSON.parse(this.roomFilters)
+    this.$emit('set-room-filter-selected', this.roomFiltersObject.DEFAULT.name)
     this.updateResponsive()
     window.addEventListener('resize', ev => {
       if (ev.isTrusted) this.updateResponsive()
@@ -578,11 +582,8 @@ export default {
   },
 
   methods: {
-    setRoomFilterSelected(option) {
-      this.roomFilterSelected = option
-    },
     handleMessageUsernameClick(event) {
-      this.roomFilterSelected = 'all'
+      this.$emit('set-room-filter-selected', this.roomFiltersObject.DEFAULT.name)
       this.clickArchivedRoomsHandler(false)
       this.clickGroupRoomsHandler(false)
       this.clickUnreadRoomsHandler(false)
@@ -691,13 +692,13 @@ export default {
       this.$emit('hang-up-call', call)
     },
     clickArchivedRoomsHandler(event) {
-      this.$emit('click-archived-rooms', event)
+      this.$emit('click-archived-filter', event)
     },
     clickGroupRoomsHandler(event) {
-      this.$emit('click-group-rooms', event)
+      this.$emit('click-group-filter', event)
     },
     clickUnreadRoomsHandler(event) {
-      this.$emit('click-unread-rooms', event)
+      this.$emit('click-unread-filter', event)
     },
     messageActionHandler(ev) {
       this.$emit('message-action-handler', {

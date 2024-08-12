@@ -1,6 +1,7 @@
 .vac-rooms-filter-container {
     display: flex;
     justify-content: space-between;
+    gap: 4px;
     align-items: center;
     color: black;
     padding: 1rem;
@@ -16,7 +17,8 @@
         transition: all 0.5s;
         position: relative;
         text-wrap: nowrap;
-        
+        width: 100%;
+
         .vac-filter-option-name {
             text-wrap: nowrap;
         }

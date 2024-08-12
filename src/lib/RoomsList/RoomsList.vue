@@ -24,11 +24,8 @@
 
       <rooms-filter
         :room-filter-selected="roomFilterSelected"
-        @click-archived-rooms="$emit('click-archived-rooms', !showArchivedRooms)"
-        @click-unread-rooms="$emit('click-unread-rooms', !showUnreadRooms)"
-        @click-group-rooms="$emit('click-group-rooms', !showGroupRooms)"
-        @set-room-filter-selected="$emit('set-room-filter-selected', $event)"
-        @reset-filter-rooms="handleResetFilterRooms"
+        :room-filters="roomFilters"
+        @set-filter-selected="handleSetFilterSelected"
       />
     </slot>
 
@@ -161,7 +158,8 @@ export default {
     showArchivedRooms: { type: Boolean, required: true, default: false },
     showUnreadRooms: { type: Boolean, required: true, default: false },
     showGroupRooms: { type: Boolean, required: true, default: false },
-    roomFilterSelected: { type: String, required: true }
+    roomFilterSelected: { type: String, required: true },
+    roomFilters: { type: Object, default: () => {} }
   },
 
   emits: [
@@ -174,10 +172,6 @@ export default {
     'accept-call',
     'hang-up-call',
     'return-to-call',
-    'click-archived-rooms',
-    'click-unread-rooms',
-    'click-group-rooms',
-    'reset-filter-rooms',
     'set-room-filter-selected'
   ],
 
@@ -287,11 +281,8 @@ export default {
       this.roomsQuery = ''
       setTimeout(() => this.initIntersectionObserver())
     },
-    handleResetFilterRooms() {
-      this.$emit('set-room-filter-selected', 'all')
-      this.$emit('click-archived-rooms', false)
-      this.$emit('click-unread-rooms', false)
-      this.$emit('click-group-rooms', false)
+    handleSetFilterSelected(option) {
+      this.$emit('set-room-filter-selected', option)
     },
     initIntersectionObserver() {
       if (this.observer) {

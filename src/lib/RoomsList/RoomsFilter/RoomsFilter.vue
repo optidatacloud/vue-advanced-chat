@@ -1,7 +1,8 @@
 <template>
   <div class="vac-rooms-filter-container">
     <div
-      v-for="option in filterOptions" :key="option.name"
+      v-for="option in filteredRoomFilters"
+      :key="option.name"
       class="vac-filter-option"
       :class="{ 'vac-filter-selected': isActive(option.name) }"
       @click.prevent.stop="setFilter(option.name)"
@@ -21,31 +22,28 @@ export default {
   components: { },
 
   props: {
-    roomFilterSelected: { type: String, required: true }
+    roomFilterSelected: { type: String, required: true },
+    roomFilters: { type: Object, default: () => {} }
   },
 
   emits: [
-    'filter-rooms',
-    'click-archived-rooms',
-    'click-unread-rooms',
-    'click-group-rooms',
-    'reset-filter-rooms',
-    'set-room-filter-selected'
+    'set-filter-selected'
   ],
 
-  data() {
-    return {
-      previousOption: 'all',
-      filterOptions: [
-        { name: 'all', label: 'All' },
-        { name: 'unread', label: 'Unread' },
-        { name: 'groups', label: 'Groups' },
-        { name: 'archived', label: 'Archived' }
-      ]
+  data() { },
+
+  computed: {
+    filteredRoomFilters() {
+      const filtered = {}
+      Object.keys(this.roomFilters).map(f => {
+        if (!this.roomFilters[f].label?.length) {
+          return
+        }
+        filtered[f] = this.roomFilters[f]
+      })
+      return filtered
     }
   },
-
-  computed: { },
 
   watch: { },
 
@@ -55,55 +53,20 @@ export default {
     isActive(option) {
       return option === this.roomFilterSelected
     },
-    reset() {
-      this.setFilter('all')
-      this.deselectPrevious()
-    },
-    deselectPrevious() {
-      if (!this.previousOption || this.previousOption === 'all') {
-        return
-      }
-
-      this.sendCorrectSignal(this.previousOption)
-      this.previousOption = null
-    },
     setFilter(option) {
-      if (this.roomFilterSelected === 'all' && option === 'all') {
+      if (this.roomFilterSelected === this.roomFilters.DEFAULT.name && option === this.roomFilters.DEFAULT.name) {
         return
       }
 
       if (this.roomFilterSelected === option) {
-        this.reset()
+        this.$emit('set-filter-selected', this.roomFilters.DEFAULT.name)
         return
-      } else {
-        this.previousOption = this.roomFilterSelected
-        this.$emit('set-room-filter-selected', option)
       }
 
-      this.sendCorrectSignal(option)
-      this.deselectPrevious()
+      this.$emit('set-filter-selected', option)
     },
     translate(str) {
       return translate(str)
-    },
-    sendCorrectSignal(option) {
-      let signalToEmit = ''
-      switch (option) {
-      case 'archived':
-        signalToEmit = 'click-archived-rooms'
-        break
-      case 'unread':
-        signalToEmit = 'click-unread-rooms'
-        break
-      case 'groups':
-        signalToEmit = 'click-group-rooms'
-        break
-      case 'all':
-      default:
-        signalToEmit = 'reset-filter-rooms'
-        break
-      }
-      this.$emit(signalToEmit)
     }
   }
 }

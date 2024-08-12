@@ -10,3 +10,5 @@ export function register() {
     customElements.define(PACKAGE_NAME, VueAdvancedChat)
   }
 }
+
+console.warn('test')

@@ -615,6 +615,10 @@ export default {
 
         await navigator.clipboard.writeText(message?.content)
         return
+      case 'unfavorite':
+        return console.log('unfavorite')
+      case 'favorite':
+        return console.log('favorite')
       default:
         return this.$emit('message-action-handler', { action, message })
       }

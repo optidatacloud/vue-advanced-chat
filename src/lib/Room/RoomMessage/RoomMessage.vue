@@ -226,27 +226,33 @@
                 {{ textMessages.MESSAGE_READ_MORE }}
               </a>
 
-              <div class="vac-text-timestamp">
-                <div
-                  v-if="message.edited && !message.deleted"
-                  class="vac-icon-edited"
-                >
-                  <slot :name="'pencil-icon_' + message._id">
-                    {{ textMessages.MESSAGE_EDITED }}
-                  </slot>
+              <div class="vac-message-footer">
+                <div class="vac-message-favorite">
+                <!-- <div v-if="math.random() > 0.5" class="vac-message-favorite"> -->
+                  <i class="bi bi-star-fill" stroke="orange" />
                 </div>
-                <span>{{ message.timestamp }}</span>
-                <span v-if="isCheckmarkVisible">
-                  <slot :name="'checkmark-icon_' + message._id">
-                    <svg-icon
-                      :name="
-                        message.distributed ? 'double-checkmark' : 'checkmark'
-                      "
-                      :param="message.seen ? 'seen' : ''"
-                      class="vac-icon-check"
-                    />
-                  </slot>
-                </span>
+                <div class="vac-text-timestamp">
+                  <div
+                    v-if="message.edited && !message.deleted"
+                    class="vac-icon-edited"
+                  >
+                    <slot :name="'pencil-icon_' + message._id">
+                      {{ textMessages.MESSAGE_EDITED }}
+                    </slot>
+                  </div>
+                  <span>{{ message.timestamp }}</span>
+                  <span v-if="isCheckmarkVisible">
+                    <slot :name="'checkmark-icon_' + message._id">
+                      <svg-icon
+                        :name="
+                          message.distributed ? 'double-checkmark' : 'checkmark'
+                        "
+                        :param="message.seen ? 'seen' : ''"
+                        class="vac-icon-check"
+                      />
+                    </slot>
+                  </span>
+                </div>
               </div>
 
               <message-actions

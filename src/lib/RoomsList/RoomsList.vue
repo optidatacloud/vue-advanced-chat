@@ -207,10 +207,8 @@ export default {
       case this.roomFilters.ARCHIVED.name:
         return !this.archivedRooms.length
       default:
-        break
+        return true
       }
-
-      return true
     },
     roomsToDisplay() {
       if (!this.roomsQuery.length) {

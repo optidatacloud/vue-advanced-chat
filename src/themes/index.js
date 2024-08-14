@@ -47,7 +47,9 @@ export const defaultThemeStyles = {
       backgroundHover: '#f6f6f6',
       backgroundActive: '#e5effa',
       colorActive: '#1976d2',
-      borderColorSearch: '#e1e5e8'
+      borderColorSearch: '#e1e5e8',
+      backgroundFilterOption: '#d9d9d9',
+      backgroundHoverFilterOption: '#d4d1fa'
     },
 
     dropdown: {
@@ -98,8 +100,8 @@ export const defaultThemeStyles = {
     },
 
     markdown: {
-      background: 'rgba(239, 239, 239, 0.7)',
-      border: 'rgba(212, 212, 212, 0.9)',
+      background: 'rgb(239, 239, 239)',
+      border: 'rgb(212, 212, 212)',
       color: '#e01e5a',
       colorMulti: '#0a0a0a'
     },
@@ -150,6 +152,14 @@ export const defaultThemeStyles = {
       audioPause: '#455247',
       audioCancel: '#eb4034',
       audioConfirm: '#1ba65b'
+    },
+
+    carousel: {
+      arrowBackground: '#434343',
+      arrowColor: '#fff',
+      arrowShadow: '#ffffff52',
+      alertBackground: '#434343',
+      alertColor: '#fff'
     }
   },
   dark: {
@@ -200,7 +210,9 @@ export const defaultThemeStyles = {
       backgroundHover: '#202224',
       backgroundActive: '#151617',
       colorActive: '#fff',
-      borderColorSearch: '#181a1b'
+      borderColorSearch: '#181a1b',
+      backgroundFilterOption: '#596269',
+      backgroundHoverFilterOption: '#7367f0'
     },
 
     dropdown: {
@@ -251,8 +263,8 @@ export const defaultThemeStyles = {
     },
 
     markdown: {
-      background: 'rgba(239, 239, 239, 0.7)',
-      border: 'rgba(212, 212, 212, 0.9)',
+      background: 'rgb(239, 239, 239)',
+      border: 'rgb(212, 212, 212)',
       color: '#e01e5a',
       colorMulti: '#0a0a0a'
     },
@@ -303,6 +315,13 @@ export const defaultThemeStyles = {
       audioPause: '#b7d4d3',
       audioCancel: '#eb4034',
       audioConfirm: '#1ba65b'
+    },
+    carousel: {
+      arrowBackground: '#434343',
+      arrowColor: '#fff',
+      arrowShadow: '#ffffff52',
+      alertBackground: '#434343',
+      alertColor: '#fff'
     }
   }
 }
@@ -319,7 +338,8 @@ export const cssThemeVars = ({
   markdown,
   room,
   emoji,
-  icons
+  icons,
+  carousel
 }) => {
   return {
     // general
@@ -364,6 +384,8 @@ export const cssThemeVars = ({
     '--chat-sidemenu-bg-color-active': sidemenu.backgroundActive,
     '--chat-sidemenu-color-active': sidemenu.colorActive,
     '--chat-sidemenu-border-color-search': sidemenu.borderColorSearch,
+    '--chat-sidemenu-bg-filter-option': sidemenu.backgroundFilterOption,
+    '--chat-sidemenu-bg-hover-filter-option': sidemenu.backgroundHoverFilterOption,
 
     // dropdown
     '--chat-dropdown-bg-color': dropdown.background,
@@ -463,6 +485,14 @@ export const cssThemeVars = ({
     '--chat-icon-color-audio-play': icons.audioPlay,
     '--chat-icon-color-audio-pause': icons.audioPause,
     '--chat-icon-color-audio-cancel': icons.audioCancel,
-    '--chat-icon-color-audio-confirm': icons.audioConfirm
+    '--chat-icon-color-audio-confirm': icons.audioConfirm,
+
+    // carousel
+    '--chat-carousel-arrow-bg-color': carousel.arrowBackground,
+    '--chat-carousel-arrow-color': carousel.arrowColor,
+    '--chat-carousel-arrow-shadow': carousel.arrowShadow,
+    '--chat-carousel-alert-bg-color': carousel.alertBackground,
+    '--chat-carousel-alert-color': carousel.alertColor
+
   }
 }

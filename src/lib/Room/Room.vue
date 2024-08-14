@@ -99,7 +99,7 @@
                 :max-message-rows="maxMessageRows"
                 @message-added="onMessageAdded"
                 @message-action-handler="messageActionHandler"
-                @open-file="openFile"
+                @open-file="$emit('open-file', $event)"
                 @open-user-tag="openUserTag"
                 @avatar-click="$emit('avatar-click', $event)"
                 @open-failed-message="$emit('open-failed-message', $event)"
@@ -223,7 +223,6 @@ export default {
     isMobile: { type: Boolean, required: true },
     rooms: { type: Array, required: true },
     archivedRooms: { type: Array, required: true },
-    showArchivedRooms: { type: Boolean, required: true },
     roomId: { type: [String, Number], required: true },
     loadFirstRoom: { type: Boolean, required: true },
     messages: { type: Array, required: true },
@@ -260,7 +259,7 @@ export default {
     attachmentOptions: { type: Array, required: true },
     call: { type: Object, required: true },
     textareaHighlight: { type: Boolean, default: false },
-    externalFiles: { type: Array, required: false },
+    externalFiles: { type: Array, default: () => [] },
     allowSendingExternalFiles: { type: Boolean, default: null },
     maxMessageRows: { type: Number, default: 0 }
   },
@@ -651,9 +650,6 @@ export default {
           setTimeout(() => element.classList.remove('vac-scroll-smooth'))
         }
       }, 50)
-    },
-    openFile({ message, file }) {
-      this.$emit('open-file', { message, file })
     },
     openUserTag(user) {
       this.$emit('open-user-tag', user)

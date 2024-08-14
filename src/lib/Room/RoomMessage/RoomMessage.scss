@@ -144,14 +144,21 @@
 
     .vac-message-footer {
       display: flex;
-      justify-content: space-between;
       align-items: center;
       margin-top: 5px;
+
+      .order-1 {
+        order: 1;
+      }
+
+      .order-2 {
+        order: 2;
+      }
 
       .vac-message-favorite {
         color: orange;
         font-size: 14px;
-        margin-right: 10px;
+        margin: 0 8px;
       }
 
       .vac-text-timestamp {

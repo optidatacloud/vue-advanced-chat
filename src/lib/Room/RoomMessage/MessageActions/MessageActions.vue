@@ -166,7 +166,7 @@ export default {
           return cleanActions.push(action)
         }
 
-        return cleanActions.push(this.message.isFavorite
+        return cleanActions.push(this.message.isFavorited
           ? { name: 'unfavorite', title: translate('Unfavorite') }
           : { name: 'favorite', title: translate('Favorite') }
         )

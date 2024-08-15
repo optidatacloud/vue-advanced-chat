@@ -289,7 +289,9 @@ export default {
     'new-draft-message',
     'message-reply-click',
     'click-message-username',
-    'avatar-click'
+    'avatar-click',
+    'unfavorite-message',
+    'favorite-message'
   ],
 
   data() {
@@ -614,10 +616,14 @@ export default {
 
         await navigator.clipboard.writeText(message?.content)
         return
-      case 'unfavorite':
-        return console.log('unfavorite')
       case 'favorite':
-        return console.log('favorite')
+        return this.$emit('favorite-message', {
+          room: this.room, message: message, userId: this.currentUserId
+        })
+      case 'unfavorite':
+        return this.$emit('unfavorite-message', {
+          room: this.room, message: message, userId: this.currentUserId
+        })
       default:
         return this.$emit('message-action-handler', { action, message })
       }

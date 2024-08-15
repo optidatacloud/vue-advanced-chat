@@ -227,8 +227,7 @@
               </a>
 
               <div class="vac-message-footer" :style="{'justify-content': message.senderId === currentUserId ? 'end' : 'start'}">
-                <div class="vac-message-favorite" :class="{'order-2': message.senderId !== currentUserId}">
-                <!-- <div v-if="math.random() > 0.5" class="vac-message-favorite"> -->
+                <div v-if="message.isFavorited" class="vac-message-favorite" :class="{'order-2': message.senderId !== currentUserId}">
                   <i class="bi bi-star-fill" stroke="orange" />
                 </div>
                 <div class="vac-text-timestamp" :class="{'order-1': message.senderId !== currentUserId}">

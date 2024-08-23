@@ -193,10 +193,6 @@ export default {
     },
 
     noRoomToShow() {
-      if (this.customSearchRoomEnabled) {
-        return true
-      }
-
       switch (this.roomFilterSelected) {
       case this.roomFilters.DEFAULT.name:
         return !this.rooms.length

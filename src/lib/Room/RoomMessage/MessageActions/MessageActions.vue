@@ -160,18 +160,18 @@ export default {
           return { ...action, shouldHide }
         })
 
-      const cleanActions = []
+      const transformedActions = []
       actions.map(action => {
         if (action.name !== 'toggleFavorite') {
-          return cleanActions.push(action)
+          return transformedActions.push(action)
         }
 
-        return cleanActions.push(this.message.isFavorited
+        return transformedActions.push(this.message.isFavorited
           ? { name: 'unfavorite', title: translate('Unfavorite') }
           : { name: 'favorite', title: translate('Favorite') }
         )
       })
-      return cleanActions
+      return transformedActions
     }
   },
 

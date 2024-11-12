@@ -51,6 +51,15 @@
 
       <div class="vac-message-container">
         <div class="vac-message-card">
+          <div style="height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #fff; font-size: 32; font-weight: 600;">
+            <svg width="75" viewBox="0 0 75 65" fill="#000" style="margin: 0 75px;">
+              <path d="M37.59.25l36.95 64H.64l36.95-64z" />
+            </svg>
+            <div style="margin-top: 40;">
+              Hello, World
+            </div>
+          </div>
+
           <div
             v-if="message.dynamic.title"
             class="vac-message-dynamic-title"

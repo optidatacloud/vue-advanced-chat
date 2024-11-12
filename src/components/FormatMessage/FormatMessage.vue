@@ -4,6 +4,16 @@
     :class="{ 'vac-text-ellipsis': singleLine }"
   >
     <template v-for="(message, i) in parsedMessage" :key="i">
+      <!-- OpenGraph -->
+      <div v-if="message?.og" class="og-container">
+        <div class="og-image">
+          <img :src="message?.og?.image" defer />
+        </div>
+        <span class="og-title">{{ message?.og?.title }}</span>
+        <span class="og-description">{{ message?.og?.description }}</span>
+        <span class="og-domain">{{ message?.og?.domain }}</span>
+      </div>
+
       <div
         v-if="message.markdown"
         class="markdown"
@@ -121,6 +131,15 @@ export default {
         m.markdown = this.checkType(m, 'markdown')
         m.tag = this.checkType(m, 'tag')
         m.image = this.checkImageType(m)
+
+        if (Math.random() > 0.5) {
+          m.og = {
+            image: 'https://via.placeholder.com/150',
+            title: 'Optidata cloud',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            domain: 'optidata.cloud'
+          }
+        }
       })
 
       return message

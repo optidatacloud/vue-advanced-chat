@@ -4,14 +4,24 @@
     :class="{ 'vac-text-ellipsis': singleLine }"
   >
     <template v-for="(message, i) in parsedMessage" :key="i">
-      <!-- OpenGraph -->
-      <div v-if="message?.og" class="og-container">
-        <div class="og-image">
-          <img :src="message?.og?.image" defer />
+      <!-- Open Graph -->
+      <div v-if="message.og">
+        <!-- image -->
+        <hero-link
+          v-if="message.og.type === 'image'"
+          :message="message.og"
+          :type="message.og.type"
+        />
+        <!-- spotify/youtube -->
+        <hero-link-iframe
+          v-else-if="message.og.type === 'iframe'"
+          :message="message.og"
+          :type="message.og.type"
+        />
+
+        <div v-else>
+          OG:type not found
         </div>
-        <span class="og-title">{{ message?.og?.title }}</span>
-        <span class="og-description">{{ message?.og?.description }}</span>
-        <span class="og-domain">{{ message?.og?.domain }}</span>
       </div>
 
       <div
@@ -81,10 +91,12 @@ import SvgIcon from '../SvgIcon/SvgIcon'
 import markdown from '../../utils/markdown'
 import { IMAGE_TYPES } from '../../utils/constants'
 import { containsOnlyEmojis, emojiCount } from '../../utils/emoji'
+import HeroLink from '../../../../components/HeroLink.vue'
+import HeroLinkIframe from '../../../../components/HeroLinkIframe.vue'
 
 export default {
   name: 'FormatMessage',
-  components: { SvgIcon },
+  components: { SvgIcon, HeroLink, HeroLinkIframe },
 
   props: {
     messageId: { type: String, default: '' },

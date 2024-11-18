@@ -91,7 +91,7 @@
         :max-message-rows="maxMessageRows"
         :message-text-area-classes="messageTextAreaClasses"
         :disable-message-text-area="disableMessageTextArea"
-        :message-text-area-value="messageTextAreaValue"
+        :message-concat-value="messageConcatValue"
         :show-attachment-loader="showAttachmentLoader"
         @avatar-click="onAvatarClick"
         @toggle-rooms-list="toggleRoomsList"
@@ -256,7 +256,7 @@ export default {
     messageTextAreaClasses: { type: Array, default: () => [] },
     disableMessageTextArea: { type: Boolean, default: false },
     showAttachmentLoader: { type: Boolean, default: false },
-    messageTextAreaValue: { type: String, default: '' },
+    messageConcatValue: { type: String, default: '' },
     maxMessageRows: { type: Number, default: 0 },
     roomFilters: { type: String, default: () => {} },
     roomFilterSelected: { type: String, required: true }

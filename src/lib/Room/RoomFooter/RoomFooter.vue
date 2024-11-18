@@ -302,7 +302,7 @@ export default {
     messageTextAreaClasses: { type: Array, default: () => [] },
     disableMessageTextArea: { type: Boolean, default: false },
     showAttachmentLoader: { type: Boolean, default: false },
-    messageTextAreaValue: { type: String, default: '' },
+    messageConcatValue: { type: String, default: '' },
     messages: { type: Array, default: () => [] }
   },
 
@@ -405,7 +405,7 @@ export default {
       this.getTextareaRef().value = val
       this.resizeTextarea()
     },
-    messageTextAreaValue(val) {
+    messageConcatValue(val) {
       this.message += val
     },
     roomMessage: {

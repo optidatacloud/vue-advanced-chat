@@ -183,7 +183,7 @@
       :message-text-area-classes="messageTextAreaClasses"
       :disable-message-text-area="disableMessageTextArea"
       :show-attachment-loader="showAttachmentLoader"
-      :message-text-area-value="messageTextAreaValue"
+      :message-concat-value="messageConcatValue"
       @update-edited-message-id="editedMessageId = $event"
       @edit-message="$emit('edit-message', $event)"
       @send-message="$emit('send-message', $event)"
@@ -270,7 +270,7 @@ export default {
     messageTextAreaClasses: { type: Array, default: () => [] },
     disableMessageTextArea: { type: Boolean, default: false },
     showAttachmentLoader: { type: Boolean, default: false },
-    messageTextAreaValue: { type: String, default: '' },
+    messageConcatValue: { type: String, default: '' },
     allowSendingExternalFiles: { type: Boolean, default: null },
     maxMessageRows: { type: Number, default: 0 }
   },

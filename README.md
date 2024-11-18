@@ -266,13 +266,17 @@ Otherwise, you need to pass those props as strings. For example: `[messages]="JS
 | `accepted-files`(27)                | String           | -        | `*`                                                                                                               |
 | `capture-files`(28)                 | String           | -        | `''`                                                                                                              |
 | `styles`(29)                        | [String, Object] | -        | (26)                                                                                                              |
-| `emoji-data-source`                 | String           | -        | `https://cdn.jsdelivr.net/npm/emoji-picker-element-data@%5E1/en/emojibase/data.json`                                 |
-| `call`(31)                          | String           | -        |                                             |
-| `textarea-hightlight`               | Boolean          | -        |                                             |
-| `external-files`(32)                | Array            | `false`  |      `[]`                                   |
-| `allow-sending-external-files`(33)  | Boolean          | `false`  |      `null`                                 |
-| `show-archived-rooms`(34)           | Boolean          | `false`  |      `false`                                |
-| `max-message-rows`(35)              | Number           | `false`  |      `0`                                    |
+| `emoji-data-source`                 | String           | -        | `https://cdn.jsdelivr.net/npm/emoji-picker-element-data@%5E1/en/emojibase/data.json`                              |
+| `call`(31)                          | String           | -        |                                                                                                                   |
+| `textarea-hightlight`               | Boolean          | -        |                                                                                                                   |
+| `external-files`(32)                | Array            | `false`  | `[]`                                                                                                              |
+| `allow-sending-external-files`(33)  | Boolean          | `false`  | `null`                                                                                                            |
+| `show-archived-rooms`(34)           | Boolean          | `false`  | `false`                                                                                                           |
+| `max-message-rows`(35)              | Number           | `false`  | `0`                                                                                                               |
+| `message-text-area-classes`(36)     | Array            | `false`  | `[]`                                                                                                              |
+| `disable-message-text-area`(37)     | Boolean          | `false`  | `false`                                                                                                           |
+| `show-attachment-loader`(38)        | Boolean          | `false`  | `false`                                                                                                           |
+| `message-concat-value`(39)          | String           | `false`  | `''`                                                                                                              |
 
 **(1)** `current-user-id` is required to display UI and trigger actions according to the user using the chat (ex: messages position on the right, etc.)
 

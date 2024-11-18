@@ -403,10 +403,10 @@ export default {
     },
     message(val) {
       this.getTextareaRef().value = val
+      this.resizeTextarea()
     },
     messageTextAreaValue(val) {
-      this.getTextareaRef().value += val
-      this.resizeTextarea()
+      this.message += val
     },
     roomMessage: {
       immediate: true,

@@ -274,8 +274,8 @@ Otherwise, you need to pass those props as strings. For example: `[messages]="JS
 | `show-archived-rooms`(34)           | Boolean          | `false`  | `false`                                                                                                           |
 | `max-message-rows`(35)              | Number           | `false`  | `0`                                                                                                               |
 | `message-text-area-classes`(36)     | Array            | `false`  | `[]`                                                                                                              |
-| `disable-message-text-area`(37)     | Boolean          | `false`  | `false`                                                                                                           |
-| `show-attachment-loader`(38)        | Boolean          | `false`  | `false`                                                                                                           |
+| `disable-message-text-area`(37)     | Boolean          | `false`  | `null`                                                                                                           |
+| `show-attachment-loader`(38)        | Boolean          | `false`  | `null`                                                                                                           |
 | `message-concat-value`(39)          | String           | `false`  | `''`                                                                                                              |
 
 **(1)** `current-user-id` is required to display UI and trigger actions according to the user using the chat (ex: messages position on the right, etc.)

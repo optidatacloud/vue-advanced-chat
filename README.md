@@ -537,9 +537,9 @@ styles="{
 
 **(36)** `message-text-area-classes` allows you to define custom CSS classes for the message text area component. This prop accepts an array of class names, which will be applied directly to the text area element. By default, it is an empty array (`[]`), meaning no additional classes are added. Use this prop to customize the appearance of the text area.
 
-**(37)** `disable-message-text-area` determines whether the message text area should be disabled. When set to `true`, the text area becomes non-interactive, preventing users from typing messages. If set to `false` (default), the text area remains fully functional.
+**(37)** `disable-message-text-area` determines whether the message text area should be disabled. When set to `true`, the text area becomes non-interactive, preventing users from typing messages. If set to `null` (default), the text area remains fully functional.
 
-**(38)** `show-attachment-loader` controls the visibility of a loader that appears when attachments are being uploaded or processed. When set to `true`, the loader is displayed; if set to `false` or `null`, the loader is hidden. This prop is useful for providing visual feedback to users during attachment operations.
+**(38)** `show-attachment-loader` controls the visibility of a loader that appears when attachments are being uploaded or processed. When set to `true`, the loader is displayed; if set to `null`, the loader is hidden. This prop is useful for providing visual feedback to users during attachment operations.
 
 **(39)** `message-concat-value` holds a concatenated string value of the current message being composed or manipulated. This prop is particularly useful for scenarios where the message input value needs to be dynamically updated or programmatically set. By default, it is an empty string (`''`).
 

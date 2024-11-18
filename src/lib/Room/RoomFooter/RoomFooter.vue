@@ -58,10 +58,10 @@
       class="vac-box-footer"
       :class="{ 'vac-box-footer-border': !files.length }"
     >
-    <template v-if="showAttachmentLoader">
-      <loader v-if="showAttachmentLoader" show="true" type="call-link-loader" flex="true" />
-    </template>
-      <div v-if="!isRecording && !textareaHighlight && !showAttachmentLoader" class="vac-icon-textarea-left">
+      <template v-if="showAttachmentLoader">
+        <loader show="true" type="call-link-loader" flex="true" />
+      </template>
+      <div v-else-if="!isRecording && !textareaHighlight" class="vac-icon-textarea-left">
         <room-attachment-picker
           v-if="showFiles && !showAttachmentLoader"
           :attachment-options="attachmentOptions"

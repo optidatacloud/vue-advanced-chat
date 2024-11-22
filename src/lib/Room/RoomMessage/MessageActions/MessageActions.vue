@@ -89,6 +89,7 @@ import vClickOutside from '../../../../utils/on-click-outside'
 import SvgIcon from '../../../../components/SvgIcon/SvgIcon'
 import EmojiPickerContainer from '../../../../components/EmojiPickerContainer/EmojiPickerContainer'
 import { findParentBySelector } from '../../../../utils/element-selector'
+import { translate } from '../../../../utils/i18n'
 
 export default {
   name: 'MessageActions',
@@ -153,12 +154,25 @@ export default {
 
       const messageType = this.getMessageType()
 
-      return actionsFilteredByUser
+      const actions = actionsFilteredByUser
         .filter(action => !action?.type || action.type === messageType)
         .map(action => {
           const shouldHide = action.hideIfContentIsNull && this.message.content === ''
           return { ...action, shouldHide }
         })
+
+      const transformedActions = []
+      actions.map(action => {
+        if (action.name !== 'toggleFavorite') {
+          return transformedActions.push(action)
+        }
+
+        return transformedActions.push(this.message.isFavorited
+          ? { name: 'unfavorite', title: translate('Unfavorite') }
+          : { name: 'favorite', title: translate('Favorite') }
+        )
+      })
+      return transformedActions
     }
   },
 

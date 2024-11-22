@@ -119,6 +119,8 @@
         @new-draft-message="$emit('new-draft-message', $event)"
         @message-reply-click="$emit('message-reply-click', $event)"
         @click-message-username="handleMessageUsernameClick"
+        @favorite-message="$emit('favorite-message', $event)"
+        @unfavorite-message="$emit('unfavorite-message', $event)"
       >
         <template v-for="el in slots" #[el.slot]="data">
           <slot :name="el.slot" v-bind="data" />
@@ -294,7 +296,9 @@ export default {
     'new-draft-message',
     'message-reply-click',
     'click-message-username',
-    'set-room-filter'
+    'set-room-filter',
+    'favorite-message',
+    'unfavorite-message'
   ],
 
   data() {

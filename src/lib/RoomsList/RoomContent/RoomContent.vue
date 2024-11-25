@@ -65,6 +65,7 @@
             </div>
             <format-message
               v-else
+              :should-display-og="false"
               :message-id="room.lastMessage._id"
               :room-id="room.roomId"
               :room-list="true"

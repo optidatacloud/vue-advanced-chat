@@ -1,22 +1,22 @@
 <template>
-    <div :data-type="type" :data-url="message.hero_url || ':url'" class="position-relative">
-        <a :href="message.hero_url || ':url'" target="_blank" class="stretched-link" />
+    <div :data-type="type" :data-url="opengraph.url || ':url'" class="position-relative">
+        <a :href="opengraph.url || ':url'" target="_blank" class="stretched-link" />
         <div class="rounded position-relative overflow-hidden">
-            <div v-if="message.meta['og:image']">
-                <img loading="lazy" :src="message.meta['og:image']" class="img-fluid rounded w-100 max-vh-40" />
+            <div v-if="opengraph.image">
+                <img loading="lazy" :src="opengraph.image" class="img-fluid rounded w-100 max-vh-40" />
 
                 <div class="link-hero-overlay position-absolute bottom-0 p-1 w-100">
                     <!-- title -->
                     <div class="row">
                         <h5 class="text-white fw-bold text-truncate">
-                            {{ message.meta['og:title'] || '' }}
+                            {{ opengraph.title || '' }}
                         </h5>
                     </div>
                     <!-- description -->
                     <div class="row d-none d-md-block">
                         <div class="col-12">
                             <p class="text-muted text-truncate">
-                                {{ message.meta['og:description'] || message.hero_url || ':url' }}
+                                {{ opengraph.description || opengraph.url || ':url' }}
                             </p>
                         </div>
                     </div>
@@ -27,11 +27,11 @@
                 <div class="row">
                     <!-- url -->
                     <div class="text-muted">
-                        {{ message.hero_url || ':url' }}
+                        {{ opengraph.url || ':url' }}
                     </div>
                     <!-- description -->
                     <div class="text-truncate link-hero-short-description">
-                        {{ message.meta['og:description'] || '' }}
+                        {{ opengraph.description || '' }}
                     </div>
                 </div>
             </div>
@@ -45,8 +45,7 @@ export default {
   name: 'HeroLink',
 
   props: {
-    message: { type: Object, required: true },
-    type: { type: String, required: true }
+    opengraph: { type: Object, required: true }
   },
 
   emits: [
@@ -59,7 +58,15 @@ export default {
     }
   },
 
-  watch: {},
+  watch: {
+    // opengraph: {
+    //   handler() {
+    //     console.log('opengraph', this.opengraph)
+    //     alert('aqui')
+    //   },
+    //   deep: true
+    // }
+  },
 
   methods: {}
 }

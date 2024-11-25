@@ -33,6 +33,7 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
+		"watch": "vite build --watch",
 		"serve": "vite preview",
 		"clean:lib": "rm -rf dist/*.js && rm -rf dist/*.map && rm -rf dist/*.css && rm -rf dist/*.html",
 		"prepublish": "npm run lint && npm run build",

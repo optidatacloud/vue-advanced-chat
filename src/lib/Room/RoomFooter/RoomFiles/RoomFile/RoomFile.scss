@@ -1,7 +1,6 @@
 .vac-room-file-container {
   display: flex;
   position: relative;
-  margin: 0 4px;
 
   .vac-message-image {
     position: relative;
@@ -13,6 +12,7 @@
     width: 100px;
     border: var(--chat-border-style-input);
     border-radius: 4px;
+    padding: 0.3rem;
   }
 
   .vac-optiwork-file {
@@ -35,14 +35,20 @@
   }
 
   .vac-file-container {
-    height: 80px;
+    min-height: 80px;
     width: 80px;
+    padding: 1rem;
   }
 
   .vac-icon-remove {
     position: absolute;
-    top: 6px;
-    left: 6px;
+    top: 0.25rem;
+
+    /*
+    * 20px is the width of the icon
+    * 0.25rem is the margin
+    */
+    left: calc(100% - 0.25rem - 20px);
     z-index: 10;
 
     svg {

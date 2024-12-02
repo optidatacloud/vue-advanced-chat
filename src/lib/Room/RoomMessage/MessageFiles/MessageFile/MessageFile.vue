@@ -175,7 +175,6 @@ export default {
     file: {
       immediate: true,
       handler() {
-        console.log('file', this.file)
         this.checkImgLoad()
       }
     }

@@ -79,8 +79,8 @@
       <div
         class="vac-file-container"
         :class="{ 'vac-file-container-progress': file.progress >= 0 }"
-        :title="__('View file')"
-        @click="openFile($event, 'preview')"
+        :title="isPreviewable() ? __('View file') : __('Download file')"
+        @click="openFile($event, isPreviewable() ? 'preview' : 'download')"
       >
         <div class="vac-svg-button vac-message-file-icon">
           <i :class="fileIconClass" style="font-size: 35px;" />
@@ -93,7 +93,7 @@
             {{ fileExtensionAndSize }}
           </div>
         </div>
-        <div class="vac-svg-button vac-message-download-file-icon" :title="__('Download')" @click="openFile($event, 'download')">
+        <div class="vac-svg-button vac-message-download-file-icon" :title="__('Download file')" @click="openFile($event, 'download')">
           <i class="bi bi-download" style="font-size: 25px;" />
         </div>
       </div>

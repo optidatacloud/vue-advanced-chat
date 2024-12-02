@@ -8,11 +8,11 @@
     background-size: cover !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
-    height: 100px;
-    width: 100px;
+    height: 90px;
+    width: 90px;
     border: var(--chat-border-style-input);
     border-radius: 4px;
-    padding: 0.3rem;
+    padding: 1rem;
   }
 
   .vac-optiwork-file {
@@ -35,9 +35,10 @@
   }
 
   .vac-file-container {
-    min-height: 80px;
-    width: 80px;
+    min-height: 90px;
+    width: 90px;
     padding: 1rem;
+    border: 1px solid #eeeeee1a;
   }
 
   .vac-icon-remove {

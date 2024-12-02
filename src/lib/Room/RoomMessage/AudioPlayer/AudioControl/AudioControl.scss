@@ -2,11 +2,12 @@
   display: flex;
   align-items: center;
   max-width: calc(100% - 18px);
-  margin-right: 7px;
+  margin-right: 20px;
   margin-left: 20px;
+  flex-grow: 1;
 
   .vac-player-progress {
-    width: 190px;
+    width: 100%;
 
     .vac-line-container {
       position: relative;

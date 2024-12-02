@@ -52,7 +52,7 @@
       :class="{ 'vac-blur-loading': file.loading }"
     >
       <div>
-        <i :class="fileIconClass" style="font-size: 25px;" />
+        <i :class="fileIconClass" style="font-size: 30px;" />
       </div>
       <div class="vac-text-ellipsis">
         {{ file.name }}

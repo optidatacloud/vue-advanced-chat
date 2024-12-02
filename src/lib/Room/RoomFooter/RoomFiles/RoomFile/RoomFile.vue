@@ -69,7 +69,7 @@ import Loader from '../../../../../components/Loader/Loader'
 import SvgIcon from '../../../../../components/SvgIcon/SvgIcon'
 
 import { isImageFile, isVideoFile } from '../../../../../utils/media-file'
-import { humanFileSize } from '../../../../../utils/data-validation'
+import { humanFileSize } from '../../../../../utils/adhoc'
 
 const SOURCE_OPTIWORK_DRIVE = 'SOURCE_OPTIWORK_DRIVE'
 

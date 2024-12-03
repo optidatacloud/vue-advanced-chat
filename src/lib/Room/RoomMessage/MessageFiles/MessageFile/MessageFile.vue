@@ -106,7 +106,7 @@ import Loader from '../../../../../components/Loader/Loader'
 import ProgressBar from '../../../../../components/ProgressBar/ProgressBar'
 import SvgIcon from '../../../../../components/SvgIcon/SvgIcon'
 import { humanFileSize } from '../../../../../utils/adhoc'
-import {translate} from '../../../../../utils/i18n'
+import { translate } from '../../../../../utils/i18n'
 
 import { isImageFile, isVideoFile, isTextFile, isPdfFile, isSVGFile } from '../../../../../utils/media-file'
 

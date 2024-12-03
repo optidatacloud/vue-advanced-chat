@@ -67,6 +67,10 @@
     display: flex;
     justify-content: center;
     width: 25%;
+
+     > i {
+      font-size: 35px;
+     }
   }
 
   .vac-reply-file-info {

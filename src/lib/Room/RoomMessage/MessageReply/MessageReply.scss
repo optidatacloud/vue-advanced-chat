@@ -66,6 +66,10 @@
     justify-content: center;
     align-items: center;
     padding-right: 0.75rem;
+
+    > i {
+      font-size: 30px;
+    }
   }
 
   .vac-reply-file-info {

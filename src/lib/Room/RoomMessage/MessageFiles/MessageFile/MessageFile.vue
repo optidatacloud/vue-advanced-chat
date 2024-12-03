@@ -83,7 +83,7 @@
         @click="openFile($event, isPreviewable() ? 'preview' : 'download')"
       >
         <div class="vac-svg-button vac-message-file-icon">
-          <i :class="fileIconClass" style="font-size: 35px;" />
+          <i :class="fileIconClass" />
         </div>
         <div class="vac-message-file-info">
           <div class="vac-text-ellipsis vac-file-name">

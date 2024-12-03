@@ -33,7 +33,7 @@
 
     <div v-else-if="isOtherFile" class="vac-file-container">
       <div class="vac-reply-file-icon">
-        <i :class="fileIconClass" style="font-size: 30px;" />
+        <i :class="fileIconClass" />
       </div>
       <div class="vac-reply-file-info">
         <div class="vac-text-ellipsis vac-reply-file-name">

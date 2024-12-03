@@ -64,6 +64,12 @@
     }
   }
 
+  .vac-message-file-icon {
+    > i {
+      font-size: 35px;
+    }
+  }
+
   .vac-message-file-icon,
   .vac-message-download-file-icon {
     max-height: unset;

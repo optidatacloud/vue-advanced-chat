@@ -51,8 +51,8 @@
       class="vac-file-container"
       :class="{ 'vac-blur-loading': file.loading }"
     >
-      <div>
-        <i :class="fileIconClass" style="font-size: 30px;" />
+      <div class="vac-room-file-icon">
+        <i :class="fileIconClass" />
       </div>
       <div class="vac-text-ellipsis">
         {{ file.name }}

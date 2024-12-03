@@ -94,7 +94,7 @@
           </div>
         </div>
         <div class="vac-svg-button vac-message-download-file-icon" :title="__('Download file')" @click="openFile($event, 'download')">
-          <i class="bi bi-download" style="font-size: 25px;" />
+          <i class="bi bi-download" />
         </div>
       </div>
     </div>

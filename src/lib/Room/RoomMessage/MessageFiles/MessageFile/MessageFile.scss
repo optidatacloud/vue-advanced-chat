@@ -81,6 +81,10 @@
   .vac-message-download-file-icon {
     margin-left: auto;
     justify-content: end;
+
+     > i {
+      font-size: 25px;
+     }
   }
 
   .vac-message-file-info {

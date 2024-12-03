@@ -1,7 +1,23 @@
+const white = '#FFFFFF';
+const grayLightest = '#F7F7F7';
+const lightGray = '#F5F5F5';
+const paleGray = '#EBEBEE';
+const grayLight = '#D5D5D8';
+const grayLighter = '#D1D1D1';
+const softGray = '#BEBEC7';
+const gray = '#C5C5C5';
+const grayDarker = '#383838';
+const grayDark = '#565252';
+const mediumGrayDark = '#444446';
+const almostBlack = '#202020';
+const darkGray = '#292929'
+const black = '#1A1A1A';
+const purple = '#905DA5';
+
 export const defaultThemeStyles = {
   light: {
     general: {
-      primary: '#7367f0',
+      primary: purple,
       danger: '#eb4034',
       warning: 'orange',
       color: '#0a0a0a',
@@ -47,7 +63,9 @@ export const defaultThemeStyles = {
       backgroundHover: '#f6f6f6',
       backgroundActive: '#e5effa',
       colorActive: '#1976d2',
-      borderColorSearch: '#e1e5e8'
+      borderColorSearch: '#e1e5e8',
+      backgroundFilterOption: paleGray,
+      backgroundHoverFilterOption: '#CCD3DB'
     },
 
     dropdown: {
@@ -57,7 +75,7 @@ export const defaultThemeStyles = {
 
     message: {
       background: '#fff',
-      backgroundMe: '#ccf2cf',
+      backgroundMe: '#E3EFFD',
       color: '#0a0a0a',
       colorStarted: '#9ca6af',
       backgroundDeleted: '#dadfe2',
@@ -110,7 +128,7 @@ export const defaultThemeStyles = {
       colorTimestamp: '#a2aeb8',
       colorStateOnline: '#4caf50',
       colorStateOffline: '#9ca6af',
-      backgroundCounterBadge: '#0696c7',
+      backgroundCounterBadge: purple,
       colorCounterBadge: '#fff'
     },
 
@@ -162,7 +180,7 @@ export const defaultThemeStyles = {
   },
   dark: {
     general: {
-      primary: '#7367f0',
+      primary: purple,
       danger: '#eb4034',
       warning: 'orange',
       color: '#fff',
@@ -208,7 +226,9 @@ export const defaultThemeStyles = {
       backgroundHover: '#202224',
       backgroundActive: '#151617',
       colorActive: '#fff',
-      borderColorSearch: '#181a1b'
+      borderColorSearch: '#181a1b',
+      backgroundFilterOption: darkGray,
+      backgroundHoverFilterOption: grayDarker
     },
 
     dropdown: {
@@ -271,7 +291,7 @@ export const defaultThemeStyles = {
       colorTimestamp: '#6c7278',
       colorStateOnline: '#4caf50',
       colorStateOffline: '#596269',
-      backgroundCounterBadge: '#1976d2',
+      backgroundCounterBadge: purple,
       colorCounterBadge: '#fff'
     },
 
@@ -380,6 +400,8 @@ export const cssThemeVars = ({
     '--chat-sidemenu-bg-color-active': sidemenu.backgroundActive,
     '--chat-sidemenu-color-active': sidemenu.colorActive,
     '--chat-sidemenu-border-color-search': sidemenu.borderColorSearch,
+    '--chat-sidemenu-bg-filter-option': sidemenu.backgroundFilterOption,
+    '--chat-sidemenu-bg-hover-filter-option': sidemenu.backgroundHoverFilterOption,
 
     // dropdown
     '--chat-dropdown-bg-color': dropdown.background,

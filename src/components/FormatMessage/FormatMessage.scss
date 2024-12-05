@@ -46,3 +46,31 @@
     font-size: 12px;
   }
 }
+
+.og-container {
+  aspect-ratio: 16/auto;
+  background: black;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+
+  .og-image {}
+
+  .og-title {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .og-description {
+    word-break: break-all;
+    font-size: 14px;
+  }
+
+  .og-domain {
+    font-size: 14px;
+    color: siver;
+  }
+}

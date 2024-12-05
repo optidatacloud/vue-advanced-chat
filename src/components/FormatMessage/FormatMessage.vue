@@ -4,6 +4,14 @@
     :class="{ 'vac-text-ellipsis': singleLine }"
   >
     <template v-for="(message, i) in parsedMessage" :key="i">
+      <!-- Open Graph -->
+      <div v-if="message.og">
+        <!-- image -->
+        <hero-link v-if="message.og.type === 'image'" :opengraph="message.og" />
+        <!-- spotify/youtube -->
+        <hero-link-iframe v-else-if="message.og.type === 'iframe'" :opengraph="message.og" />
+      </div>
+
       <div
         v-if="message.markdown"
         class="markdown"
@@ -72,11 +80,15 @@ import markdown from '../../utils/markdown'
 import { IMAGE_TYPES } from '../../utils/constants'
 import { containsOnlyEmojis, emojiCount } from '../../utils/emoji'
 
+import HeroLink from '../../lib/Room/RoomMessage/HeroLink/HeroLink.vue'
+import HeroLinkIframe from '../../lib/Room/RoomMessage/HeroLinkIframe/HeroLinkIframe.vue'
+
 export default {
   name: 'FormatMessage',
-  components: { SvgIcon },
+  components: { SvgIcon, HeroLink, HeroLinkIframe },
 
   props: {
+    shouldDisplayOG: { type: Boolean, default: true },
     messageId: { type: String, default: '' },
     roomId: { type: String, default: '' },
     roomList: { type: Boolean, default: false },
@@ -121,6 +133,17 @@ export default {
         m.markdown = this.checkType(m, 'markdown')
         m.tag = this.checkType(m, 'tag')
         m.image = this.checkImageType(m)
+
+        if (this.shouldDisplayOG && Math.random() > 0.8) {
+          m.og = {
+            type: 'image',
+            image: 'https://via.placeholder.com/150',
+            url: 'https://via.placeholder.com/150',
+            title: 'Optidata cloud',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            domain: 'optidata.cloud'
+          }
+        }
       })
 
       return message

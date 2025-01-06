@@ -1,18 +1,18 @@
-const white = '#FFFFFF';
-const grayLightest = '#F7F7F7';
-const lightGray = '#F5F5F5';
-const paleGray = '#EBEBEE';
-const grayLight = '#D5D5D8';
-const grayLighter = '#D1D1D1';
-const softGray = '#BEBEC7';
-const gray = '#C5C5C5';
-const grayDarker = '#383838';
-const grayDark = '#565252';
-const mediumGrayDark = '#444446';
-const almostBlack = '#202020';
+const white = '#FFFFFF'
+const grayLightest = '#F7F7F7'
+const lightGray = '#F5F5F5'
+const paleGray = '#EBEBEE'
+const grayLight = '#D5D5D8'
+const grayLighter = '#D1D1D1'
+const softGray = '#BEBEC7'
+const gray = '#C5C5C5'
+const grayDarker = '#383838'
+const grayDark = '#565252'
+const mediumGrayDark = '#444446'
+const almostBlack = '#202020'
 const darkGray = '#292929'
-const black = '#1A1A1A';
-const purple = '#905DA5';
+const black = '#1A1A1A'
+const purple = '#905DA5'
 
 export const defaultThemeStyles = {
   light: {

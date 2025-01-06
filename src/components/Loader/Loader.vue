@@ -33,7 +33,7 @@
       >
         <div id="vac-circle" />
       </slot>
-      <slot 
+      <slot
         v-if="type === 'call-link-loader'"
         name="spinner-icon-call-link-loader"
         class="spinner-icon-call-link-loader"
@@ -53,7 +53,7 @@ export default {
     infinite: { type: Boolean, default: false },
     type: { type: String, required: true },
     messageId: { type: String, default: '' },
-    flex: { type: Boolean, default: false },
+    flex: { type: Boolean, default: false }
   }
 }
 </script>

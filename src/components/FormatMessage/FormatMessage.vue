@@ -1,3 +1,9 @@
+
+<!--
+  NOTE: this component is also exported to the higher level Chat as <format-message-component>
+  currently being used to format the favorite messages in the right sidebar
+-->
+
 <template>
   <div
     class="vac-format-message-wrapper"
@@ -95,6 +101,21 @@ export default {
 
   computed: {
     parsedMessage() {
+      // console.table({
+      //   messageId: this.messageId,
+      //   roomId: this.roomId,
+      //   roomList: this.roomList,
+      //   content: this.content,
+      //   deleted: this.deleted,
+      //   users: this.users,
+      //   linkify: this.linkify,
+      //   singleLine: this.singleLine,
+      //   reply: this.reply,
+      //   textFormatting: this.textFormatting,
+      //   textMessages: this.textMessages,
+      //   linkOptions: this.linkOptions
+      // })
+
       if (this.deleted) {
         return [{ value: this.textMessages.MESSAGE_DELETED }]
       }
@@ -121,6 +142,7 @@ export default {
         m.markdown = this.checkType(m, 'markdown')
         m.tag = this.checkType(m, 'tag')
         m.image = this.checkImageType(m)
+        // message[0].media = fetchAttachments();
       })
 
       return message
@@ -128,6 +150,28 @@ export default {
   },
 
   methods: {
+    //     async function fetchAttachments() {
+    //         try {
+    //             if (!api) {
+    //                 return null;
+    //             }
+
+    //             const { data } = api.getChatMediaFilesBatch(props.roomId, { messageIds: [props.messageId] });
+
+    //             const file = data[0];
+    //             const url = utils.getFileUrl(file, { id: props.messageId, chat_id: props.roomId });
+
+    //             const res = {
+    //                 url: url,
+    //                 name: file.meta.node.name,
+    //                 mime_type: file["mime type"],
+    //                 type: file.type
+    //             };
+    //             return res
+    //         } catch (error) {
+    //             return null;
+    //         }
+    //     }
     containsOnlyOneEmoji(message) {
       const div = document.createElement('div')
       div.innerHTML = message.value
@@ -144,8 +188,7 @@ export default {
 
       const type = message.value.substring(index + 1, message.value.length)
 
-      const isMedia =
-        index > 0 && IMAGE_TYPES.some(t => type.toLowerCase().includes(t))
+      const isMedia = index > 0 && IMAGE_TYPES.some(t => type.toLowerCase().includes(t))
 
       if (isMedia) this.setImageSize(message)
 

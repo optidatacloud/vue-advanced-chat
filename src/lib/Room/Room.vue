@@ -97,6 +97,8 @@
                 :selected-messages="selectedMessages"
                 :emoji-data-source="emojiDataSource"
                 :max-message-rows="maxMessageRows"
+                :message-context-menu="messageContextMenu"
+                @context-menu-opened="handleContextMenuOpened"
                 @message-added="onMessageAdded"
                 @message-action-handler="messageActionHandler"
                 @open-file="$emit('open-file', $event)"
@@ -178,6 +180,10 @@
       :textarea-highlight="textareaHighlight"
       :external-files="externalFiles"
       :allow-sending-external-files="allowSendingExternalFiles"
+      :message-text-area-classes="messageTextAreaClasses"
+      :disable-message-text-area="disableMessageTextArea"
+      :show-attachment-loader="showAttachmentLoader"
+      :message-concat-value="messageConcatValue"
       @update-edited-message-id="editedMessageId = $event"
       @edit-message="$emit('edit-message', $event)"
       @send-message="$emit('send-message', $event)"
@@ -204,6 +210,7 @@ import RoomFooter from './RoomFooter/RoomFooter'
 import RoomMessage from './RoomMessage/RoomMessage'
 
 import FileUploaderOverlay from '../../utils/uploader-overlay/'
+import { nextTick } from 'vue'
 
 export default {
   name: 'ChatRoom',
@@ -260,6 +267,10 @@ export default {
     call: { type: Object, required: true },
     textareaHighlight: { type: Boolean, default: false },
     externalFiles: { type: Array, default: () => [] },
+    messageTextAreaClasses: { type: Array, default: () => [] },
+    disableMessageTextArea: { type: Boolean, default: false },
+    showAttachmentLoader: { type: Boolean, default: false },
+    messageConcatValue: { type: String, default: '' },
     allowSendingExternalFiles: { type: Boolean, default: null },
     maxMessageRows: { type: Number, default: 0 }
   },
@@ -307,13 +318,14 @@ export default {
       newMessages: [],
       messageSelectionEnabled: false,
       selectedMessages: [],
-      droppedFiles: []
+      droppedFiles: [],
+      messageContextMenu: { state: 'closed', messageId: null }
     }
   },
 
   computed: {
     room() {
-      return this.rooms.find(room => room.roomId === this.roomId) || this.archivedRooms.find(room => room.roomId === this.roomId) || {}
+      return this.rooms.find(room => Number(room.roomId) === Number(this.roomId)) || this.archivedRooms.find(room => Number(room.roomId) === Number(this.roomId)) || {}
     },
     showNoMessages() {
       return (
@@ -664,6 +676,16 @@ export default {
       if (this.showFiles) {
         this.droppedFiles = event.dataTransfer.files
       }
+    },
+    handleContextMenuOpened(event) {
+      this.closeMessageContextMenu()
+      nextTick(async () => {
+        await new Promise(resolve => setTimeout(resolve, 100))
+        this.messageContextMenu = { state: 'opened', messageId: event.messageId }
+      })
+    },
+    closeMessageContextMenu() {
+      this.messageContextMenu = { state: 'closed', messageId: null }
     }
   }
 }

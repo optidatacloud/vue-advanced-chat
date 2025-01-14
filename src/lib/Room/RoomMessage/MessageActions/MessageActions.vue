@@ -107,7 +107,8 @@ export default {
     messageHover: { type: Boolean, required: true },
     hoverMessageId: { type: [String, Number], default: null },
     hoverAudioProgress: { type: Boolean, required: true },
-    emojiDataSource: { type: String, default: undefined }
+    emojiDataSource: { type: String, default: undefined },
+    messageContextMenu: { type: Object, default: () => ({ state: 'closed', messageId: null }) }
   },
 
   emits: [
@@ -179,6 +180,13 @@ export default {
     emojiOpened(val) {
       this.$emit('update-emoji-opened', val)
       if (val) this.optionsOpened = false
+    },
+    messageContextMenu(val) {
+      if (val.state === 'closed' || Number(val.messageId) !== Number(this.message._id)) {
+        return this.closeOptions()
+      }
+
+      this.openOptions()
     },
     optionsOpened(val) {
       this.$emit('update-options-opened', val)

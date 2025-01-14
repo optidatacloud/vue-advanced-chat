@@ -89,6 +89,10 @@
         :external-files="externalFilesCasted"
         :allow-sending-external-files="allowSendingExternalFiles"
         :max-message-rows="maxMessageRows"
+        :message-text-area-classes="messageTextAreaClasses"
+        :disable-message-text-area="disableMessageTextArea"
+        :message-concat-value="messageConcatValue"
+        :show-attachment-loader="showAttachmentLoader"
         @avatar-click="onAvatarClick"
         @toggle-rooms-list="toggleRoomsList"
         @room-info="roomInfo"
@@ -240,7 +244,6 @@ export default {
     captureFiles: { type: String, default: undefined },
     multipleFiles: { type: [Boolean, String], default: true },
     templatesText: { type: [Array, String], default: () => [] },
-    mediaPreviewEnabled: { type: [Boolean, String], default: true },
     usernameOptions: {
       type: [Object, String],
       default: () => ({ minUsers: 3, currentUser: false })
@@ -251,6 +254,10 @@ export default {
     textareaHighlight: { type: Boolean, default: false },
     externalFiles: { type: Array, default: () => [] },
     allowSendingExternalFiles: { type: Boolean, default: null },
+    messageTextAreaClasses: { type: Array, default: () => [] },
+    disableMessageTextArea: { type: Boolean, default: false },
+    showAttachmentLoader: { type: Boolean, default: false },
+    messageConcatValue: { type: String, default: '' },
     maxMessageRows: { type: Number, default: 0 },
     roomFilters: { type: String, default: () => {} },
     roomFilterSelected: { type: String, required: true }
@@ -413,11 +420,16 @@ export default {
     emojisSuggestionEnabledCasted() {
       return this.castBoolean(this.emojisSuggestionEnabled)
     },
-    mediaPreviewEnabledCasted() {
-      return this.castBoolean(this.mediaPreviewEnabled)
-    },
     roomsCasted() {
-      return this.castArray(this.rooms)
+      const roomsToCast = [
+        this.rooms,
+        this.customSearchRooms,
+        this.archivedRooms,
+        this.groupRooms,
+        this.unreadRooms
+      ]
+
+      return roomsToCast.flatMap(this.castArray)
     },
     customSearchRoomsCasted() {
       return this.castArray(this.customSearchRooms)
@@ -630,14 +642,7 @@ export default {
     openFile(event) {
       const file = typeof event?.files !== 'undefined' ? event?.files[event.index] : event.file
       const message = event.message
-
-      if (this.mediaPreviewEnabledCasted && event.action === 'preview') {
-        this.previewFiles = event.files ?? [ file ]
-        this.previewIndex = event.index ?? 0
-        this.showMediaPreview = true
-      } else {
-        this.$emit('open-file', { message, file: file, action: event.action })
-      }
+      this.$emit('open-file', { message, file: file, action: event.action })
     },
     openUserTag({ user }) {
       this.$emit('open-user-tag', { user })

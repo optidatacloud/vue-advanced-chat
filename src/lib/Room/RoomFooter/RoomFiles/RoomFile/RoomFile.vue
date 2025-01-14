@@ -1,5 +1,5 @@
 <template>
-  <div class="vac-room-file-container">
+  <div class="vac-room-file-container" :title="fileNameAndExtension">
     <loader :show="file.loading" type="room-file">
       <template v-for="(idx, name) in $slots" #[name]="data">
         <slot :name="name" v-bind="data" />
@@ -17,15 +17,17 @@
 
     <div
       v-if="isFileFromOptiwork"
-      class="vac-optiwork-file"
+      class="vac-file-container"
       :title="file.name"
     >
-      <div>
-        <i :class="file.icon" class="vac-optiwork-file-icon" />
+      <div class="vac-room-file-icon">
+        <i :class="fileIconClass" />
       </div>
-
-      <div class="vac-optiwork-file-name vac-text-ellipsis">
+      <div class="vac-text-ellipsis">
         {{ file.name }}
+      </div>
+      <div class="vac-text-ellipsis vac-text-extension">
+        {{ fileSizeAndExtension }}
       </div>
     </div>
 
@@ -51,16 +53,14 @@
       class="vac-file-container"
       :class="{ 'vac-blur-loading': file.loading }"
     >
-      <div>
-        <slot name="file-icon">
-          <svg-icon name="file" />
-        </slot>
+      <div class="vac-room-file-icon">
+        <i :class="fileIconClass" />
       </div>
       <div class="vac-text-ellipsis">
         {{ file.name }}
       </div>
-      <div v-if="file.extension" class="vac-text-ellipsis vac-text-extension">
-        {{ file.extension }}
+      <div class="vac-text-ellipsis vac-text-extension">
+        {{ fileSizeAndExtension }}
       </div>
     </div>
   </div>
@@ -71,6 +71,7 @@ import Loader from '../../../../../components/Loader/Loader'
 import SvgIcon from '../../../../../components/SvgIcon/SvgIcon'
 
 import { isImageFile, isVideoFile } from '../../../../../utils/media-file'
+import { humanFileSize } from '../../../../../utils/adhoc'
 
 const SOURCE_OPTIWORK_DRIVE = 'SOURCE_OPTIWORK_DRIVE'
 
@@ -97,6 +98,21 @@ export default {
     },
     isFileFromOptiwork() {
       return this.file.source === SOURCE_OPTIWORK_DRIVE
+    },
+    fileIconClass() {
+      return Optidata.MimeTypeIcons.getIconByMimeType(this.file.type)
+    },
+    fileNameAndExtension() {
+      if (this.file.extension) {
+        return `${this.file.name}.${this.file.extension}`
+      }
+      return this.file.name
+    },
+    fileSizeAndExtension() {
+      if (!this.file.extension) {
+        return humanFileSize(this.file.size, true)
+      }
+      return `${humanFileSize(this.file.size, true)} · ${this.file.extension}`
     }
   }
 }

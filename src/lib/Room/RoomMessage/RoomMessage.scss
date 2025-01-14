@@ -220,6 +220,16 @@
     text-decoration: none;
   }
 
+  .vac-text-timestamp {
+    font-size: 10px;
+    color: var(--chat-message-color-timestamp);
+
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 0.17rem;
+  }
+
   .vac-progress-time {
     float: left;
     margin: -2px 0 0 40px;
@@ -358,7 +368,7 @@
         transition: all 0.25s;
 
         &.selected {
-          background-color: #2196F3;
+          background-color: #905DA5;
 
           &:after {
             left: 0.45em;

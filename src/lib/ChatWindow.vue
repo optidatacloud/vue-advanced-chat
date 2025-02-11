@@ -103,6 +103,7 @@
         @edit-message="editMessage"
         @delete-message="deleteMessage"
         @open-file="openFile"
+        @copy-file-to-drive="copyFileToDrive"
         @open-user-tag="openUserTag"
         @open-failed-message="openFailedMessage"
         @menu-action-handler="menuActionHandler"
@@ -271,6 +272,7 @@ export default {
     'edit-message',
     'delete-message',
     'open-file',
+    'copy-file-to-drive',
     'open-user-tag',
     'open-failed-message',
     'menu-action-handler',
@@ -639,6 +641,11 @@ export default {
       const file = typeof event?.files !== 'undefined' ? event?.files[event.index] : event.file
       const message = event.message
       this.$emit('open-file', { message, file: file, action: event.action })
+    },
+    copyFileToDrive(event) {
+      const files = typeof event?.files !== 'undefined' ? event?.files : event.file
+      const message = event.message
+      this.$emit('copy-file-to-drive', { message: message, files: files })
     },
     openUserTag({ user }) {
       this.$emit('open-user-tag', { user })

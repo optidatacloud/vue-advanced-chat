@@ -102,6 +102,7 @@
                 @message-added="onMessageAdded"
                 @message-action-handler="messageActionHandler"
                 @open-file="$emit('open-file', $event)"
+                @copy-file-to-drive="$emit('copy-file-to-drive', $event)"
                 @open-user-tag="openUserTag"
                 @avatar-click="$emit('avatar-click', $event)"
                 @open-failed-message="$emit('open-failed-message', $event)"
@@ -289,6 +290,7 @@ export default {
     'send-message-reaction',
     'typing-message',
     'open-file',
+    'copy-file-to-drive',
     'open-user-tag',
     'open-failed-message',
     'textarea-action-handler',

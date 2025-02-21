@@ -102,7 +102,7 @@
                 @message-added="onMessageAdded"
                 @message-action-handler="messageActionHandler"
                 @open-file="$emit('open-file', $event)"
-                @copy-file-to-drive="$emit('copy-file-to-drive', { roomId, message: $event.message, fileIndex: $event.fileIndex, file: $event.file })"
+                @copy-file-to-drive-folder="$emit('copy-file-to-drive-folder', { roomId, message: $event.message, fileIndex: $event.fileIndex, file: $event.file })"
                 @open-user-tag="openUserTag"
                 @avatar-click="$emit('avatar-click', $event)"
                 @open-failed-message="$emit('open-failed-message', $event)"
@@ -290,7 +290,7 @@ export default {
     'send-message-reaction',
     'typing-message',
     'open-file',
-    'copy-file-to-drive',
+    'copy-file-to-drive-folder',
     'open-user-tag',
     'open-failed-message',
     'textarea-action-handler',
@@ -478,9 +478,6 @@ export default {
           this.$emit('toggle-rooms-list')
         }
       }
-    },
-    copyFileToDrive({ message }) {
-      this.$emit('copy-file-to-drive', { message, roomId: this.roomId })
     },
     onRoomChanged() {
       this.updateIsLoadingInitialMessages(true)

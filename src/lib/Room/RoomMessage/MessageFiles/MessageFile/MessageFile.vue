@@ -55,7 +55,7 @@
             <!-- save file copy into optiwork drive -->
             <div
               class="vac-svg-button vac-button-save-copy-into-drive"
-              @click.prevent.stop="copyFileToDrive($event)"
+              @click.prevent.stop="copyFileToDriveFolder($event)"
             >
               <slot :name="'cloud-icon_' + message._id">
                 <svg-icon name="cloud" stroke="royalblue" fill="royalblue" />
@@ -135,7 +135,7 @@ export default {
     messageSelectionEnabled: { type: Boolean, required: true }
   },
 
-  emits: ['open-file', 'copy-file-to-drive'],
+  emits: ['open-file', 'copy-file-to-drive-folder'],
 
   data() {
     return {
@@ -215,8 +215,8 @@ export default {
         this.$emit('open-file', { file: this.file, action })
       }
     },
-    copyFileToDrive(event) {
-      this.$emit('copy-file-to-drive', { file: this.file })
+    copyFileToDriveFolder(event) {
+      this.$emit('copy-file-to-drive-folder', { file: this.file })
     }
   }
 }

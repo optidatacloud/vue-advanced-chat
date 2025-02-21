@@ -216,7 +216,7 @@ export default {
       }
     },
     copyFileToDrive(event) {
-      this.$emit('copy-file-to-drive')
+      this.$emit('copy-file-to-drive', { file: this.file })
     }
   }
 }

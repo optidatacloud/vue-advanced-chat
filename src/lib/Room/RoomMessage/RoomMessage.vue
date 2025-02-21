@@ -198,7 +198,7 @@
                 :link-options="linkOptions"
                 :message-selection-enabled="messageSelectionEnabled"
                 @open-file="$emit('open-file', $event)"
-                @copy-file-to-drive="$emit('copy-file-to-drive', { message: message })"
+                @copy-file-to-drive="$emit('copy-file-to-drive', { message, fileIndex: $event.fileIndex, file: $event.file })"
                 @open-user-tag="openUserTag"
               >
                 <template v-for="(i, name) in $slots" #[name]="data">

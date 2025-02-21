@@ -102,7 +102,7 @@
                 @message-added="onMessageAdded"
                 @message-action-handler="messageActionHandler"
                 @open-file="$emit('open-file', $event)"
-                @copy-file-to-drive="copyFileToDrive"
+                @copy-file-to-drive="$emit('copy-file-to-drive', { roomId, message: $event.message, fileIndex: $event.fileIndex, file: $event.file })"
                 @open-user-tag="openUserTag"
                 @avatar-click="$emit('avatar-click', $event)"
                 @open-failed-message="$emit('open-failed-message', $event)"

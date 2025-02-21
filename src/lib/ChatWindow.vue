@@ -643,11 +643,13 @@ export default {
       this.$emit('open-file', { message, file: file, action: event.action })
     },
     copyFileToDrive(event) {
-      const { detail, message, roomId } = event ?? {}
+      const { fileIndex, file, detail, message, roomId } = event ?? {}
 
       this.$emit('copy-file-to-drive', {
         message: detail?.message ?? message,
-        roomId: detail?.roomId ?? roomId
+        roomId: detail?.roomId ?? roomId,
+        fileIndex: fileIndex,
+        file: file
       })
     },
     openUserTag({ user }) {

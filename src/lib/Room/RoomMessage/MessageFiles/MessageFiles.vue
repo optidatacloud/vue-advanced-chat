@@ -8,7 +8,7 @@
         :index="i"
         :message-selection-enabled="messageSelectionEnabled"
         @open-file="$emit('open-file', { index: i, files: allFiles, action: $event?.action ?? 'view' })"
-        @copy-file-to-drive="$emit('copy-file-to-drive')"
+        @copy-file-to-drive="$emit('copy-file-to-drive', { fileIndex: i, file: file })"
       >
         <template v-for="(idx, name) in $slots" #[name]>
           <slot :name="name" />

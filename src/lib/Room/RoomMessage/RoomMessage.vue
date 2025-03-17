@@ -145,13 +145,11 @@
                   'vac-username-reply': !message.deleted && message.replyMessage
                 }"
                 :style="{
-                  'cursor': isMessageFromWhatsapp(message) ? 'default' : 'pointer'
+                  'cursor': isMessageFromWhatsApp(message) ? 'default' : 'pointer'
                 }"
-                @click="isMessageFromWhatsapp(message) ? null : onClickMessageUsername"
+                @click="isMessageFromWhatsApp(message) ? null : onClickMessageUsername"
               >
-                <span v-if="isWhatsappGroupFeatureEnabled && isMessageFromWhatsapp(message)" class="whatsapp-icon">
-                  <svg-icon name="whatsapp" fill="limegreen" />
-                </span>
+                <i v-if="isWhatsappGroupFeatureEnabled && isMessageFromWhatsApp(message)" class="bi bi-whatsapp" />
                 <span>{{ message.username }}</span>
               </div>
 
@@ -330,6 +328,7 @@ import AudioPlayer from './AudioPlayer/AudioPlayer'
 
 import { messagesValidation } from '../../../utils/data-validation'
 import { isAudioFile } from '../../../utils/media-file'
+import Message from '../../../../../models/Message'
 
 export default {
   name: 'RoomMessage',
@@ -489,8 +488,8 @@ export default {
   },
 
   methods: {
-    isMessageFromWhatsapp(msg) {
-      return msg.origin === 'whatsapp'
+    isMessageFromWhatsApp(msg) {
+      return msg.origin === Message.ORIGIN_WHATSAPP
     },
     onMessageAvatarClicked(msg) {
       const id = msg?.senderId

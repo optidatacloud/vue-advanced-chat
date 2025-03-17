@@ -183,6 +183,8 @@
     font-weight: 600;
     color: var(--chat-message-color-username);
     margin-bottom: 2px;
+    display: flex;
+    gap: 8px;
   }
 
   .vac-username-reply {

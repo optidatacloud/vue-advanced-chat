@@ -146,23 +146,23 @@
               >
                 <!-- show colored username -->
                 <span
-                  :style="roomHasWhatsappIntegration
+                  :style="doesRoomHaveWhatsappIntegration
                     ? (isMessageFromWhatsApp(message) ? 'color: limegreen;' : 'color: #7367F0;')
                     : ''"
                 >
-                  {{ roomHasWhatsappIntegration ? message.user.name : `${message.user.name} <${message.user.email}>` }}
+                  {{ doesRoomHaveWhatsappIntegration ? message.user.name : `${message.user.name} <${message.user.email}>` }}
                 </span>
 
                 <!-- show phone or email -->
-                <span v-if="roomHasWhatsappIntegration" class="vac-username-info">
+                <span v-if="doesRoomHaveWhatsappIntegration" class="vac-username-info">
                   {{ isWhatsappGroupFeatureEnabled && isMessageFromWhatsApp(message) ? message.user?.phone : message.user?.email }}
                 </span>
 
                 <!-- logo whatsapp or optiwork -->
-                <i v-if="isWhatsappGroupFeatureEnabled && isMessageFromWhatsApp(message) && roomHasWhatsappIntegration" class="bi bi-whatsapp" />
+                <i v-if="isWhatsappGroupFeatureEnabled && isMessageFromWhatsApp(message) && doesRoomHaveWhatsappIntegration" class="bi bi-whatsapp" />
                 <img
                   v-else-if="!isWhatsappGroupFeatureEnabled || !isMessageFromWhatsApp(message)"
-                  v-show="roomHasWhatsappIntegration"
+                  v-show="doesRoomHaveWhatsappIntegration"
                   src="../../../../../../../images/avatars/optiwork.svg"
                   alt="Optiwork"
                 />
@@ -359,7 +359,7 @@ export default {
 
   props: {
     isWhatsappGroupFeatureEnabled: { type: Boolean, default: false },
-    roomHasWhatsappIntegration: { type: Boolean, default: false },
+    doesRoomHaveWhatsappIntegration: { type: Boolean, default: false },
     currentUserId: { type: [String, Number], required: true },
     textMessages: { type: Object, required: true },
     index: { type: Number, required: true },

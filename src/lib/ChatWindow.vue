@@ -42,7 +42,7 @@
       </rooms-list>
       <room
         :is-whatsapp-group-feature-enabled="isWhatsappGroupFeatureEnabledCasted"
-        :room-has-whatsapp-integration="room.hasWhatsAppIntegration ?? false"
+        :does-room-have-whatsapp-integration="room.hasWhatsAppIntegration ?? false"
         :current-user-id="currentUserId"
         :rooms="roomsCasted"
         :archived-rooms="archivedRoomsCasted"

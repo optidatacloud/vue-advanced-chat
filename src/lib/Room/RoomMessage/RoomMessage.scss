@@ -184,7 +184,17 @@
     color: var(--chat-message-color-username);
     margin-bottom: 2px;
     display: flex;
+    align-items: center;
     gap: 8px;
+
+    .vac-username-info {
+      font-weight: normal;
+    }
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
   }
 
   .vac-username-reply {
@@ -216,7 +226,6 @@
   }
 
   .bi-whatsapp {
-    margin-left: 4px;
     color: limegreen;
   }
 

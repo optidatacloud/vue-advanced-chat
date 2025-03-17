@@ -138,19 +138,34 @@
               @mouseleave="onLeaveMessage"
               @mousemove="messageHover = !isSelectingContent"
             >
-              <div
+            <div
                 v-if="showUsername"
                 class="vac-text-username"
-                :class="{
-                  'vac-username-reply': !message.deleted && message.replyMessage
-                }"
-                :style="{
-                  'cursor': isMessageFromWhatsApp(message) ? 'default' : 'pointer'
-                }"
-                @click="isMessageFromWhatsApp(message) ? null : onClickMessageUsername"
+                :class="{ 'vac-username-reply': !message.deleted && message.replyMessage }"
+                @click="onClickMessageUsername"
               >
-                <i v-if="isWhatsappGroupFeatureEnabled && isMessageFromWhatsApp(message)" class="bi bi-whatsapp" />
-                <span>{{ message.username }}</span>
+                <!-- show colored username -->
+                <span
+                  :style="roomHasWhatsappIntegration
+                    ? (isMessageFromWhatsApp(message) ? 'color: limegreen;' : 'color: #7367F0;')
+                    : ''"
+                >
+                  {{ roomHasWhatsappIntegration ? message.user.name : `${message.user.name} <${message.user.email}>` }}
+                </span>
+
+                <!-- show phone or email -->
+                <span v-if="roomHasWhatsappIntegration" class="vac-username-info">
+                  {{ isWhatsappGroupFeatureEnabled && isMessageFromWhatsApp(message) ? message.user?.phone : message.user?.email }}
+                </span>
+
+                <!-- logo whatsapp or optiwork -->
+                <i v-if="isWhatsappGroupFeatureEnabled && isMessageFromWhatsApp(message) && roomHasWhatsappIntegration" class="bi bi-whatsapp" />
+                <img
+                  v-else-if="!isWhatsappGroupFeatureEnabled || !isMessageFromWhatsApp(message)"
+                  v-show="roomHasWhatsappIntegration"
+                  src="../../../../../../../images/avatars/optiwork.svg"
+                  alt="Optiwork"
+                />
               </div>
 
               <div v-if="!message.deleted && message.isForwarded" :class="{'message-forwarded-container': !message.deleted && message.isForwarded}">
@@ -344,6 +359,7 @@ export default {
 
   props: {
     isWhatsappGroupFeatureEnabled: { type: Boolean, default: false },
+    roomHasWhatsappIntegration: { type: Boolean, default: false },
     currentUserId: { type: [String, Number], required: true },
     textMessages: { type: Object, required: true },
     index: { type: Number, required: true },
@@ -526,6 +542,11 @@ export default {
     },
 
     onClickMessageUsername() {
+      if (this.isMessageFromWhatsApp(this.message)) {
+        window.open(`https://wa.me/${this.message.user.phone}`, '_blank')
+        return
+      }
+
       const user = this.roomUsers.find(user => user._id === this.message.senderId)
       this.$emit('click-message-username', { user })
     },

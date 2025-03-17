@@ -80,6 +80,7 @@
             <div v-for="(m, i) in messages" :key="m.indexId || m._id">
               <room-message
                 :is-whatsapp-group-feature-enabled="isWhatsappGroupFeatureEnabled"
+                :room-has-whatsapp-integration="roomHasWhatsappIntegration"
                 :current-user-id="currentUserId"
                 :message="m"
                 :index="i"
@@ -226,6 +227,7 @@ export default {
 
   props: {
     isWhatsappGroupFeatureEnabled: { type: Boolean, default: false },
+    roomHasWhatsappIntegration: { type: Boolean, default: false },
     currentUserId: { type: [String, Number], required: true },
     textMessages: { type: Object, required: true },
     singleRoom: { type: Boolean, required: true },

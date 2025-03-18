@@ -138,7 +138,7 @@
               @mouseleave="onLeaveMessage"
               @mousemove="messageHover = !isSelectingContent"
             >
-            <div
+              <div
                 v-if="showUsername"
                 class="vac-text-username"
                 :class="{ 'vac-username-reply': !message.deleted && message.replyMessage }"
@@ -147,7 +147,7 @@
                 <!-- show colored username -->
                 <span
                   :style="doesRoomHaveWhatsappIntegration
-                    ? (isMessageFromWhatsApp(message) ? 'color: limegreen;' : 'color: #7367F0;')
+                    ? (isMessageFromWhatsapp(message) ? 'color: limegreen;' : 'color: #7367F0;')
                     : ''"
                 >
                   {{ doesRoomHaveWhatsappIntegration ? message.user.name : `${message.user.name} <${message.user.email}>` }}
@@ -155,13 +155,13 @@
 
                 <!-- show phone or email -->
                 <span v-if="doesRoomHaveWhatsappIntegration" class="vac-username-info">
-                  {{ isWhatsappGroupFeatureEnabled && isMessageFromWhatsApp(message) ? message.user?.phone : message.user?.email }}
+                  {{ isWhatsappGroupFeatureEnabled && isMessageFromWhatsapp(message) ? message.user?.phone : message.user?.email }}
                 </span>
 
                 <!-- logo whatsapp or optiwork -->
-                <i v-if="isWhatsappGroupFeatureEnabled && isMessageFromWhatsApp(message) && doesRoomHaveWhatsappIntegration" class="bi bi-whatsapp" />
+                <i v-if="isWhatsappGroupFeatureEnabled && isMessageFromWhatsapp(message) && doesRoomHaveWhatsappIntegration" class="bi bi-whatsapp" />
                 <img
-                  v-else-if="!isWhatsappGroupFeatureEnabled || !isMessageFromWhatsApp(message)"
+                  v-else-if="!isWhatsappGroupFeatureEnabled || !isMessageFromWhatsapp(message)"
                   v-show="doesRoomHaveWhatsappIntegration"
                   src="../../../../../../../images/avatars/optiwork.svg"
                   alt="Optiwork"
@@ -504,7 +504,7 @@ export default {
   },
 
   methods: {
-    isMessageFromWhatsApp(msg) {
+    isMessageFromWhatsapp(msg) {
       return msg.origin === Message.ORIGIN_WHATSAPP
     },
     onMessageAvatarClicked(msg) {
@@ -542,7 +542,7 @@ export default {
     },
 
     onClickMessageUsername() {
-      if (this.isMessageFromWhatsApp(this.message)) {
+      if (this.isMessageFromWhatsapp(this.message)) {
         window.open(`https://wa.me/${this.message.user.phone}`, '_blank')
         return
       }

@@ -147,7 +147,7 @@
                 <!-- show colored username -->
                 <span
                   :style="doesRoomHaveWhatsappIntegration
-                    ? (isMessageFromWhatsapp(message) ? 'color: limegreen;' : 'color: #7367F0;')
+                    ? (isMessageFromWhatsapp(message) ? 'color: limegreen;' : 'color: #905DA5;')
                     : ''"
                 >
                   {{ doesRoomHaveWhatsappIntegration ? message.user.name : `${message.user.name} <${message.user.email}>` }}
@@ -163,7 +163,7 @@
                 <img
                   v-else-if="!isWhatsappGroupFeatureEnabled || !isMessageFromWhatsapp(message)"
                   v-show="doesRoomHaveWhatsappIntegration"
-                  src="../../../../../../../images/avatars/optiwork.svg"
+                  src="../../../../../../../images/logo/logo.svg"
                   alt="Optiwork"
                 />
               </div>

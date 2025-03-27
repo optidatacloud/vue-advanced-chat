@@ -146,23 +146,23 @@
               >
                 <!-- show colored username -->
                 <span
-                  :style="doesRoomHaveWhatsappIntegration
+                  :style="hasWhatsappIntegration
                     ? (isMessageFromWhatsapp(message) ? 'color: limegreen;' : 'color: #905DA5;')
                     : ''"
                 >
-                  {{ doesRoomHaveWhatsappIntegration ? message.user.name : `${message.user.name} <${message.user.email}>` }}
+                  {{ hasWhatsappIntegration ? message.user.name : `${message.user.name} <${message.user.email}>` }}
                 </span>
 
                 <!-- show phone or email -->
-                <span v-if="doesRoomHaveWhatsappIntegration" class="vac-username-info">
+                <span v-if="hasWhatsappIntegration" class="vac-username-info">
                   {{ isWhatsappGroupFeatureEnabled && isMessageFromWhatsapp(message) ? message.user?.phone_number : message.user?.email }}
                 </span>
 
                 <!-- logo whatsapp or optiwork -->
-                <i v-if="isWhatsappGroupFeatureEnabled && isMessageFromWhatsapp(message) && doesRoomHaveWhatsappIntegration" class="bi bi-whatsapp" />
+                <i v-if="isWhatsappGroupFeatureEnabled && isMessageFromWhatsapp(message) && hasWhatsappIntegration" class="bi bi-whatsapp" />
                 <img
                   v-else-if="!isWhatsappGroupFeatureEnabled || !isMessageFromWhatsapp(message)"
-                  v-show="doesRoomHaveWhatsappIntegration"
+                  v-show="hasWhatsappIntegration"
                   src="../../../../../../../images/logo/logo.svg"
                   alt="Optiwork"
                 />
@@ -359,7 +359,7 @@ export default {
 
   props: {
     isWhatsappGroupFeatureEnabled: { type: Boolean, default: false },
-    doesRoomHaveWhatsappIntegration: { type: Boolean, default: false },
+    hasWhatsappIntegration: { type: Boolean, default: false },
     currentUserId: { type: [String, Number], required: true },
     textMessages: { type: Object, required: true },
     index: { type: Number, required: true },

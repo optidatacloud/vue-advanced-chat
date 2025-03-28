@@ -155,7 +155,7 @@
 
                 <!-- show phone or email -->
                 <span v-if="hasWhatsappIntegration" class="vac-username-info">
-                  {{ isWhatsappGroupFeatureEnabled && isMessageFromWhatsapp(message) ? message.user?.phone_number : message.user?.email }}
+                  {{ isWhatsappGroupFeatureEnabled && isMessageFromWhatsapp(message) ? message.user?.whatsapp_info.phone_number_formatted : message.user?.email }}
                 </span>
 
                 <!-- logo whatsapp or optiwork -->
@@ -543,8 +543,7 @@ export default {
 
     onClickMessageUsername() {
       if (this.isMessageFromWhatsapp(this.message)) {
-        const phone = this.message.user?.phone_number?.replace(/\D/g, '')
-        window.open(`https://wa.me/${phone}`, '_blank')
+        window.open(`https://wa.me/${this.message.user?.whatsapp_info?.whatsapp_id}`, '_blank')
         return
       }
 

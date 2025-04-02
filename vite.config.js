@@ -16,7 +16,7 @@ export default defineConfig({
 					Optidata: 'Optidata'
 				}
 			},
-			external: ['vue']
+			external: ['vue', 'pinia']
 		}
 	},
 	resolve: {

@@ -15,7 +15,10 @@ export default defineConfig({
 					vue: 'Vue',
 					Optidata: 'Optidata'
 				}
-			}
+			},
+			external: [
+				'vue'
+			]
 		}
 	},
 	resolve: {

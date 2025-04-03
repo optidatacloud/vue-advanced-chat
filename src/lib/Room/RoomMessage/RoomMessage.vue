@@ -150,12 +150,12 @@
                     ? (isMessageFromWhatsapp(message) ? 'color: limegreen;' : 'color: #905DA5;')
                     : ''"
                 >
-                  {{ hasWhatsappIntegration ? message.user.name : `${message.user.name} <${message.user.email}>` }}
+                  {{ message.username }}
                 </span>
 
                 <!-- show phone or email -->
                 <span v-if="hasWhatsappIntegration" class="vac-username-info">
-                  {{ isWhatsappGroupFeatureEnabled && isMessageFromWhatsapp(message) ? message.user?.whatsapp_info.phone_number_formatted : message.user?.email }}
+                  {{ isWhatsappGroupFeatureEnabled && isMessageFromWhatsapp(message) ? message.user?.whatsapp_info.phone_number_formatted : message.user.email }}
                 </span>
 
                 <!-- logo whatsapp or optiwork -->

@@ -144,7 +144,7 @@
                     ? (isMessageFromWhatsapp(message) ? 'color: limegreen;' : 'color: #905DA5;')
                     : ''"
                 >
-                  {{ hasWhatsappIntegration ? message.user.name : `${message.user.name} <${message.user.email}>` }}
+                  {{ message.username }}
                 </span>
 
                 <!-- show phone or email -->

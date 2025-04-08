@@ -182,10 +182,11 @@
     font-size: 13px;
     font-weight: 600;
     color: var(--chat-message-color-username);
-    margin-bottom: 2px;
+    margin-bottom: 4px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    gap: 2px 8px;
 
     .vac-username-info {
       font-weight: normal;

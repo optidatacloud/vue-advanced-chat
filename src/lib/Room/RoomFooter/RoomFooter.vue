@@ -1020,7 +1020,6 @@ export default {
       }
     },
     resetMessage(disableMobileFocus = false, initRoom = false) {
-      console.log('resetMessage')
       this.setFilePickerState('all')
       if (!initRoom) {
         this.$emit('typing-message', null)
@@ -1051,7 +1050,6 @@ export default {
       if (this.keepKeyboardOpen) this.getTextareaRef().focus()
     },
     initRecorder() {
-      console.log('initRecorder')
       this.isRecording = false
 
       return new Recorder({
@@ -1064,7 +1062,6 @@ export default {
       })
     },
     micFailed() {
-      console.log('micFailed')
       this.isRecording = false
       this.recorder = this.initRecorder()
     }

@@ -94,7 +94,7 @@
 
         <div class="vac-dot-audio-record" />
 
-        <div class="vac-dot-audio-record-time">
+        <div class="vac-dot-audio-record-time" style="text-wrap: nowrap;">
           {{ recordedTime }}
         </div>
 
@@ -109,7 +109,7 @@
       </div>
 
       <textarea
-        v-if="!isRecording"
+        v-show="!isRecording"
         id="roomTextarea"
         ref="roomTextarea"
         :placeholder="textareaHighlight ? textMessages.TYPE_HIGHLIGHT_MESSAGE: textMessages.TYPE_MESSAGE"

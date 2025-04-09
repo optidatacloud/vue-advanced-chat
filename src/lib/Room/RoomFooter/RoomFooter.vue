@@ -94,7 +94,7 @@
 
         <div class="vac-dot-audio-record" />
 
-        <div class="vac-dot-audio-record-time">
+        <div class="vac-dot-audio-record-time" style="text-wrap: nowrap;">
           {{ recordedTime }}
         </div>
 
@@ -109,7 +109,7 @@
       </div>
 
       <textarea
-        v-if="!isRecording"
+        v-show="!isRecording"
         id="roomTextarea"
         ref="roomTextarea"
         :placeholder="textareaHighlight ? textMessages.TYPE_HIGHLIGHT_MESSAGE: textMessages.TYPE_MESSAGE"
@@ -1020,6 +1020,7 @@ export default {
       }
     },
     resetMessage(disableMobileFocus = false, initRoom = false) {
+      console.log('resetMessage')
       this.setFilePickerState('all')
       if (!initRoom) {
         this.$emit('typing-message', null)
@@ -1050,6 +1051,7 @@ export default {
       if (this.keepKeyboardOpen) this.getTextareaRef().focus()
     },
     initRecorder() {
+      console.log('initRecorder')
       this.isRecording = false
 
       return new Recorder({
@@ -1062,6 +1064,7 @@ export default {
       })
     },
     micFailed() {
+      console.log('micFailed')
       this.isRecording = false
       this.recorder = this.initRecorder()
     }

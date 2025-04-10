@@ -12,7 +12,7 @@
         <div v-if="!isSVGLoading" v-html="fileContent" />
         <loader v-else show="true" type="messages" />
       </div>
-      <div v-else class="vac-image-preview" :style="{ 'background-image': `url('${file.url}')` }" />
+      <img v-else :src="file.url" class="vac-image-preview" />
     </div>
 
     <div v-else-if="isVideo" class="vac-media-preview-container">

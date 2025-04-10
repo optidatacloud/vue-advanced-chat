@@ -31,13 +31,11 @@
       </div>
     </div>
 
-    <div
+    <img
       v-else-if="isImage"
       class="vac-message-image"
       :class="{ 'vac-blur-loading': file.loading }"
-      :style="{
-        'background-image': `url('${file.localUrl || file.url}')`
-      }"
+      :src="file.localUrl || file.url"
     />
 
     <video

@@ -5,12 +5,7 @@
     </div>
 
     <div v-if="isImage" class="vac-image-reply-container">
-      <div
-        class="vac-message-image vac-message-image-reply"
-        :style="{
-          'background-image': `url('${firstFile.url}')`
-        }"
-      />
+      <img class="vac-message-image vac-message-image-reply" :src="firstFile.url" />
     </div>
 
     <div v-else-if="isVideo" class="vac-video-reply-container">

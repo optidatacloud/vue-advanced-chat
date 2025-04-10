@@ -166,6 +166,7 @@
   }
 
   .vac-message-image {
+    object-fit: cover;
     position: relative;
     background-color: var(--chat-message-bg-color-image) !important;
     background-size: cover !important;

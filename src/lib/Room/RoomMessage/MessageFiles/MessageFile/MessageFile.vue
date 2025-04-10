@@ -24,19 +24,13 @@
           <slot :name="name" v-bind="data" />
         </template>
       </loader>
-      <div
-        class="vac-message-image"
-        :class="{
-          'vac-blur-loading':
-            isImageLoading && message.senderId === currentUserId
-        }"
-        :style="{
-          'background-image': `url('${
-            isImageLoading ? file.preview || file.url : file.url
-          }')`,
-          'max-height': `${imageResponsive.maxHeight}px`
-        }"
-      >
+      <div>
+        <img 
+          class="vac-message-image"
+          :class="{ 'vac-blur-loading': isImageLoading && message.senderId === currentUserId }"
+          :src="isImageLoading ? file.preview || file.url : file.url"
+          :style="{ 'max-height': `${imageResponsive.maxHeight}px` }"
+        />
         <transition name="vac-fade-image">
           <div
             v-if="!messageSelectionEnabled && imageHover && !isImageLoading"

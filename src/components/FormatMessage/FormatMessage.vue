@@ -44,13 +44,7 @@
           </template>
           <template v-else-if="message.url && message.image">
             <div class="vac-image-link-container">
-              <div
-                class="vac-image-link"
-                :style="{
-                  'background-image': `url('${message.value}')`,
-                  height: message.height
-                }"
-              />
+              <img :src="message.value" class="vac-image-link" :style="{ height: message.height }" />
             </div>
             <div class="vac-image-link-message">
               {{ message.value }}

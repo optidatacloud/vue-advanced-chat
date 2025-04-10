@@ -61,6 +61,7 @@
   $avatar-size: 28px;
 
   .vac-avatar {
+    object-fit: cover;
     height: $avatar-size;
     width: $avatar-size;
     min-height: $avatar-size;

@@ -23,16 +23,22 @@ export default class FileUploaderOverlay {
     this.onDrag = event => {
       event.preventDefault()
 
-      switch (event.type) {
-      case 'dragenter':
-        this.addDragOverlay()
-        break
-      case 'dragleave':
-        this.removeDragOverlay()
-        break
+      const draggedItems = event.dataTransfer.items;
+      const hasFiles = Array.from(draggedItems).some(item => item.kind === 'file');
+      if (!hasFiles) {
+        return;
+      }
 
-      default:
-        break
+      switch (event.type) {
+        case 'dragenter':
+          this.addDragOverlay()
+          break
+        case 'dragleave':
+          this.removeDragOverlay()
+          break
+
+        default:
+          break
       }
     }
 
